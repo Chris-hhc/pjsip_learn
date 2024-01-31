@@ -1,15 +1,5 @@
 ## 总述
 
-![image-20231228150739635](/Users/huanghaochen/Library/Application Support/typora-user-images/image-20231228150739635.png)
-
-![img](https://img-blog.csdnimg.cn/e7065c934b69467188a6b66e77cf7cde.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBAT2NlYW5TdGFy55qE5a2m5Lmg56yU6K6w,size_9,color_FFFFFF,t_70,g_se,x_16)
-
-
-
-![img](https://img-blog.csdnimg.cn/8d60bda28b18465298fafb75f19284d3.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBAT2NlYW5TdGFy55qE5a2m5Lmg56yU6K6w,size_9,color_FFFFFF,t_70,g_se,x_16)
-
-![image-20231226140936562](/Users/huanghaochen/Library/Application Support/typora-user-images/image-20231226140936562.png)
-
 
 
 1. 软电话A 向 B 发送一个 SIP消息 INVITE， 邀请B通话
