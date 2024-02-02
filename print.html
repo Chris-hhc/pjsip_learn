@@ -89,7 +89,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="SIP.html"><strong aria-hidden="true">1.</strong> sip协议概述</a></li><li class="chapter-item expanded "><a href="PJSIP_log.html"><strong aria-hidden="true">2.</strong> pjsip log</a></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded "><a href="SIP.html"><strong aria-hidden="true">1.</strong> sip协议概述</a></li><li class="chapter-item expanded "><a href="PJSIP_log.html"><strong aria-hidden="true">2.</strong> pjsip log</a></li><li class="chapter-item expanded "><div><strong aria-hidden="true">3.</strong> 常见数据结构与工具</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="pjsua_call.html"><strong aria-hidden="true">3.1.</strong> pjsua_call</a></li><li class="chapter-item expanded "><a href="pjsua_acc.html"><strong aria-hidden="true">3.2.</strong> pjsua_acc</a></li><li class="chapter-item expanded "><a href="pjsua_data.html"><strong aria-hidden="true">3.3.</strong> pjsua_data</a></li></ol></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle">
                 <div class="sidebar-resize-indicator"></div>
@@ -584,6 +584,341 @@ typedef void pj_log_func(int level, const char *data, int len);
 static pj_log_func *log_writer = &amp;pj_log_write;
 </code></pre>
 <p>pj_log_write则在编译时指定编译为printk、printf等。对应log_write_printk.c、log_write_stdout.c，可以看出，如果我们想把日志保存的文件，自己实现一个pj_log_write函数，在函数里写到文件即可。</p>
+<div style="break-before: page; page-break-before: always;"></div><h2 id="pjsua_call"><a class="header" href="#pjsua_call">pjsua_call</a></h2>
+<pre><code class="language-c">/** 
+ * Structure to be attached to invite dialog. 
+ * Given a dialog &quot;dlg&quot;, application can retrieve this structure
+ * by accessing dlg-&gt;mod_data[pjsua.mod.id].
+ */
+struct pjsua_call
+{
+    unsigned             index;     /**&lt; Index in pjsua array.              */
+    pjsua_call_setting   opt;       /**&lt; Call setting.                      */
+    pj_bool_t            opt_inited;/**&lt; Initial call setting has been set,
+                                         to avoid different opt in answer.  */
+    pjsip_inv_session   *inv;       /**&lt; The invite session.                */
+    void                *user_data; /**&lt; User/application data.             */
+    pjsip_status_code    last_code; /**&lt; Last status code seen.             */
+    pj_str_t             last_text; /**&lt; Last status text seen.             */
+    pj_time_val          start_time;/**&lt; First INVITE sent/received.        */
+    pj_time_val          res_time;  /**&lt; First response sent/received.      */
+    pj_time_val          conn_time; /**&lt; Connected/confirmed time.          */
+    pj_time_val          dis_time;  /**&lt; Disconnect time.                   */
+    pjsua_acc_id         acc_id;    /**&lt; Account index being used.          */
+    int                  secure_level;/**&lt; Signaling security level.        */
+    pjsua_call_hold_type call_hold_type; /**&lt; How to do call hold.          */
+    pj_bool_t            local_hold;/**&lt; Flag for call-hold by local.       */
+    void                *hold_msg;  /**&lt; Outgoing hold tx_data.             */
+    pj_str_t             cname;     /**&lt; RTCP CNAME.                        */
+    char                 cname_buf[16];/**&lt; cname buffer.                   */
+
+    unsigned             med_cnt;   /**&lt; Number of media in SDP.            */
+    pjsua_call_media     media[PJSUA_MAX_CALL_MEDIA]; /**&lt; Array of media   */
+    unsigned             med_prov_cnt;/**&lt; Number of provisional media.     */
+    pjsua_call_media     media_prov[PJSUA_MAX_CALL_MEDIA];
+                                    /**&lt; Array of provisional media.        */
+    pj_bool_t            med_update_success;
+                                    /**&lt; Is media update successful?        */
+    pj_bool_t            hanging_up;/**&lt; Is call in the process of hangup?  */
+
+    int                  audio_idx; /**&lt; First active audio media.          */
+    pj_mutex_t          *med_ch_mutex;/**&lt; Media channel callback's mutex.  */
+    pjsua_med_tp_state_cb   med_ch_cb;/**&lt; Media channel callback.          */
+    pjsua_med_tp_state_info med_ch_info;/**&lt; Media channel info.            */
+
+    pjsip_evsub         *xfer_sub;  /**&lt; Xfer server subscription, if this
+                                         call was triggered by xfer.        */
+    pj_stun_nat_type     rem_nat_type; /**&lt; NAT type of remote endpoint.    */
+
+    char    last_text_buf_[128];    /**&lt; Buffer for last_text.              */
+
+    struct {
+        int              retry_cnt;  /**&lt; Retry count.                      */
+    } lock_codec;                    /**&lt; Data for codec locking when answer
+                                          contains multiple codecs.         */
+
+    struct {
+        pjsip_dialog        *dlg;    /**&lt; Call dialog.                      */
+        pjmedia_sdp_session *rem_sdp;/**&lt; Remote SDP.                       */
+        pj_pool_t           *pool_prov;/**&lt; Provisional pool.               */
+        pj_bool_t            med_ch_deinit;/**&lt; Media channel de-init-ed?   */
+        union {
+            struct {
+                pjsua_msg_data  *msg_data;/**&lt; Headers for outgoing INVITE. */
+                pj_bool_t        hangup;  /**&lt; Call is hangup?              */
+            } out_call;
+            struct {            
+                call_answer      answers;/**&lt; A list of call answers.       */
+                pj_bool_t        hangup;/**&lt; Call is hangup?                */
+                pjsip_dialog    *replaced_dlg; /**&lt; Replaced dialog.        */
+            } inc_call;
+        } call_var;
+    } async_call;                      /**&lt; Temporary storage for async
+                                            outgoing/incoming call.         */
+
+    pj_bool_t            rem_offerer;  /**&lt; Was remote SDP offerer?         */
+    unsigned             rem_aud_cnt;  /**&lt; No of active audio in last remote
+                                            offer.                          */
+    unsigned             rem_vid_cnt;  /**&lt; No of active video in last remote
+                                            offer.                          */
+    
+    pj_bool_t            rx_reinv_async;/**&lt; on_call_rx_reinvite() async.   */
+    pj_timer_entry       reinv_timer;  /**&lt; Reinvite retry timer.           */
+    pj_bool_t            reinv_pending;/**&lt; Pending until CONFIRMED state.  */
+    pj_bool_t            reinv_ice_sent;/**&lt; Has reinvite for ICE upd sent? */
+    pjsip_rx_data       *incoming_data;/**&lt; Cloned incoming call rdata.
+                                            On pjsua2, when handling incoming 
+                                            call, onCreateMediaTransport() will
+                                            not be called since the call isn't
+                                            created yet. This temporary 
+                                            variable is used to handle such 
+                                            case, see ticket #1916.         */
+
+    struct {
+        pj_bool_t        enabled;
+        pj_bool_t        remote_sup;
+        pj_bool_t        remote_dlg_est;
+        pjsua_op_state   trickling;
+        int              retrans18x_count;
+        pj_bool_t        pending_info;
+        pj_timer_entry   timer;
+    } trickle_ice;
+
+    pj_timer_entry       hangup_timer;  /**&lt; Hangup retry timer.            */
+    unsigned             hangup_retry;  /**&lt; Number of hangup retries.      */
+    unsigned             hangup_code;   /**&lt; Hangup code.                   */
+    pj_str_t             hangup_reason; /**&lt; Hangup reason.                 */
+    pjsua_msg_data      *hangup_msg_data;/**&lt; Hangup message data.          */
+};
+</code></pre>
+<h3 id="pjsua_call_hold_type"><a class="header" href="#pjsua_call_hold_type">pjsua_call_hold_type</a></h3>
+<pre><code class="language-c">/**
+ * This enumeration specifies how we should offer call hold request to
+ * remote peer. The default value is set by compile time constant
+ * PJSUA_CALL_HOLD_TYPE_DEFAULT, and application may control the setting
+ * on per-account basis by manipulating \a call_hold_type field in
+ * #pjsua_acc_config.
+ */
+typedef enum pjsua_call_hold_type
+{
+    /**
+     * This will follow RFC 3264 recommendation to use a=sendonly,
+     * a=recvonly, and a=inactive attribute as means to signal call
+     * hold status. This is the correct value to use.
+     */
+    PJSUA_CALL_HOLD_TYPE_RFC3264,
+
+    /**
+     * This will use the old and deprecated method as specified in RFC 2543,
+     * and will offer c=0.0.0.0 in the SDP instead. Using this has many
+     * drawbacks such as inability to keep the media transport alive while
+     * the call is being put on hold, and should only be used if remote
+     * does not understand RFC 3264 style call hold offer.
+     */
+    PJSUA_CALL_HOLD_TYPE_RFC2543
+
+} pjsua_call_hold_type;
+</code></pre>
+<div style="break-before: page; page-break-before: always;"></div><h2 id="pjsua_acc"><a class="header" href="#pjsua_acc">pjsua_acc</a></h2>
+<pre><code>/**
+ * Account
+ */
+typedef struct pjsua_acc
+{
+    pj_pool_t       *pool;          /**&lt; Pool for this account.         */
+    pjsua_acc_config cfg;           /**&lt; Account configuration.         */
+    pj_bool_t        valid;         /**&lt; Is this account valid?         */
+
+    int              index;         /**&lt; Index in accounts array.       */
+    pj_str_t         display;       /**&lt; Display name, if any.          */
+    pj_str_t         user_part;     /**&lt; User part of local URI.        */
+    pj_bool_t        is_sips;       /**&lt; Local URI uses &quot;sips&quot;?         */
+    pj_str_t         contact;       /**&lt; Our Contact header.            */
+    pj_str_t         reg_contact;   /**&lt; Contact header for REGISTER.
+                                         It may be different than acc
+                                         contact if outbound is used    */
+    pj_bool_t        contact_rewritten;
+                                    /**&lt; Contact rewrite has been done? */
+    pjsip_host_port  via_addr;      /**&lt; Address for Via header         */
+    pjsip_transport *via_tp;        /**&lt; Transport associated with
+                                         the Via address                */
+
+    pj_str_t         srv_domain;    /**&lt; Host part of reg server.       */
+    int              srv_port;      /**&lt; Port number of reg server.     */
+
+    pjsip_regc      *regc;          /**&lt; Client registration session.   */
+    pj_status_t      reg_last_err;  /**&lt; Last registration error.       */
+    int              reg_last_code; /**&lt; Last status last register.     */
+
+    pj_str_t         reg_mapped_addr;/**&lt; Our addr as seen by reg srv.
+                                          Only if allow_sdp_nat_rewrite
+                                          is set                        */
+
+    struct {
+        pj_bool_t        active;    /**&lt; Flag of reregister status.     */
+        pj_timer_entry   timer;     /**&lt; Timer for reregistration.      */
+        void            *reg_tp;    /**&lt; Transport for registration.    */
+        unsigned         attempt_cnt; /**&lt; Attempt counter.             */
+    } auto_rereg;                   /**&lt; Reregister/reconnect data.     */
+
+    pj_timer_entry   ka_timer;      /**&lt; Keep-alive timer for UDP.      */
+    pjsip_transport *ka_transport;  /**&lt; Transport for keep-alive.      */
+    pj_sockaddr      ka_target;     /**&lt; Destination address for K-A    */
+    unsigned         ka_target_len; /**&lt; Length of ka_target.           */
+
+    pjsip_route_hdr  route_set;     /**&lt; Complete route set inc. outbnd.*/
+    pj_uint32_t      global_route_crc; /** CRC of global route setting. */
+    pj_uint32_t      local_route_crc;  /** CRC of account route setting.*/
+
+    unsigned         rfc5626_status;/**&lt; SIP outbound status:
+                                           0: not used
+                                           1: requested
+                                           2: acknowledged by servers   */
+    pj_str_t         rfc5626_instprm;/**&lt; SIP outbound instance param.  */
+    pj_str_t         rfc5626_regprm;/**&lt; SIP outbound reg param.        */
+    unsigned         rfc5626_flowtmr;/**&lt; SIP outbound flow timer.      */
+
+    unsigned         cred_cnt;      /**&lt; Number of credentials.         */
+    pjsip_cred_info  cred[PJSUA_ACC_MAX_PROXIES]; /**&lt; Complete creds.  */
+
+    pj_bool_t        online_status; /**&lt; Our online status.             */
+    pjrpid_element   rpid;          /**&lt; RPID element information.      */
+    pjsua_srv_pres   pres_srv_list; /**&lt; Server subscription list.      */
+    pjsip_publishc  *publish_sess;  /**&lt; Client publication session.    */
+    pj_bool_t        publish_state; /**&lt; Last published online status   */
+
+    pjsip_evsub     *mwi_sub;       /**&lt; MWI client subscription        */
+    pjsip_dialog    *mwi_dlg;       /**&lt; Dialog for MWI sub.            */
+
+    pj_uint16_t      next_rtp_port; /**&lt; Next RTP port to be used.      */
+    pjsip_transport_type_e tp_type; /**&lt; Transport type (for local acc or
+                                         transport binding)             */
+    pjsua_ip_change_op ip_change_op;/**&lt; IP change process progress.    */
+} pjsua_acc;
+</code></pre>
+<div style="break-before: page; page-break-before: always;"></div><h2 id="pjsua_data--pjsua_var"><a class="header" href="#pjsua_data--pjsua_var">pjsua_data  pjsua_var</a></h2>
+<pre><code class="language-c">/**
+ * Global pjsua application data.
+ */
+struct pjsua_data
+{
+
+    /* Control: */
+    pj_caching_pool      cp;        /**&lt; Global pool factory.           */
+    pj_pool_t           *pool;      /**&lt; pjsua's private pool.          */
+    pj_pool_t           *timer_pool;/**&lt; pjsua's timer pool.            */
+    pj_mutex_t          *mutex;     /**&lt; Mutex protection for this data */
+    unsigned             mutex_nesting_level; /**&lt; Mutex nesting level. */
+    pj_thread_t         *mutex_owner; /**&lt; Mutex owner.                 */
+    pjsua_state          state;     /**&lt; Library state.                 */
+
+    /* Logging: */
+    pjsua_logging_config log_cfg;   /**&lt; Current logging config.        */
+    pj_oshandle_t        log_file;  /**&lt;Output log file handle          */
+
+    /* SIP: */
+    pjsip_endpoint      *endpt;     /**&lt; Global endpoint.               */
+    pjsip_module         mod;       /**&lt; pjsua's PJSIP module.          */
+    pjsua_transport_data tpdata[8]; /**&lt; Array of transports.           */
+    pjsip_tp_state_callback old_tp_cb; /**&lt; Old transport callback.     */
+
+    /* Threading: */
+    pj_bool_t            thread_quit_flag;  /**&lt; Thread quit flag.      */
+    pj_thread_t         *thread[4];         /**&lt; Array of threads.      */
+
+    /* STUN and resolver */
+    pj_stun_config       stun_cfg;  /**&lt; Global STUN settings.          */
+    pj_sockaddr          stun_srv;  /**&lt; Resolved STUN server address   */
+    pj_status_t          stun_status; /**&lt; STUN server status.          */
+    pjsua_stun_resolve   stun_res;  /**&lt; List of pending STUN resolution*/
+    unsigned             stun_srv_idx; /**&lt; Resolved STUN server index  */
+    unsigned             stun_opt;  /**&lt; STUN resolution option.        */
+    pj_dns_resolver     *resolver;  /**&lt; DNS resolver.                  */   
+
+    /* UPnP */
+    pj_status_t          upnp_status; /**&lt; UPnP status.                 */
+
+    /* Detected NAT type */
+    pj_stun_nat_type     nat_type;      /**&lt; NAT type.                  */
+    pj_status_t          nat_status;    /**&lt; Detection status.          */
+    pj_bool_t            nat_in_progress; /**&lt; Detection in progress    */
+
+    /* List of outbound proxies: */
+    pjsip_route_hdr      outbound_proxy;
+
+    /* Account: */
+    unsigned             acc_cnt;            /**&lt; Number of accounts.   */
+    pjsua_acc_id         default_acc;        /**&lt; Default account ID    */
+    pjsua_acc            acc[PJSUA_MAX_ACC]; /**&lt; Account array.        */
+    pjsua_acc_id         acc_ids[PJSUA_MAX_ACC]; /**&lt; Acc sorted by prio*/
+
+    /* Calls: */
+    pjsua_config         ua_cfg;                /**&lt; UA config.         */
+    unsigned             call_cnt;              /**&lt; Call counter.      */
+    pjsua_call           calls[PJSUA_MAX_CALLS];/**&lt; Calls array.       */
+    pjsua_call_id        next_call_id;          /**&lt; Next call id to use*/
+
+    /* Buddy; */
+    unsigned             buddy_cnt;                 /**&lt; Buddy count.   */
+    pjsua_buddy          buddy[PJSUA_MAX_BUDDIES];  /**&lt; Buddy array.   */
+
+    /* Presence: */
+    pj_timer_entry       pres_timer;/**&lt; Presence refresh timer.        */
+
+    /* Media: */
+    pjsua_media_config   media_cfg; /**&lt; Media config.                  */
+    pjmedia_endpt       *med_endpt; /**&lt; Media endpoint.                */
+    pjsua_conf_setting   mconf_cfg; /**&lt; Additionan conf. bridge. param */
+    pjmedia_conf        *mconf;     /**&lt; Conference bridge.             */
+    pj_bool_t            is_mswitch;/**&lt; Are we using audio switchboard
+                                         (a.k.a APS-Direct)             */
+
+    /* Sound device */
+    pjmedia_aud_dev_index cap_dev;  /**&lt; Capture device ID.             */
+    pjmedia_aud_dev_index play_dev; /**&lt; Playback device ID.            */
+    pj_uint32_t          aud_svmask;/**&lt; Which settings to save         */
+    pjmedia_aud_param    aud_param; /**&lt; User settings to sound dev     */
+    pj_bool_t            aud_open_cnt;/**&lt; How many # device is opened  */
+    pj_bool_t            no_snd;    /**&lt; No sound (app will manage it)  */
+    pj_pool_t           *snd_pool;  /**&lt; Sound's private pool.          */
+    pjmedia_snd_port    *snd_port;  /**&lt; Sound port.                    */
+    pj_timer_entry       snd_idle_timer;/**&lt; Sound device idle timer.   */
+    pjmedia_master_port *null_snd;  /**&lt; Master port for null sound.    */
+    pjmedia_port        *null_port; /**&lt; Null port.                     */
+    pj_bool_t            snd_is_on; /**&lt; Media flow is currently active */
+    unsigned             snd_mode;  /**&lt; Sound device mode.             */
+
+    /* Video device */
+    pjmedia_vid_dev_index vcap_dev;  /**&lt; Capture device ID.            */
+    pjmedia_vid_dev_index vrdr_dev;  /**&lt; Playback device ID.           */
+
+    /* For keeping video device settings */
+#if PJSUA_HAS_VIDEO
+    pjmedia_vid_conf     *vid_conf;
+    pj_uint32_t           vid_caps[PJMEDIA_VID_DEV_MAX_DEVS];
+    pjmedia_vid_dev_param vid_param[PJMEDIA_VID_DEV_MAX_DEVS];
+#endif
+
+    /* File players: */
+    unsigned             player_cnt;/**&lt; Number of file players.        */
+    pjsua_file_data      player[PJSUA_MAX_PLAYERS];/**&lt; Array of players.*/
+
+    /* File recorders: */
+    unsigned             rec_cnt;   /**&lt; Number of file recorders.      */
+    pjsua_file_data      recorder[PJSUA_MAX_RECORDERS];/**&lt; Array of recs.*/
+
+    /* Video windows */
+#if PJSUA_HAS_VIDEO
+    pjsua_vid_win        win[PJSUA_MAX_VID_WINS]; /**&lt; Array of windows */
+#endif
+
+    /* Timer entry and event list */
+    pjsua_timer_list     active_timer_list;
+    pjsua_timer_list     timer_list;
+    pjsua_event_list     event_list;
+    pj_mutex_t          *timer_mutex;
+};
+</code></pre>
 
                     </main>
 

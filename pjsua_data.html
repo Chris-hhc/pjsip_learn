@@ -3,8 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Page not found - myBook</title>
-        <base href="/">
+        <title>pjsua_data - myBook</title>
 
 
         <!-- Custom HTML head -->
@@ -89,7 +88,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="SIP.html"><strong aria-hidden="true">1.</strong> sip协议概述</a></li><li class="chapter-item expanded "><a href="PJSIP_log.html"><strong aria-hidden="true">2.</strong> pjsip log</a></li><li class="chapter-item expanded "><div><strong aria-hidden="true">3.</strong> 常见数据结构与工具</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="pjsua_call.html"><strong aria-hidden="true">3.1.</strong> pjsua_call</a></li><li class="chapter-item expanded "><a href="pjsua_acc.html"><strong aria-hidden="true">3.2.</strong> pjsua_acc</a></li><li class="chapter-item expanded "><a href="pjsua_data.html"><strong aria-hidden="true">3.3.</strong> pjsua_data</a></li></ol></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded "><a href="SIP.html"><strong aria-hidden="true">1.</strong> sip协议概述</a></li><li class="chapter-item expanded "><a href="PJSIP_log.html"><strong aria-hidden="true">2.</strong> pjsip log</a></li><li class="chapter-item expanded "><div><strong aria-hidden="true">3.</strong> 常见数据结构与工具</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="pjsua_call.html"><strong aria-hidden="true">3.1.</strong> pjsua_call</a></li><li class="chapter-item expanded "><a href="pjsua_acc.html"><strong aria-hidden="true">3.2.</strong> pjsua_acc</a></li><li class="chapter-item expanded "><a href="pjsua_data.html" class="active"><strong aria-hidden="true">3.3.</strong> pjsua_data</a></li></ol></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle">
                 <div class="sidebar-resize-indicator"></div>
@@ -174,13 +173,137 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="document-not-found-404"><a class="header" href="#document-not-found-404">Document not found (404)</a></h1>
-<p>This URL is invalid, sorry. Please use the navigation bar or search to continue.</p>
+                        <h2 id="pjsua_data--pjsua_var"><a class="header" href="#pjsua_data--pjsua_var">pjsua_data  pjsua_var</a></h2>
+<pre><code class="language-c">/**
+ * Global pjsua application data.
+ */
+struct pjsua_data
+{
+
+    /* Control: */
+    pj_caching_pool      cp;        /**&lt; Global pool factory.           */
+    pj_pool_t           *pool;      /**&lt; pjsua's private pool.          */
+    pj_pool_t           *timer_pool;/**&lt; pjsua's timer pool.            */
+    pj_mutex_t          *mutex;     /**&lt; Mutex protection for this data */
+    unsigned             mutex_nesting_level; /**&lt; Mutex nesting level. */
+    pj_thread_t         *mutex_owner; /**&lt; Mutex owner.                 */
+    pjsua_state          state;     /**&lt; Library state.                 */
+
+    /* Logging: */
+    pjsua_logging_config log_cfg;   /**&lt; Current logging config.        */
+    pj_oshandle_t        log_file;  /**&lt;Output log file handle          */
+
+    /* SIP: */
+    pjsip_endpoint      *endpt;     /**&lt; Global endpoint.               */
+    pjsip_module         mod;       /**&lt; pjsua's PJSIP module.          */
+    pjsua_transport_data tpdata[8]; /**&lt; Array of transports.           */
+    pjsip_tp_state_callback old_tp_cb; /**&lt; Old transport callback.     */
+
+    /* Threading: */
+    pj_bool_t            thread_quit_flag;  /**&lt; Thread quit flag.      */
+    pj_thread_t         *thread[4];         /**&lt; Array of threads.      */
+
+    /* STUN and resolver */
+    pj_stun_config       stun_cfg;  /**&lt; Global STUN settings.          */
+    pj_sockaddr          stun_srv;  /**&lt; Resolved STUN server address   */
+    pj_status_t          stun_status; /**&lt; STUN server status.          */
+    pjsua_stun_resolve   stun_res;  /**&lt; List of pending STUN resolution*/
+    unsigned             stun_srv_idx; /**&lt; Resolved STUN server index  */
+    unsigned             stun_opt;  /**&lt; STUN resolution option.        */
+    pj_dns_resolver     *resolver;  /**&lt; DNS resolver.                  */   
+
+    /* UPnP */
+    pj_status_t          upnp_status; /**&lt; UPnP status.                 */
+
+    /* Detected NAT type */
+    pj_stun_nat_type     nat_type;      /**&lt; NAT type.                  */
+    pj_status_t          nat_status;    /**&lt; Detection status.          */
+    pj_bool_t            nat_in_progress; /**&lt; Detection in progress    */
+
+    /* List of outbound proxies: */
+    pjsip_route_hdr      outbound_proxy;
+
+    /* Account: */
+    unsigned             acc_cnt;            /**&lt; Number of accounts.   */
+    pjsua_acc_id         default_acc;        /**&lt; Default account ID    */
+    pjsua_acc            acc[PJSUA_MAX_ACC]; /**&lt; Account array.        */
+    pjsua_acc_id         acc_ids[PJSUA_MAX_ACC]; /**&lt; Acc sorted by prio*/
+
+    /* Calls: */
+    pjsua_config         ua_cfg;                /**&lt; UA config.         */
+    unsigned             call_cnt;              /**&lt; Call counter.      */
+    pjsua_call           calls[PJSUA_MAX_CALLS];/**&lt; Calls array.       */
+    pjsua_call_id        next_call_id;          /**&lt; Next call id to use*/
+
+    /* Buddy; */
+    unsigned             buddy_cnt;                 /**&lt; Buddy count.   */
+    pjsua_buddy          buddy[PJSUA_MAX_BUDDIES];  /**&lt; Buddy array.   */
+
+    /* Presence: */
+    pj_timer_entry       pres_timer;/**&lt; Presence refresh timer.        */
+
+    /* Media: */
+    pjsua_media_config   media_cfg; /**&lt; Media config.                  */
+    pjmedia_endpt       *med_endpt; /**&lt; Media endpoint.                */
+    pjsua_conf_setting   mconf_cfg; /**&lt; Additionan conf. bridge. param */
+    pjmedia_conf        *mconf;     /**&lt; Conference bridge.             */
+    pj_bool_t            is_mswitch;/**&lt; Are we using audio switchboard
+                                         (a.k.a APS-Direct)             */
+
+    /* Sound device */
+    pjmedia_aud_dev_index cap_dev;  /**&lt; Capture device ID.             */
+    pjmedia_aud_dev_index play_dev; /**&lt; Playback device ID.            */
+    pj_uint32_t          aud_svmask;/**&lt; Which settings to save         */
+    pjmedia_aud_param    aud_param; /**&lt; User settings to sound dev     */
+    pj_bool_t            aud_open_cnt;/**&lt; How many # device is opened  */
+    pj_bool_t            no_snd;    /**&lt; No sound (app will manage it)  */
+    pj_pool_t           *snd_pool;  /**&lt; Sound's private pool.          */
+    pjmedia_snd_port    *snd_port;  /**&lt; Sound port.                    */
+    pj_timer_entry       snd_idle_timer;/**&lt; Sound device idle timer.   */
+    pjmedia_master_port *null_snd;  /**&lt; Master port for null sound.    */
+    pjmedia_port        *null_port; /**&lt; Null port.                     */
+    pj_bool_t            snd_is_on; /**&lt; Media flow is currently active */
+    unsigned             snd_mode;  /**&lt; Sound device mode.             */
+
+    /* Video device */
+    pjmedia_vid_dev_index vcap_dev;  /**&lt; Capture device ID.            */
+    pjmedia_vid_dev_index vrdr_dev;  /**&lt; Playback device ID.           */
+
+    /* For keeping video device settings */
+#if PJSUA_HAS_VIDEO
+    pjmedia_vid_conf     *vid_conf;
+    pj_uint32_t           vid_caps[PJMEDIA_VID_DEV_MAX_DEVS];
+    pjmedia_vid_dev_param vid_param[PJMEDIA_VID_DEV_MAX_DEVS];
+#endif
+
+    /* File players: */
+    unsigned             player_cnt;/**&lt; Number of file players.        */
+    pjsua_file_data      player[PJSUA_MAX_PLAYERS];/**&lt; Array of players.*/
+
+    /* File recorders: */
+    unsigned             rec_cnt;   /**&lt; Number of file recorders.      */
+    pjsua_file_data      recorder[PJSUA_MAX_RECORDERS];/**&lt; Array of recs.*/
+
+    /* Video windows */
+#if PJSUA_HAS_VIDEO
+    pjsua_vid_win        win[PJSUA_MAX_VID_WINS]; /**&lt; Array of windows */
+#endif
+
+    /* Timer entry and event list */
+    pjsua_timer_list     active_timer_list;
+    pjsua_timer_list     timer_list;
+    pjsua_event_list     event_list;
+    pj_mutex_t          *timer_mutex;
+};
+</code></pre>
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="pjsua_acc.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
 
 
                         <div style="clear: both"></div>
@@ -189,6 +312,9 @@
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="pjsua_acc.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
 
             </nav>
 
