@@ -1,6 +1,6 @@
 ## pjsua_acc
 
-```
+```c
 /**
  * Account
  */
