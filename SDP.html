@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>pjsua_acc - myBook</title>
+        <title>SDP - myBook</title>
 
 
         <!-- Custom HTML head -->
@@ -88,7 +88,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="SIP.html"><strong aria-hidden="true">1.</strong> sip协议概述</a></li><li class="chapter-item expanded "><a href="PJSIP_log.html"><strong aria-hidden="true">2.</strong> pjsip log</a></li><li class="chapter-item expanded "><div><strong aria-hidden="true">3.</strong> 常见数据结构与工具</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="pjsua_call.html"><strong aria-hidden="true">3.1.</strong> pjsua_call</a></li><li class="chapter-item expanded "><a href="pjsua_acc.html" class="active"><strong aria-hidden="true">3.2.</strong> pjsua_acc</a></li><li class="chapter-item expanded "><a href="pjsua_data.html"><strong aria-hidden="true">3.3.</strong> pjsua_data</a></li><li class="chapter-item expanded "><a href="SDP.html"><strong aria-hidden="true">3.4.</strong> SDP</a></li></ol></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded "><a href="SIP.html"><strong aria-hidden="true">1.</strong> sip协议概述</a></li><li class="chapter-item expanded "><a href="PJSIP_log.html"><strong aria-hidden="true">2.</strong> pjsip log</a></li><li class="chapter-item expanded "><div><strong aria-hidden="true">3.</strong> 常见数据结构与工具</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="pjsua_call.html"><strong aria-hidden="true">3.1.</strong> pjsua_call</a></li><li class="chapter-item expanded "><a href="pjsua_acc.html"><strong aria-hidden="true">3.2.</strong> pjsua_acc</a></li><li class="chapter-item expanded "><a href="pjsua_data.html"><strong aria-hidden="true">3.3.</strong> pjsua_data</a></li><li class="chapter-item expanded "><a href="SDP.html" class="active"><strong aria-hidden="true">3.4.</strong> SDP</a></li></ol></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle">
                 <div class="sidebar-resize-indicator"></div>
@@ -173,95 +173,118 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h2 id="pjsua_acc"><a class="header" href="#pjsua_acc">pjsua_acc</a></h2>
+                        <h2 id="sdp"><a class="header" href="#sdp">SDP</a></h2>
+<h3 id="pjmedia_sdp_session"><a class="header" href="#pjmedia_sdp_session">pjmedia_sdp_session</a></h3>
 <pre><code class="language-c">/**
- * Account
+ * This structure describes SDP session description. A SDP session descriptor
+ * contains complete information about a session, and normally is exchanged
+ * with remote media peer using signaling protocol such as SIP.
  */
-typedef struct pjsua_acc
+struct pjmedia_sdp_session
 {
-    pj_pool_t       *pool;          /**&lt; Pool for this account.         */
-    pjsua_acc_config cfg;           /**&lt; Account configuration.         */
-    pj_bool_t        valid;         /**&lt; Is this account valid?         */
+    /** Session origin (o= line) */
+    struct
+    {
+        pj_str_t    user;           /**&lt; User                           */
+        pj_uint_t   id;             /**&lt; Session ID                     */
+        pj_uint_t   version;        /**&lt; Session version                */
+        pj_str_t    net_type;       /**&lt; Network type (&quot;IN&quot;)            */
+        pj_str_t    addr_type;      /**&lt; Address type (&quot;IP4&quot;, &quot;IP6&quot;)    */
+        pj_str_t    addr;           /**&lt; The address.                   */
+    } origin;
 
-    int              index;         /**&lt; Index in accounts array.       */
-    pj_str_t         display;       /**&lt; Display name, if any.          */
-    pj_str_t         user_part;     /**&lt; User part of local URI.        */
-    pj_bool_t        is_sips;       /**&lt; Local URI uses &quot;sips&quot;?         */
-    pj_str_t         contact;       /**&lt; Our Contact header.            */
-    pj_str_t         reg_contact;   /**&lt; Contact header for REGISTER.
-                                         It may be different than acc
-                                         contact if outbound is used    */
-    pj_bool_t        contact_rewritten;
-                                    /**&lt; Contact rewrite has been done? */
-    pjsip_host_port  via_addr;      /**&lt; Address for Via header         */
-    pjsip_transport *via_tp;        /**&lt; Transport associated with
-                                         the Via address                */
+    pj_str_t           name;        /**&lt; Subject line (s=)              */
+    pjmedia_sdp_conn  *conn;        /**&lt; Connection line (c=)           */
+    unsigned           bandw_count; /**&lt; Number of bandwidth info (b=)  */
+    pjmedia_sdp_bandw *bandw[PJMEDIA_MAX_SDP_BANDW];
+                                    /**&lt; Bandwidth info array (b=)      */
+    
+    /** Session time (t= line)  */
+    struct
+    {
+        pj_uint_t start;            /**&lt; Start time.                    */
+        pj_uint_t stop;             /**&lt; Stop time.                     */
+    } time;
 
-    pj_str_t         srv_domain;    /**&lt; Host part of reg server.       */
-    int              srv_port;      /**&lt; Port number of reg server.     */
+    unsigned           attr_count;              /**&lt; Number of attributes.  */
+    pjmedia_sdp_attr  *attr[PJMEDIA_MAX_SDP_ATTR]; /**&lt; Attributes array.   */
 
-    pjsip_regc      *regc;          /**&lt; Client registration session.   */
-    pj_status_t      reg_last_err;  /**&lt; Last registration error.       */
-    int              reg_last_code; /**&lt; Last status last register.     */
+    unsigned           media_count;             /**&lt; Number of media.       */
+    pjmedia_sdp_media *media[PJMEDIA_MAX_SDP_MEDIA];    /**&lt; Media array.   */
 
-    pj_str_t         reg_mapped_addr;/**&lt; Our addr as seen by reg srv.
-                                          Only if allow_sdp_nat_rewrite
-                                          is set                        */
+};
 
-    struct {
-        pj_bool_t        active;    /**&lt; Flag of reregister status.     */
-        pj_timer_entry   timer;     /**&lt; Timer for reregistration.      */
-        void            *reg_tp;    /**&lt; Transport for registration.    */
-        unsigned         attempt_cnt; /**&lt; Attempt counter.             */
-    } auto_rereg;                   /**&lt; Reregister/reconnect data.     */
+</code></pre>
+<h3 id="pjmedia_sdp_attr"><a class="header" href="#pjmedia_sdp_attr">pjmedia_sdp_attr</a></h3>
+<pre><code class="language-c">/** 
+ * Generic representation of attribute.
+ */
+struct pjmedia_sdp_attr
+{
+    pj_str_t            name;       /**&lt; Attribute name.    */
+    pj_str_t            value;      /**&lt; Attribute value.   */
+};
 
-    pj_timer_entry   ka_timer;      /**&lt; Keep-alive timer for UDP.      */
-    pjsip_transport *ka_transport;  /**&lt; Transport for keep-alive.      */
-    pj_sockaddr      ka_target;     /**&lt; Destination address for K-A    */
-    unsigned         ka_target_len; /**&lt; Length of ka_target.           */
+</code></pre>
+<h3 id="pjmedia_sdp_media"><a class="header" href="#pjmedia_sdp_media">pjmedia_sdp_media</a></h3>
+<pre><code class="language-c">/**
+ * This structure describes SDP media descriptor. A SDP media descriptor
+ * starts with &quot;m=&quot; line and contains the media attributes and optional
+ * connection line.
+ */
+struct pjmedia_sdp_media
+{
+    /** Media descriptor line (&quot;m=&quot; line) */
+    struct
+    {
+        pj_str_t    media;              /**&lt; Media type (&quot;audio&quot;, &quot;video&quot;)  */
+        pj_uint16_t port;               /**&lt; Port number.                   */
+        unsigned    port_count;         /**&lt; Port count, used only when &gt;2  */
+        pj_str_t    transport;          /**&lt; Transport (&quot;RTP/AVP&quot;)          */
+        unsigned    fmt_count;          /**&lt; Number of formats.             */
+        pj_str_t    fmt[PJMEDIA_MAX_SDP_FMT];       /**&lt; Media formats.     */
+    } desc;
 
-    pjsip_route_hdr  route_set;     /**&lt; Complete route set inc. outbnd.*/
-    pj_uint32_t      global_route_crc; /** CRC of global route setting. */
-    pj_uint32_t      local_route_crc;  /** CRC of account route setting.*/
+    pjmedia_sdp_conn   *conn;           /**&lt; Optional connection info.      */
+    unsigned            bandw_count;    /**&lt; Number of bandwidth info.      */
+    pjmedia_sdp_bandw  *bandw[PJMEDIA_MAX_SDP_BANDW]; /**&lt; Bandwidth info.  */
+    unsigned            attr_count;     /**&lt; Number of attributes.          */
+    pjmedia_sdp_attr   *attr[PJMEDIA_MAX_SDP_ATTR];   /**&lt; Attributes.      */
 
-    unsigned         rfc5626_status;/**&lt; SIP outbound status:
-                                           0: not used
-                                           1: requested
-                                           2: acknowledged by servers   */
-    pj_str_t         rfc5626_instprm;/**&lt; SIP outbound instance param.  */
-    pj_str_t         rfc5626_regprm;/**&lt; SIP outbound reg param.        */
-    unsigned         rfc5626_flowtmr;/**&lt; SIP outbound flow timer.      */
-
-    unsigned         cred_cnt;      /**&lt; Number of credentials.         */
-    pjsip_cred_info  cred[PJSUA_ACC_MAX_PROXIES]; /**&lt; Complete creds.  */
-
-    pj_bool_t        online_status; /**&lt; Our online status.             */
-    pjrpid_element   rpid;          /**&lt; RPID element information.      */
-    pjsua_srv_pres   pres_srv_list; /**&lt; Server subscription list.      */
-    pjsip_publishc  *publish_sess;  /**&lt; Client publication session.    */
-    pj_bool_t        publish_state; /**&lt; Last published online status   */
-
-    pjsip_evsub     *mwi_sub;       /**&lt; MWI client subscription        */
-    pjsip_dialog    *mwi_dlg;       /**&lt; Dialog for MWI sub.            */
-
-    pj_uint16_t      next_rtp_port; /**&lt; Next RTP port to be used.      */
-    pjsip_transport_type_e tp_type; /**&lt; Transport type (for local acc or
-                                         transport binding)             */
-    pjsua_ip_change_op ip_change_op;/**&lt; IP change process progress.    */
-} pjsua_acc;
+};
+</code></pre>
+<h3 id="pjmedia_sdp_conn"><a class="header" href="#pjmedia_sdp_conn">pjmedia_sdp_conn</a></h3>
+<pre><code class="language-c">/**
+ * This structure describes SDP connection info (&quot;c=&quot; line). 
+ */
+struct pjmedia_sdp_conn
+{
+    pj_str_t    net_type;       /**&lt; Network type (&quot;IN&quot;).               */
+    pj_str_t    addr_type;      /**&lt; Address type (&quot;IP4&quot;, &quot;IP6&quot;).       */
+    pj_str_t    addr;           /**&lt; The address.                       */
+    pj_uint8_t  ttl;            /**&lt; Multicast address TTL              */
+    pj_uint8_t  no_addr;        /**&lt; Multicast number of addresses      */
+};
+</code></pre>
+<h3 id="pjmedia_sdp_bandw"><a class="header" href="#pjmedia_sdp_bandw">pjmedia_sdp_bandw</a></h3>
+<pre><code class="language-c">/**
+ * This structure describes SDP bandwidth info (&quot;b=&quot; line). 
+ */
+typedef struct pjmedia_sdp_bandw
+{
+    pj_str_t    modifier;       /**&lt; Bandwidth modifier.                */
+    pj_uint32_t value;          /**&lt; Bandwidth value.                   */
+} pjmedia_sdp_bandw;
 </code></pre>
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                            <a rel="prev" href="pjsua_call.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                            <a rel="prev" href="pjsua_data.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
 
-                            <a rel="next prefetch" href="pjsua_data.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
-                                <i class="fa fa-angle-right"></i>
-                            </a>
 
                         <div style="clear: both"></div>
                     </nav>
@@ -269,13 +292,10 @@ typedef struct pjsua_acc
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                    <a rel="prev" href="pjsua_call.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                    <a rel="prev" href="pjsua_data.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
 
-                    <a rel="next prefetch" href="pjsua_data.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
-                        <i class="fa fa-angle-right"></i>
-                    </a>
             </nav>
 
         </div>
