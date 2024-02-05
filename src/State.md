@@ -4,7 +4,7 @@
 
 **UAC （呼叫方）状态机转换如下：**
 
-![img](../img/UAC_invite.png)
+![img](img/UAC_invite.png)
 
 刚开始呼叫时，sip_transaction的状态机处于tsx_on_state_null状态，拨打电话发出INVITE信令后，状态机转为Calling状态，处理函数：tsx_on_state_calling，应用可以收到Calling的状态通知。
 
@@ -16,7 +16,7 @@
 
 **Bye信令状态转换：**
 
-![img](../img/bye_uac.png)
+![img](img/bye_uac.png)
 
 发出Bye信令时，状态机转为Calling状态（tsx_on_state_calling），在收到200OK信令时，转为Completed状态（tsx_on_state_completed_uac），应用会收到Disconnected的状态通知
 
@@ -24,11 +24,11 @@
 
 **UAS（被叫方）状态机转换如下：**
 
-***\*![img](../img/uas_invite.png)\****
+***\*![img](img/uas_invite.png)\****
 
 Bye状态转换：
 
-![img](../img/bye_uas.png)
+![img](img/bye_uas.png)
  
 
 被叫方的转换和呼叫方类似。
