@@ -1,6 +1,6 @@
-<mxfile host="Electron" modified="2024-02-05T07:18:52.150Z" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/23.0.2 Chrome/120.0.6099.109 Electron/28.1.0 Safari/537.36" etag="GDufxsohxYYWqKteG-Ni" version="23.0.2" type="device">
+<mxfile host="Electron" modified="2024-02-05T09:13:40.787Z" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/23.0.2 Chrome/120.0.6099.109 Electron/28.1.0 Safari/537.36" etag="0q5XF8ZOqAeaxjIarTL8" version="23.0.2" type="device">
   <diagram name="第 1 页" id="OTfgh2IuMeboOrYCifwz">
-    <mxGraphModel dx="3491" dy="2111" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+    <mxGraphModel dx="3147" dy="1934" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -439,7 +439,7 @@
         <mxCell id="o_ZeePv5BL5h0-zww4gV-196" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="o_ZeePv5BL5h0-zww4gV-174" target="o_ZeePv5BL5h0-zww4gV-176">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="o_ZeePv5BL5h0-zww4gV-174" value="&lt;div style=&quot;background-color: rgb(255, 255, 255); font-family: Menlo, Monaco, &amp;quot;Courier New&amp;quot;, monospace; line-height: 18px;&quot;&gt;pjsip_tsx_create_uac2&lt;/div&gt;" style="whiteSpace=wrap;html=1;" vertex="1" parent="1">
+        <mxCell id="o_ZeePv5BL5h0-zww4gV-174" value="&lt;div style=&quot;background-color: rgb(255, 255, 255); font-family: Menlo, Monaco, &amp;quot;Courier New&amp;quot;, monospace; line-height: 18px;&quot;&gt;pjsip_tsx_create_uac2&amp;amp;&lt;/div&gt;&lt;div style=&quot;background-color: rgb(255, 255, 255); font-family: Menlo, Monaco, &amp;quot;Courier New&amp;quot;, monospace; line-height: 18px;&quot;&gt;pjsip_tsx_create_uac2&lt;/div&gt;" style="whiteSpace=wrap;html=1;" vertex="1" parent="1">
           <mxGeometry x="-460" y="1215" width="120" height="60" as="geometry" />
         </mxCell>
         <mxCell id="o_ZeePv5BL5h0-zww4gV-179" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="o_ZeePv5BL5h0-zww4gV-176" target="o_ZeePv5BL5h0-zww4gV-177">
@@ -478,6 +478,9 @@
         <mxCell id="o_ZeePv5BL5h0-zww4gV-192" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="o_ZeePv5BL5h0-zww4gV-189" target="o_ZeePv5BL5h0-zww4gV-191">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
+        <mxCell id="o_ZeePv5BL5h0-zww4gV-219" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="o_ZeePv5BL5h0-zww4gV-189" target="o_ZeePv5BL5h0-zww4gV-193">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
         <mxCell id="o_ZeePv5BL5h0-zww4gV-189" value="&lt;div style=&quot;background-color: rgb(255, 255, 255); font-family: Menlo, Monaco, &amp;quot;Courier New&amp;quot;, monospace; line-height: 18px;&quot;&gt;Set transport selector&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
           <mxGeometry x="-660" y="1380" width="120" height="60" as="geometry" />
         </mxCell>
@@ -514,8 +517,134 @@
         <mxCell id="o_ZeePv5BL5h0-zww4gV-199" value="&lt;div style=&quot;background-color: rgb(255, 255, 255); font-family: Menlo, Monaco, &amp;quot;Courier New&amp;quot;, monospace; line-height: 18px;&quot;&gt;Dispatch to state handler&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
           <mxGeometry x="-270" y="1670" width="120" height="60" as="geometry" />
         </mxCell>
-        <mxCell id="o_ZeePv5BL5h0-zww4gV-203" value="&lt;div style=&quot;background-color: rgb(255, 255, 255); font-family: Menlo, Monaco, &amp;quot;Courier New&amp;quot;, monospace; line-height: 18px;&quot;&gt;(*tsx-&amp;gt;state_handler)(&lt;span style=&quot;color: #808080;&quot;&gt;tsx&lt;/span&gt;, &amp;amp;&lt;span style=&quot;color: #1f377f;&quot;&gt;event&lt;/span&gt;)&lt;/div&gt;" style="whiteSpace=wrap;html=1;" vertex="1" parent="1">
-          <mxGeometry x="-80" y="1670" width="120" height="60" as="geometry" />
+        <mxCell id="o_ZeePv5BL5h0-zww4gV-203" value="&lt;div style=&quot;background-color: rgb(255, 255, 255); font-family: Menlo, Monaco, &amp;quot;Courier New&amp;quot;, monospace; line-height: 18px;&quot;&gt;(*tsx-&amp;gt;state_handler)(&lt;span style=&quot;color: #808080;&quot;&gt;tsx&lt;/span&gt;, &amp;amp;&lt;span style=&quot;color: #1f377f;&quot;&gt;event&lt;/span&gt;)&lt;/div&gt;&lt;div style=&quot;background-color: rgb(255, 255, 255); font-family: Menlo, Monaco, &amp;quot;Courier New&amp;quot;, monospace; line-height: 18px;&quot;&gt;&lt;br&gt;&lt;/div&gt;&lt;div style=&quot;background-color: rgb(255, 255, 255); font-family: Menlo, Monaco, &amp;quot;Courier New&amp;quot;, monospace; line-height: 18px;&quot;&gt;&lt;div style=&quot;line-height: 18px;&quot;&gt;tsx_on_state_null&lt;/div&gt;&lt;/div&gt;" style="whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="-80" y="1640" width="140" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="o_ZeePv5BL5h0-zww4gV-205" value="&lt;div style=&quot;background-color: rgb(255, 255, 255); font-family: Menlo, Monaco, &amp;quot;Courier New&amp;quot;, monospace; line-height: 18px;&quot;&gt;tsx-&amp;gt;state_handler = &amp;amp;&lt;span style=&quot;color: #74531f;&quot;&gt;tsx_on_state_null&lt;/span&gt;;&lt;/div&gt;" style="whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="-95" y="1280" width="150" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="o_ZeePv5BL5h0-zww4gV-207" value="" style="endArrow=classic;html=1;rounded=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" target="o_ZeePv5BL5h0-zww4gV-205">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="-220" y="1310" as="sourcePoint" />
+            <mxPoint x="-90" y="1270" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="o_ZeePv5BL5h0-zww4gV-212" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="o_ZeePv5BL5h0-zww4gV-210" target="o_ZeePv5BL5h0-zww4gV-211">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="o_ZeePv5BL5h0-zww4gV-210" value="&lt;div style=&quot;background-color: rgb(255, 255, 255); font-family: Menlo, Monaco, &amp;quot;Courier New&amp;quot;, monospace; line-height: 18px;&quot;&gt;tsx_on_state_null&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="354" y="1500" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="o_ZeePv5BL5h0-zww4gV-223" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="o_ZeePv5BL5h0-zww4gV-211" target="o_ZeePv5BL5h0-zww4gV-214">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="o_ZeePv5BL5h0-zww4gV-224" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="o_ZeePv5BL5h0-zww4gV-211" target="o_ZeePv5BL5h0-zww4gV-216">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="o_ZeePv5BL5h0-zww4gV-211" value="&lt;div style=&quot;background-color: rgb(255, 255, 255); font-family: Menlo, Monaco, &amp;quot;Courier New&amp;quot;, monospace; line-height: 18px;&quot;&gt;&lt;br&gt;&lt;/div&gt;" style="rhombus;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="530" y="1490" width="80" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="o_ZeePv5BL5h0-zww4gV-231" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="o_ZeePv5BL5h0-zww4gV-214" target="o_ZeePv5BL5h0-zww4gV-230">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="o_ZeePv5BL5h0-zww4gV-214" value="&lt;div style=&quot;background-color: rgb(255, 255, 255); font-family: Menlo, Monaco, &amp;quot;Courier New&amp;quot;, monospace; line-height: 18px;&quot;&gt;PJSIP_ROLE_UAS&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="620" y="1440" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="o_ZeePv5BL5h0-zww4gV-225" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="o_ZeePv5BL5h0-zww4gV-216" target="o_ZeePv5BL5h0-zww4gV-217">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="o_ZeePv5BL5h0-zww4gV-216" value="&lt;div style=&quot;background-color: rgb(255, 255, 255); font-family: Menlo, Monaco, &amp;quot;Courier New&amp;quot;, monospace; line-height: 18px;&quot;&gt;PJSIP_ROLE_UAC&lt;br&gt;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="620" y="1560" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="o_ZeePv5BL5h0-zww4gV-226" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" edge="1" parent="1" source="o_ZeePv5BL5h0-zww4gV-217" target="o_ZeePv5BL5h0-zww4gV-218">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="o_ZeePv5BL5h0-zww4gV-217" value="&lt;div style=&quot;background-color: rgb(255, 255, 255); font-family: Menlo, Monaco, &amp;quot;Courier New&amp;quot;, monospace; line-height: 18px;&quot;&gt;Get the txdata&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="780" y="1560" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="o_ZeePv5BL5h0-zww4gV-242" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="o_ZeePv5BL5h0-zww4gV-218" target="o_ZeePv5BL5h0-zww4gV-240">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="o_ZeePv5BL5h0-zww4gV-218" value="&lt;div style=&quot;background-color: rgb(255, 255, 255); font-family: Menlo, Monaco, &amp;quot;Courier New&amp;quot;, monospace; line-height: 18px;&quot;&gt;Save the message for retransmission&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="780" y="1660" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="o_ZeePv5BL5h0-zww4gV-236" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="o_ZeePv5BL5h0-zww4gV-227" target="o_ZeePv5BL5h0-zww4gV-229">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="o_ZeePv5BL5h0-zww4gV-227" value="&lt;div style=&quot;background-color: rgb(255, 255, 255); font-family: Menlo, Monaco, &amp;quot;Courier New&amp;quot;, monospace; line-height: 18px;&quot;&gt;Start Timer B (or called timer F for non-INVITE) for transaction timeout&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="780" y="1850" width="120" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="o_ZeePv5BL5h0-zww4gV-237" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="o_ZeePv5BL5h0-zww4gV-229" target="o_ZeePv5BL5h0-zww4gV-234">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="o_ZeePv5BL5h0-zww4gV-229" value="&lt;div style=&quot;background-color: rgb(255, 255, 255); font-family: Menlo, Monaco, &amp;quot;Courier New&amp;quot;, monospace; line-height: 18px;&quot;&gt;Start Timer A (or timer E) for retransmission only if unreliable&amp;nbsp;&lt;/div&gt;timeout" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="780" y="1990" width="120" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="o_ZeePv5BL5h0-zww4gV-233" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="o_ZeePv5BL5h0-zww4gV-230" target="o_ZeePv5BL5h0-zww4gV-232">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="o_ZeePv5BL5h0-zww4gV-230" value="Set state trying" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="780" y="1440" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="o_ZeePv5BL5h0-zww4gV-232" value="&lt;div style=&quot;background-color: rgb(255, 255, 255); font-family: Menlo, Monaco, &amp;quot;Courier New&amp;quot;, monospace; line-height: 18px;&quot;&gt;tsx_set_state&lt;/div&gt;" style="whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="930" y="1440" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="o_ZeePv5BL5h0-zww4gV-239" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="o_ZeePv5BL5h0-zww4gV-234" target="o_ZeePv5BL5h0-zww4gV-238">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="o_ZeePv5BL5h0-zww4gV-234" value="Set state calling" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="780" y="2130" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="o_ZeePv5BL5h0-zww4gV-238" value="&lt;div style=&quot;background-color: rgb(255, 255, 255); font-family: Menlo, Monaco, &amp;quot;Courier New&amp;quot;, monospace; line-height: 18px;&quot;&gt;tsx_set_state&lt;/div&gt;" style="whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="950" y="2130" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="o_ZeePv5BL5h0-zww4gV-241" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="o_ZeePv5BL5h0-zww4gV-240" target="o_ZeePv5BL5h0-zww4gV-227">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="o_ZeePv5BL5h0-zww4gV-244" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="o_ZeePv5BL5h0-zww4gV-240" target="o_ZeePv5BL5h0-zww4gV-243">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="o_ZeePv5BL5h0-zww4gV-240" value="&lt;div style=&quot;background-color: rgb(255, 255, 255); font-family: Menlo, Monaco, &amp;quot;Courier New&amp;quot;, monospace; line-height: 18px;&quot;&gt;&lt;div style=&quot;line-height: 18px;&quot;&gt;Send message to the transport&lt;/div&gt;&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="780" y="1740" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="o_ZeePv5BL5h0-zww4gV-246" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="o_ZeePv5BL5h0-zww4gV-243" target="o_ZeePv5BL5h0-zww4gV-245">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="o_ZeePv5BL5h0-zww4gV-243" value="&lt;div style=&quot;background-color: rgb(255, 255, 255); font-family: Menlo, Monaco, &amp;quot;Courier New&amp;quot;, monospace; line-height: 18px;&quot;&gt;tsx_send_msg&lt;/div&gt;" style="whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="970" y="1740" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="o_ZeePv5BL5h0-zww4gV-248" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="o_ZeePv5BL5h0-zww4gV-245" target="o_ZeePv5BL5h0-zww4gV-247">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="o_ZeePv5BL5h0-zww4gV-245" value="send a SIP message using the specified transport to the specified destination." style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="1130" y="1740" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="o_ZeePv5BL5h0-zww4gV-251" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="o_ZeePv5BL5h0-zww4gV-247" target="o_ZeePv5BL5h0-zww4gV-250">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="o_ZeePv5BL5h0-zww4gV-247" value="&amp;nbsp;pjsip_transport_send" style="whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="1280" y="1740" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="o_ZeePv5BL5h0-zww4gV-256" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="o_ZeePv5BL5h0-zww4gV-249" target="o_ZeePv5BL5h0-zww4gV-254">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="o_ZeePv5BL5h0-zww4gV-249" value="&lt;div style=&quot;background-color: rgb(255, 255, 255); font-family: Menlo, Monaco, &amp;quot;Courier New&amp;quot;, monospace; line-height: 18px;&quot;&gt;Send to transport&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="1440" y="1840" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="o_ZeePv5BL5h0-zww4gV-252" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="o_ZeePv5BL5h0-zww4gV-250" target="o_ZeePv5BL5h0-zww4gV-249">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="o_ZeePv5BL5h0-zww4gV-255" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="o_ZeePv5BL5h0-zww4gV-250" target="o_ZeePv5BL5h0-zww4gV-253">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="o_ZeePv5BL5h0-zww4gV-250" value="&lt;div style=&quot;background-color: rgb(255, 255, 255); font-family: Menlo, Monaco, &amp;quot;Courier New&amp;quot;, monospace; line-height: 18px;&quot;&gt;Distribute to modules. &lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="1440" y="1740" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="o_ZeePv5BL5h0-zww4gV-253" value="&lt;div style=&quot;background-color: rgb(255, 255, 255); font-family: Menlo, Monaco, &amp;quot;Courier New&amp;quot;, monospace; line-height: 18px;&quot;&gt;status = (*&lt;span style=&quot;color: #808080;&quot;&gt;tr&lt;/span&gt;-&amp;gt;tpmgr-&amp;gt;on_tx_msg)(&lt;span style=&quot;color: #808080;&quot;&gt;tr&lt;/span&gt;-&amp;gt;endpt, &lt;span style=&quot;color: #808080;&quot;&gt;tdata&lt;/span&gt;);&lt;/div&gt;" style="whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="1609" y="1730" width="221" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="o_ZeePv5BL5h0-zww4gV-254" value="&lt;div style=&quot;background-color: rgb(255, 255, 255); font-family: Menlo, Monaco, &amp;quot;Courier New&amp;quot;, monospace; line-height: 18px;&quot;&gt;&lt;div&gt;status = (*&lt;span style=&quot;color: #808080;&quot;&gt;tr&lt;/span&gt;-&amp;gt;send_msg)(&lt;span style=&quot;color: #808080;&quot;&gt;tr&lt;/span&gt;, &lt;span style=&quot;color: #808080;&quot;&gt;tdata&lt;/span&gt;,  &lt;span style=&quot;color: #808080;&quot;&gt;addr&lt;/span&gt;, &lt;span style=&quot;color: #808080;&quot;&gt;addr_len&lt;/span&gt;, (&lt;span style=&quot;color: #0000ff;&quot;&gt;void&lt;/span&gt;*)&lt;span style=&quot;color: #808080;&quot;&gt;tdata&lt;/span&gt;, &lt;/div&gt;&lt;div&gt;                             &amp;amp;&lt;span style=&quot;color: #74531f;&quot;&gt;transport_send_callback&lt;/span&gt;);&lt;/div&gt;&lt;/div&gt;" style="whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="1609" y="1840" width="221" height="160" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>

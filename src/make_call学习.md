@@ -44,3 +44,15 @@ Create a new dialog and return the instance in p_dlg parameter. After creating t
 
 **返回:**
 PJ_SUCCESS on success.
+
+
+
+
+
+接收方，发送方状态机
+
+[sip信令超时时间调整_pjsip的最长呼叫等待时间-CSDN博客](https://blog.csdn.net/croop520/article/details/78666799)
+
+[voip_百无求的博客-CSDN博客](https://blog.csdn.net/twd_1991/category_7700884.html)[voip_百无求的博客-CSDN博客](https://blog.csdn.net/twd_1991/category_7700884.html)
+
+![img](https://img-blog.csdn.net/20171129164001702?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvY3Jvb3A1MjA=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center)
