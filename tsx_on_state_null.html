@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>pjsua_acc - PJSIP_STUDY</title>
+        <title>tsx_on_state_null状态处理 - PJSIP_STUDY</title>
 
 
         <!-- Custom HTML head -->
@@ -88,7 +88,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="SIP.html"><strong aria-hidden="true">1.</strong> sip协议概述</a></li><li class="chapter-item expanded "><div><strong aria-hidden="true">2.</strong> 原理机制</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="State.html"><strong aria-hidden="true">2.1.</strong> 状态机</a></li><li class="chapter-item expanded "><div><strong aria-hidden="true">2.2.</strong> 流程图</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="make_call.html"><strong aria-hidden="true">2.2.1.</strong> make call流程图</a></li><li class="chapter-item expanded "><a href="pjsip_dlg_create_uac.html"><strong aria-hidden="true">2.2.2.</strong> Create an UAC dialog</a></li><li class="chapter-item expanded "><a href="on_make_call_med_tp_complete.html"><strong aria-hidden="true">2.2.3.</strong> Outgoing call callback when media transport creation is completed</a></li><li class="chapter-item expanded "><a href="tsx_on_state_null.html"><strong aria-hidden="true">2.2.4.</strong> tsx_on_state_null状态处理</a></li></ol></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">3.</strong> 常见数据结构与工具</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="pjsua_call.html"><strong aria-hidden="true">3.1.</strong> pjsua_call</a></li><li class="chapter-item expanded "><a href="pjsua_acc.html" class="active"><strong aria-hidden="true">3.2.</strong> pjsua_acc</a></li><li class="chapter-item expanded "><a href="pjsua_data.html"><strong aria-hidden="true">3.3.</strong> pjsua_data</a></li><li class="chapter-item expanded "><a href="SDP.html"><strong aria-hidden="true">3.4.</strong> SDP</a></li><li class="chapter-item expanded "><a href="Dialog.html"><strong aria-hidden="true">3.5.</strong> Dialog</a></li><li class="chapter-item expanded "><a href="Session.html"><strong aria-hidden="true">3.6.</strong> Session</a></li><li class="chapter-item expanded "><a href="transaction.html"><strong aria-hidden="true">3.7.</strong> transaction</a></li><li class="chapter-item expanded "><a href="transport.html"><strong aria-hidden="true">3.8.</strong> transport</a></li><li class="chapter-item expanded "><a href="sendData.html"><strong aria-hidden="true">3.9.</strong> 数据发送数据结构</a></li><li class="chapter-item expanded "><a href="PJSIP_log.html"><strong aria-hidden="true">3.10.</strong> pjsip log</a></li></ol></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded "><a href="SIP.html"><strong aria-hidden="true">1.</strong> sip协议概述</a></li><li class="chapter-item expanded "><div><strong aria-hidden="true">2.</strong> 原理机制</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="State.html"><strong aria-hidden="true">2.1.</strong> 状态机</a></li><li class="chapter-item expanded "><div><strong aria-hidden="true">2.2.</strong> 流程图</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="make_call.html"><strong aria-hidden="true">2.2.1.</strong> make call流程图</a></li><li class="chapter-item expanded "><a href="pjsip_dlg_create_uac.html"><strong aria-hidden="true">2.2.2.</strong> Create an UAC dialog</a></li><li class="chapter-item expanded "><a href="on_make_call_med_tp_complete.html"><strong aria-hidden="true">2.2.3.</strong> Outgoing call callback when media transport creation is completed</a></li><li class="chapter-item expanded "><a href="tsx_on_state_null.html" class="active"><strong aria-hidden="true">2.2.4.</strong> tsx_on_state_null状态处理</a></li></ol></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">3.</strong> 常见数据结构与工具</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="pjsua_call.html"><strong aria-hidden="true">3.1.</strong> pjsua_call</a></li><li class="chapter-item expanded "><a href="pjsua_acc.html"><strong aria-hidden="true">3.2.</strong> pjsua_acc</a></li><li class="chapter-item expanded "><a href="pjsua_data.html"><strong aria-hidden="true">3.3.</strong> pjsua_data</a></li><li class="chapter-item expanded "><a href="SDP.html"><strong aria-hidden="true">3.4.</strong> SDP</a></li><li class="chapter-item expanded "><a href="Dialog.html"><strong aria-hidden="true">3.5.</strong> Dialog</a></li><li class="chapter-item expanded "><a href="Session.html"><strong aria-hidden="true">3.6.</strong> Session</a></li><li class="chapter-item expanded "><a href="transaction.html"><strong aria-hidden="true">3.7.</strong> transaction</a></li><li class="chapter-item expanded "><a href="transport.html"><strong aria-hidden="true">3.8.</strong> transport</a></li><li class="chapter-item expanded "><a href="sendData.html"><strong aria-hidden="true">3.9.</strong> 数据发送数据结构</a></li><li class="chapter-item expanded "><a href="PJSIP_log.html"><strong aria-hidden="true">3.10.</strong> pjsip log</a></li></ol></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle">
                 <div class="sidebar-resize-indicator"></div>
@@ -173,93 +173,18 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h2 id="pjsua_acc"><a class="header" href="#pjsua_acc">pjsua_acc</a></h2>
-<pre><code class="language-c">/**
- * Account
- */
-typedef struct pjsua_acc
-{
-    pj_pool_t       *pool;          /**&lt; Pool for this account.         */
-    pjsua_acc_config cfg;           /**&lt; Account configuration.         */
-    pj_bool_t        valid;         /**&lt; Is this account valid?         */
-
-    int              index;         /**&lt; Index in accounts array.       */
-    pj_str_t         display;       /**&lt; Display name, if any.          */
-    pj_str_t         user_part;     /**&lt; User part of local URI.        */
-    pj_bool_t        is_sips;       /**&lt; Local URI uses &quot;sips&quot;?         */
-    pj_str_t         contact;       /**&lt; Our Contact header.            */
-    pj_str_t         reg_contact;   /**&lt; Contact header for REGISTER.
-                                         It may be different than acc
-                                         contact if outbound is used    */
-    pj_bool_t        contact_rewritten;
-                                    /**&lt; Contact rewrite has been done? */
-    pjsip_host_port  via_addr;      /**&lt; Address for Via header         */
-    pjsip_transport *via_tp;        /**&lt; Transport associated with
-                                         the Via address                */
-
-    pj_str_t         srv_domain;    /**&lt; Host part of reg server.       */
-    int              srv_port;      /**&lt; Port number of reg server.     */
-
-    pjsip_regc      *regc;          /**&lt; Client registration session.   */
-    pj_status_t      reg_last_err;  /**&lt; Last registration error.       */
-    int              reg_last_code; /**&lt; Last status last register.     */
-
-    pj_str_t         reg_mapped_addr;/**&lt; Our addr as seen by reg srv.
-                                          Only if allow_sdp_nat_rewrite
-                                          is set                        */
-
-    struct {
-        pj_bool_t        active;    /**&lt; Flag of reregister status.     */
-        pj_timer_entry   timer;     /**&lt; Timer for reregistration.      */
-        void            *reg_tp;    /**&lt; Transport for registration.    */
-        unsigned         attempt_cnt; /**&lt; Attempt counter.             */
-    } auto_rereg;                   /**&lt; Reregister/reconnect data.     */
-
-    pj_timer_entry   ka_timer;      /**&lt; Keep-alive timer for UDP.      */
-    pjsip_transport *ka_transport;  /**&lt; Transport for keep-alive.      */
-    pj_sockaddr      ka_target;     /**&lt; Destination address for K-A    */
-    unsigned         ka_target_len; /**&lt; Length of ka_target.           */
-
-    pjsip_route_hdr  route_set;     /**&lt; Complete route set inc. outbnd.*/
-    pj_uint32_t      global_route_crc; /** CRC of global route setting. */
-    pj_uint32_t      local_route_crc;  /** CRC of account route setting.*/
-
-    unsigned         rfc5626_status;/**&lt; SIP outbound status:
-                                           0: not used
-                                           1: requested
-                                           2: acknowledged by servers   */
-    pj_str_t         rfc5626_instprm;/**&lt; SIP outbound instance param.  */
-    pj_str_t         rfc5626_regprm;/**&lt; SIP outbound reg param.        */
-    unsigned         rfc5626_flowtmr;/**&lt; SIP outbound flow timer.      */
-
-    unsigned         cred_cnt;      /**&lt; Number of credentials.         */
-    pjsip_cred_info  cred[PJSUA_ACC_MAX_PROXIES]; /**&lt; Complete creds.  */
-
-    pj_bool_t        online_status; /**&lt; Our online status.             */
-    pjrpid_element   rpid;          /**&lt; RPID element information.      */
-    pjsua_srv_pres   pres_srv_list; /**&lt; Server subscription list.      */
-    pjsip_publishc  *publish_sess;  /**&lt; Client publication session.    */
-    pj_bool_t        publish_state; /**&lt; Last published online status   */
-
-    pjsip_evsub     *mwi_sub;       /**&lt; MWI client subscription        */
-    pjsip_dialog    *mwi_dlg;       /**&lt; Dialog for MWI sub.            */
-
-    pj_uint16_t      next_rtp_port; /**&lt; Next RTP port to be used.      */
-    pjsip_transport_type_e tp_type; /**&lt; Transport type (for local acc or
-                                         transport binding)             */
-    pjsua_ip_change_op ip_change_op;/**&lt; IP change process progress.    */
-} pjsua_acc;
-</code></pre>
+                        <h2 id="tsx_on_state_null"><a class="header" href="#tsx_on_state_null">tsx_on_state_null</a></h2>
+<p><a href="html/tsx_on_state_null.html">tsx_on_state_null</a></p>
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                            <a rel="prev" href="pjsua_call.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                            <a rel="prev" href="on_make_call_med_tp_complete.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
 
-                            <a rel="next prefetch" href="pjsua_data.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                            <a rel="next prefetch" href="pjsua_call.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <i class="fa fa-angle-right"></i>
                             </a>
 
@@ -269,11 +194,11 @@ typedef struct pjsua_acc
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                    <a rel="prev" href="pjsua_call.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                    <a rel="prev" href="on_make_call_med_tp_complete.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
 
-                    <a rel="next prefetch" href="pjsua_data.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                    <a rel="next prefetch" href="pjsua_call.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
                     </a>
             </nav>
