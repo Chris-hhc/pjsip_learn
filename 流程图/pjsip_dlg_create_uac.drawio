@@ -1,0 +1,87 @@
+<mxfile host="Electron" modified="2024-02-05T09:33:58.488Z" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/23.0.2 Chrome/120.0.6099.109 Electron/28.1.0 Safari/537.36" etag="CuZCjzsjrxPHZclXGQRO" version="23.0.2" type="device">
+  <diagram name="第 1 页" id="Xj2k2AnkuFdQmTh-Ux4U">
+    <mxGraphModel dx="367" dy="612" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="Bc1azsTiaTzSrHkS6a_k-1" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="Bc1azsTiaTzSrHkS6a_k-2" target="Bc1azsTiaTzSrHkS6a_k-4">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Bc1azsTiaTzSrHkS6a_k-2" value="&lt;div style=&quot;background-color: rgb(255, 255, 255); font-family: Menlo, Monaco, &amp;quot;Courier New&amp;quot;, monospace; line-height: 18px;&quot;&gt;pjsip_dlg_create_uac&lt;/div&gt;" style="whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="1030" y="50" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="Bc1azsTiaTzSrHkS6a_k-3" style="edgeStyle=entityRelationEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;shape=flexArrow;" edge="1" parent="1" source="Bc1azsTiaTzSrHkS6a_k-4">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1289" y="170" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="Bc1azsTiaTzSrHkS6a_k-4" value="&lt;div style=&quot;background-color: rgb(255, 255, 255); font-family: Menlo, Monaco, &amp;quot;Courier New&amp;quot;, monospace; line-height: 18px;&quot;&gt;pjsip_dlg_create_uac2&lt;/div&gt;" style="whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="1030" y="140" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="Bc1azsTiaTzSrHkS6a_k-5" value="初始化pjsip_dlg_create_uac_param&lt;span style=&quot;background-color: rgb(255, 255, 255); font-family: Menlo, Monaco, &amp;quot;Courier New&amp;quot;, monospace;&quot;&gt; &lt;/span&gt;&lt;span style=&quot;font-family: Menlo, Monaco, &amp;quot;Courier New&amp;quot;, monospace; color: rgb(31, 55, 127);&quot;&gt;create_param&lt;/span&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); font-family: Menlo, Monaco, &amp;quot;Courier New&amp;quot;, monospace;&quot;&gt;;&lt;/span&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="1179" y="65" width="310" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="Bc1azsTiaTzSrHkS6a_k-6" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" edge="1" parent="1" source="Bc1azsTiaTzSrHkS6a_k-7" target="Bc1azsTiaTzSrHkS6a_k-10">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Bc1azsTiaTzSrHkS6a_k-7" value="Check arguments" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="1289" y="145" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="Bc1azsTiaTzSrHkS6a_k-8" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;shape=flexArrow;" edge="1" parent="1" source="Bc1azsTiaTzSrHkS6a_k-10" target="Bc1azsTiaTzSrHkS6a_k-11">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Bc1azsTiaTzSrHkS6a_k-9" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="Bc1azsTiaTzSrHkS6a_k-10" target="Bc1azsTiaTzSrHkS6a_k-14">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Bc1azsTiaTzSrHkS6a_k-10" value="Create dialog instance" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="1289" y="234" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="Bc1azsTiaTzSrHkS6a_k-11" value="&lt;div style=&quot;background-color: rgb(255, 255, 255); font-family: Menlo, Monaco, &amp;quot;Courier New&amp;quot;, monospace; line-height: 18px;&quot;&gt;create_dialog&lt;/div&gt;" style="whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="1489" y="234" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="Bc1azsTiaTzSrHkS6a_k-12" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;shape=flexArrow;" edge="1" parent="1" source="Bc1azsTiaTzSrHkS6a_k-14" target="Bc1azsTiaTzSrHkS6a_k-15">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Bc1azsTiaTzSrHkS6a_k-13" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="Bc1azsTiaTzSrHkS6a_k-14" target="Bc1azsTiaTzSrHkS6a_k-17">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Bc1azsTiaTzSrHkS6a_k-14" value="&lt;div style=&quot;background-color: rgb(255, 255, 255); font-family: Menlo, Monaco, &amp;quot;Courier New&amp;quot;, monospace; line-height: 18px;&quot;&gt;Parse remote target.&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="1289" y="320" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="Bc1azsTiaTzSrHkS6a_k-15" value="&lt;div style=&quot;background-color: rgb(255, 255, 255); font-family: Menlo, Monaco, &amp;quot;Courier New&amp;quot;, monospace; line-height: 18px;&quot;&gt;pjsip_parse_uri&lt;/div&gt;" style="whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="1489" y="320" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="Bc1azsTiaTzSrHkS6a_k-16" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="Bc1azsTiaTzSrHkS6a_k-17" target="Bc1azsTiaTzSrHkS6a_k-19">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Bc1azsTiaTzSrHkS6a_k-17" value="&lt;div style=&quot;background-color: rgb(255, 255, 255); font-family: Menlo, Monaco, &amp;quot;Courier New&amp;quot;, monospace; line-height: 18px;&quot;&gt;Put any header param in the target URI into INVITE header list ？？？？&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="1289" y="410" width="120" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="Bc1azsTiaTzSrHkS6a_k-18" value="&lt;div style=&quot;background-color: rgb(255, 255, 255); font-family: Menlo, Monaco, &amp;quot;Courier New&amp;quot;, monospace; line-height: 18px;&quot;&gt;Add target to the target set&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="1289" y="535" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="Bc1azsTiaTzSrHkS6a_k-19" value="&lt;div style=&quot;background-color: rgb(255, 255, 255); font-family: Menlo, Monaco, &amp;quot;Courier New&amp;quot;, monospace; line-height: 18px;&quot;&gt;Init local.&lt;/div&gt;&lt;div style=&quot;background-color: rgb(255, 255, 255); font-family: Menlo, Monaco, &amp;quot;Courier New&amp;quot;, monospace; line-height: 18px;&quot;&gt;初始化dlg&lt;span style=&quot;&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span style=&quot;&quot;&gt;local，包括info、&lt;/span&gt;tag、hash value、CSeq、contact&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="1289" y="610" width="120" height="140" as="geometry" />
+        </mxCell>
+        <mxCell id="Bc1azsTiaTzSrHkS6a_k-20" value="&lt;div style=&quot;background-color: rgb(255, 255, 255); font-family: Menlo, Monaco, &amp;quot;Courier New&amp;quot;, monospace; line-height: 18px;&quot;&gt;Init remote.&lt;/div&gt;&lt;div style=&quot;background-color: rgb(255, 255, 255); font-family: Menlo, Monaco, &amp;quot;Courier New&amp;quot;, monospace; line-height: 18px;&quot;&gt;初始化dlg&lt;span style=&quot;&quot;&gt;-&amp;gt;&lt;/span&gt;&amp;nbsp;remote&lt;span style=&quot;&quot;&gt;，包括info、&lt;/span&gt;tag、hash value、CSeq、contact&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="1289" y="770" width="120" height="140" as="geometry" />
+        </mxCell>
+        <mxCell id="Bc1azsTiaTzSrHkS6a_k-21" value="&lt;div style=&quot;background-color: rgb(255, 255, 255); font-family: Menlo, Monaco, &amp;quot;Courier New&amp;quot;, monospace; line-height: 18px;&quot;&gt;Initial role is UAC.&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="1289" y="930" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="Bc1azsTiaTzSrHkS6a_k-22" value="&lt;div style=&quot;background-color: rgb(255, 255, 255); font-family: Menlo, Monaco, &amp;quot;Courier New&amp;quot;, monospace; line-height: 18px;&quot;&gt;Generate Call-ID header.&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="1289" y="1010" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="Bc1azsTiaTzSrHkS6a_k-23" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;shape=flexArrow;" edge="1" parent="1" source="Bc1azsTiaTzSrHkS6a_k-24" target="Bc1azsTiaTzSrHkS6a_k-25">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Bc1azsTiaTzSrHkS6a_k-24" value="&lt;div style=&quot;background-color: rgb(255, 255, 255); font-family: Menlo, Monaco, &amp;quot;Courier New&amp;quot;, monospace; line-height: 18px;&quot;&gt;Register this dialog to user agent.&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="1289" y="1090" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="Bc1azsTiaTzSrHkS6a_k-25" value="&lt;div style=&quot;background-color: rgb(255, 255, 255); font-family: Menlo, Monaco, &amp;quot;Courier New&amp;quot;, monospace; line-height: 18px;&quot;&gt;pjsip_ua_register_dlg&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="1499" y="1090" width="120" height="60" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

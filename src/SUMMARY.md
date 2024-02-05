@@ -5,6 +5,8 @@
     - [状态机](./State.md)
     - [流程图]()
         - [make call流程图](./make_call.md)
+        - [Create an UAC dialog](./pjsip_dlg_create_uac.md)
+        - [Outgoing call callback when media transport creation is completed](./on_make_call_med_tp_complete.md)
 - [常见数据结构与工具]()
     - [pjsua_call](./pjsua_call.md)
     - [pjsua_acc](./pjsua_acc.md)
