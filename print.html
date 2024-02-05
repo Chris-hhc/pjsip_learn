@@ -89,7 +89,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="SIP.html"><strong aria-hidden="true">1.</strong> sip协议概述</a></li><li class="chapter-item expanded "><a href="PJSIP_log.html"><strong aria-hidden="true">2.</strong> pjsip log</a></li><li class="chapter-item expanded "><div><strong aria-hidden="true">3.</strong> 常见数据结构与工具</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="pjsua_call.html"><strong aria-hidden="true">3.1.</strong> pjsua_call</a></li><li class="chapter-item expanded "><a href="pjsua_acc.html"><strong aria-hidden="true">3.2.</strong> pjsua_acc</a></li><li class="chapter-item expanded "><a href="pjsua_data.html"><strong aria-hidden="true">3.3.</strong> pjsua_data</a></li><li class="chapter-item expanded "><a href="SDP.html"><strong aria-hidden="true">3.4.</strong> SDP</a></li></ol></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded "><a href="SIP.html"><strong aria-hidden="true">1.</strong> sip协议概述</a></li><li class="chapter-item expanded "><div><strong aria-hidden="true">2.</strong> 原理机制</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="State.html"><strong aria-hidden="true">2.1.</strong> 状态机</a></li><li class="chapter-item expanded "><div><strong aria-hidden="true">2.2.</strong> 流程图</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="make_call.html"><strong aria-hidden="true">2.2.1.</strong> make call流程图</a></li><li class="chapter-item expanded "><a href="pjsip_dlg_create_uac.html"><strong aria-hidden="true">2.2.2.</strong> Create an UAC dialog</a></li><li class="chapter-item expanded "><a href="on_make_call_med_tp_complete.html"><strong aria-hidden="true">2.2.3.</strong> Outgoing call callback when media transport creation is completed</a></li></ol></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">3.</strong> 常见数据结构与工具</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="pjsua_call.html"><strong aria-hidden="true">3.1.</strong> pjsua_call</a></li><li class="chapter-item expanded "><a href="pjsua_acc.html"><strong aria-hidden="true">3.2.</strong> pjsua_acc</a></li><li class="chapter-item expanded "><a href="pjsua_data.html"><strong aria-hidden="true">3.3.</strong> pjsua_data</a></li><li class="chapter-item expanded "><a href="SDP.html"><strong aria-hidden="true">3.4.</strong> SDP</a></li><li class="chapter-item expanded "><a href="Dialog.html"><strong aria-hidden="true">3.5.</strong> Dialog</a></li><li class="chapter-item expanded "><a href="Session.html"><strong aria-hidden="true">3.6.</strong> Session</a></li><li class="chapter-item expanded "><a href="transaction.html"><strong aria-hidden="true">3.7.</strong> transaction</a></li><li class="chapter-item expanded "><a href="transport.html"><strong aria-hidden="true">3.8.</strong> transport</a></li><li class="chapter-item expanded "><a href="sendData.html"><strong aria-hidden="true">3.9.</strong> 数据发送数据结构</a></li><li class="chapter-item expanded "><a href="PJSIP_log.html"><strong aria-hidden="true">3.10.</strong> pjsip log</a></li></ol></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle">
                 <div class="sidebar-resize-indicator"></div>
@@ -454,136 +454,29 @@ a=rtpmap:0 PCMU/8000
 <p>​    ACK的CSeq<strong>序号不变</strong>，但方法描述变成ACK。这有助于UAS匹配对应的INVITE事务。</p>
 <p>​    ACK消息可以携带application/sdp消息体。如果初始INVITE没有携带SDP信息，就允许在ACK消息中携带。如果INVITE带了SDP消息体，那么就不应该在ACK消息中携带SDP消息体。不能用ACK方法变更初始INVITE所描述的媒体信息，如果需要变更，必须使用re-INVITE或UPDATE方法。在ACK中携带SDP的方式常用于与其它协议交互的场景，特别是在发初始INVITE时不能获取媒体特征的场景。</p>
 <p>​</p>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="pjsip-log"><a class="header" href="#pjsip-log">PJSIP log</a></h1>
-<p><strong>日志用法</strong></p>
-<p>使用之前需要初始化日志，但这一步是内部函数pj_init自己调用的，应用程序无需显示调用。</p>
-<pre><code class="language-cpp">/**
- * Internal function to be called by pj_init()
- */
-
-pj_status_t pj_log_init(void);
-*   PJ_LOG(3, (&quot;main.c&quot;, &quot;Starting hello...&quot;));
-
-*   PJ_LOG(3, (&quot;main.c&quot;, &quot;Hello world from process %d&quot;, pj_getpid()));
-</code></pre>
-<p>3表示日志级别，级别越高值越小，main.c表示日志发送者，即写日志的模块，类似于tag，后面就是格式化字符串。</p>
-<p><strong>日志API</strong></p>
-<pre><code class="language-cpp">#define PJ_LOG(level,arg)	do { \
-
-				    if (level &lt;= pj_log_get_level()) { \
-
-						pj_log_wrapper_##level(arg); \
-
-				    } \
-				    
-				} while (0)
-</code></pre>
-<p>日志一般使用上面的宏，该宏会判断输入等级是否高于设置的等级（等级越高值越小，所以是&lt;=），是则调用对应的等级函数。</p>
-<p>pj_log_wrapper_1到pj_log_wrapper_6最终都是调用最底层的函数pj_log。</p>
-<pre><code class="language-cpp">/**
- * Write to log.
- *
- * @param sender    Source of the message.
- * @param level	    Verbosity level.
- * @param format    Format.
- * @param marker    Marker.
- */
-
-PJ_DECL(void) pj_log(const char *sender, int level, const char *format, va_list marker);
-</code></pre>
-<p>pj_log根据样式的配置组织字符串，最后调用log_writer写入不同的对象。</p>
-<p><strong>日志配置</strong></p>
-<p>日志的配置非常灵活，有哪些配置呢</p>
-<pre><code class="language-cpp">/**
- * Log decoration flag, to be specified with #pj_log_set_decor().
- */
-
-enum pj_log_decoration
-{
-
-    PJ_LOG_HAS_DAY_NAME   =    1, /**&lt; Include day name [default: no] 	      */
-
-    PJ_LOG_HAS_YEAR       =    2, /**&lt; Include year digit [no]		      */
-
-    PJ_LOG_HAS_MONTH	  =    4, /**&lt; Include month [no]		      */
-
-    PJ_LOG_HAS_DAY_OF_MON =    8, /**&lt; Include day of month [no]	      */
-
-    PJ_LOG_HAS_TIME	  =   16, /**&lt; Include time [yes]		      */
-
-    PJ_LOG_HAS_MICRO_SEC  =   32, /**&lt; Include microseconds [yes]             */
-
-    PJ_LOG_HAS_SENDER	  =   64, /**&lt; Include sender in the log [yes] 	      */
-
-    PJ_LOG_HAS_NEWLINE	  =  128, /**&lt; Terminate each call with newline [yes] */
-
-    PJ_LOG_HAS_CR	  =  256, /**&lt; Include carriage return [no] 	      */
-
-    PJ_LOG_HAS_SPACE	  =  512, /**&lt; Include two spaces before log [yes]    */
-
-    PJ_LOG_HAS_COLOR	  = 1024, /**&lt; Colorize logs [yes on win32]	      */
-
-    PJ_LOG_HAS_LEVEL_TEXT = 2048, /**&lt; Include level text string [no]	      */
-
-    PJ_LOG_HAS_THREAD_ID  = 4096, /**&lt; Include thread identification [no]     */
-
-    PJ_LOG_HAS_THREAD_SWC = 8192, /**&lt; Add mark when thread has switched [yes]*/
-
-    PJ_LOG_HAS_INDENT     =16384  /**&lt; Indentation. Say yes! [yes]            */
-
-};
-</code></pre>
-<p>从上面看，比较重要的有时间格式，发送者tag，和线程名字，可以通过pj_log_set_decor接口设置，比如。</p>
-<pre><code class="language-cpp">int param_log_decor = PJ_LOG_HAS_NEWLINE | PJ_LOG_HAS_TIME | PJ_LOG_HAS_MICRO_SEC;
-
-pj_log_set_decor(param_log_decor);
-</code></pre>
-<p>设置日志等级</p>
-<pre><code class="language-cpp">PJ_DECL(void) pj_log_set_level(int level);
-</code></pre>
-<p>设置颜色</p>
-<pre><code class="language-cpp">PJ_DECL(void) pj_log_set_color(int level, pj_color_t color);
-</code></pre>
-<p>设置缩进排版</p>
-<pre><code class="language-cpp">/**
- * Add indentation to log message. Indentation will add PJ_LOG_INDENT_CHAR
- * before the message, and is useful to show the depth of function calls.
- *
- * @param indent    The indentation to add or substract. Positive value
- * 		    adds current indent, negative value subtracts current
- * 		    indent.
- */
-
-PJ_DECL(void) pj_log_add_indent(int indent);
-
-/**
- * Push indentation to the right by default value (PJ_LOG_INDENT).
- */
-
-PJ_DECL(void) pj_log_push_indent(void);
-
-/**
- * Pop indentation (to the left) by default value (PJ_LOG_INDENT).
- */
-
-PJ_DECL(void) pj_log_pop_indent(void);
-</code></pre>
-<p><strong>输出对象</strong></p>
-<p>pj_log最终调用log_writer写到输出对象，log_writer是一个函数回调指针</p>
-<pre><code class="language-cpp">/**
- * Signature for function to be registered to the logging subsystem to
- * write the actual log message to some output device.
- *
- * @param level	    Log level.
- * @param data	    Log message, which will be NULL terminated.
- * @param len	    Message length.
- */
-
-typedef void pj_log_func(int level, const char *data, int len);
-
-static pj_log_func *log_writer = &amp;pj_log_write;
-</code></pre>
-<p>pj_log_write则在编译时指定编译为printk、printf等。对应log_write_printk.c、log_write_stdout.c，可以看出，如果我们想把日志保存的文件，自己实现一个pj_log_write函数，在函数里写到文件即可。</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="state"><a class="header" href="#state">State</a></h1>
+<p>转载：<a href="https://blog.csdn.net/croop520/article/details/78666799">sip信令超时时间调整_pjsip的最长呼叫等待时间-CSDN博客</a></p>
+<p><strong>UAC （呼叫方）状态机转换如下：</strong></p>
+<p><img src="https://img-blog.csdn.net/20171129164001702?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvY3Jvb3A1MjA=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt="img" /></p>
+<p>刚开始呼叫时，sip_transaction的状态机处于tsx_on_state_null状态，拨打电话发出INVITE信令后，状态机转为Calling状态，处理函数：tsx_on_state_calling，应用可以收到Calling的状态通知。</p>
+<p>之后会收到被叫方发来的100 try信令，状态机转为Processing状态，处理函数：tsx_on_state_proceeding_uac</p>
+<p>在收到180 ringing的信令后，还是在tsx_on_state_proceeding_uac中处理，应用会收到Early的状态通知。</p>
+<p>如果被叫方接听了该呼叫，会收到被叫方的200 OK信令，状态机会转为Terminated状态，处理函数：tsx_on_state_terminated，应用会收到Connecting的状态通知，之后会通过timeout方式，把状态转为Destroyed。Call的状态也转为Confirmed。</p>
+<p><strong>Bye信令状态转换：</strong></p>
+<p><img src="https://img-blog.csdn.net/20171129165213239?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvY3Jvb3A1MjA=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt="img" /></p>
+<p>发出Bye信令时，状态机转为Calling状态（tsx_on_state_calling），在收到200OK信令时，转为Completed状态（tsx_on_state_completed_uac），应用会收到Disconnected的状态通知</p>
+<p>，之后通过timeout的方式，状态转为Terminated和Destroyed</p>
+<p><strong>UAS（被叫方）状态机转换如下：</strong></p>
+<p><em><strong>*<img src="https://img-blog.csdn.net/20171129170550757?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvY3Jvb3A1MjA=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt="img" />*</strong></em></p>
+<p>Bye状态转换：</p>
+<p><img src="https://img-blog.csdn.net/20171129170759124?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvY3Jvb3A1MjA=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt="img" /></p>
+<p>被叫方的转换和呼叫方类似。</p>
+<div style="break-before: page; page-break-before: always;"></div><h2 id="make_call"><a class="header" href="#make_call">make_call</a></h2>
+<p><a href="../html/make_call.html">make_call流程图</a></p>
+<div style="break-before: page; page-break-before: always;"></div><h2 id="pjsip_dlg_create_uac"><a class="header" href="#pjsip_dlg_create_uac">pjsip_dlg_create_uac</a></h2>
+<p><a href="../html/pjsip_dlg_create_uac.html">pjsip_dlg_create_uac</a></p>
+<div style="break-before: page; page-break-before: always;"></div><h2 id="on_make_call_med_tp_complete"><a class="header" href="#on_make_call_med_tp_complete">on_make_call_med_tp_complete</a></h2>
+<p><a href="../html/on_make_call_med_tp_complete.html">on_make_call_med_tp_complete</a></p>
 <div style="break-before: page; page-break-before: always;"></div><h2 id="pjsua_call"><a class="header" href="#pjsua_call">pjsua_call</a></h2>
 <pre><code class="language-c">/** 
  * Structure to be attached to invite dialog. 
@@ -1022,6 +915,596 @@ typedef struct pjmedia_sdp_bandw
     pj_uint32_t value;          /**&lt; Bandwidth value.                   */
 } pjmedia_sdp_bandw;
 </code></pre>
+<div style="break-before: page; page-break-before: always;"></div><h2 id="dialog"><a class="header" href="#dialog"><strong>Dialog</strong></a></h2>
+<p><img src="../img/dialog.png" alt="img" /></p>
+<h3 id="dialog-structure"><a class="header" href="#dialog-structure"><strong>Dialog Structure</strong></a></h3>
+<pre><code class="language-c"> // This structure is used to describe dialog's participants, local and remote party.
+struct pjsip_dlg_party
+{
+    pjsip_fromto_hdr *info; // From/To header, inc tag
+    pj_uint32_t tag_hval; // Hashed value of the tag
+    pjsip_contact_hdr *contact; // Contact header.
+    pj_int32_t first_cseq; // First CSeq seen.
+    pj_int32_t cseq; // Next sequence number.
+};
+// This structure describes basic dialog.
+struct pjsip_dialog
+{
+    PJ_DECL_LIST_MEMBER(pjsip_dialog); // List node in dialog set.
+// Static properties:
+   char obj_name[PJ_MAX_OBJ_NAME]; // Log identification
+    pj_pool_t *pool; // Dialog’s memory pool.
+    pj_mutex_t *mutex; // Dialog's mutex.
+    pjsip_user_agent *ua; // User agent instance.
+    void *dlg_set; // The dialog set.
+// Dialog session properties.
+    pjsip_uri *target; // Current target.
+    pjsip_dlg_party local; // Local party info.
+    pjsip_dlg_party remote; // Remote party info.
+    pjsip_role_e role; // Initial role.
+    pj_bool_t secure; // Use secure transport?
+    pjsip_cid_hdr *call_id; // Call-ID header.
+    pjsip_route_hdr route_set; // Route set list.
+    pjsip_auth_clt_sess auth_sess; // Client authentication session.
+// Session Management
+    int sess_count; // Session counter.
+    int tsx_count; // Active transaction counter.
+// Dialog usages
+    unsigned usage_cnt; // Number of registered usages.
+    pjsip_module *usage[PJSIP_MAX_MODULE]; // Usages, priority sorted
+// Module specific data.
+    void *mod_data[PJSIP_M AX_MODULE];
+}
+</code></pre>
+<div style="break-before: page; page-break-before: always;"></div><h2 id="session"><a class="header" href="#session">Session</a></h2>
+<h3 id="invite-session"><a class="header" href="#invite-session">invite session</a></h3>
+<pre><code class="language-c">/**
+ * This structure describes the invite session.
+ *
+ * Note regarding the invite session's pools. The inv_sess used to have
+ * only one pool, which is just a pointer to the dialog's pool. Ticket
+ * https://github.com/pjsip/pjproject/issues/877 has found that the memory
+ * usage will grow considerably everytime re-INVITE or UPDATE is
+ * performed.
+ *
+ * Ticket #877 then created two more memory pools for the inv_sess, so
+ * now we have three memory pools:
+ *  - pool: to be used to allocate long term data for the session
+ *  - pool_prov and pool_active: this is a flip-flop pools to be used
+ *     interchangably during re-INVITE and UPDATE. pool_prov is
+ *     &quot;provisional&quot; pool, used to allocate SDP offer or answer for
+ *     the re-INVITE and UPDATE. Once SDP negotiation is done, the
+ *     provisional pool will be made as the active pool, then the
+ *     existing active pool will be reset, to release the memory
+ *     back to the OS. So these pool's lifetime is synchronized to
+ *     the SDP offer-answer negotiation.
+ *
+ * Higher level application such as PJSUA-LIB has been modified to
+ * make use of these flip-flop pools, i.e. by creating media objects
+ * from the provisional pool rather than from the long term pool.
+ *
+ * Other applications that want to use these pools must understand
+ * that the flip-flop pool's lifetimes are synchronized to the
+ * SDP offer-answer negotiation.
+ *
+ * The lifetime of this session is controlled by the reference counter in this
+ * structure, which is manipulated by calling #pjsip_inv_add_ref and
+ * #pjsip_inv_dec_ref. When the reference counter has reached zero, then
+ * this session will be destroyed.
+ */
+struct pjsip_inv_session
+{
+    char                 obj_name[PJ_MAX_OBJ_NAME]; /**&lt; Log identification */
+    pj_pool_t           *pool;                      /**&lt; Long term pool.    */
+    pj_pool_t           *pool_prov;                 /**&lt; Provisional pool   */
+    pj_pool_t           *pool_active;               /**&lt; Active/current pool*/
+    pjsip_inv_state      state;                     /**&lt; Invite sess state. */
+    pj_bool_t            cancelling;                /**&lt; CANCEL requested   */
+    pj_bool_t            pending_cancel;            /**&lt; Wait to send CANCEL*/
+    pjsip_tx_data       *pending_bye;               /**&lt; BYE to send later  */
+    pjsip_status_code    cause;                     /**&lt; Disconnect cause.  */
+    pj_str_t             cause_text;                /**&lt; Cause text.        */
+    pj_bool_t            notify;                    /**&lt; Internal.          */
+    pj_bool_t            sdp_done_early_rel;        /**&lt; Nego done in early
+                                                         med was reliable?  */
+    unsigned             cb_called;                 /**&lt; Cb has been called */
+    pjsip_dialog        *dlg;                       /**&lt; Underlying dialog. */
+    pjsip_role_e         role;                      /**&lt; Invite role.       */
+    unsigned             options;                   /**&lt; Options in use.    */
+    pjmedia_sdp_neg     *neg;                       /**&lt; Negotiator.        */
+    unsigned             sdp_neg_flags;             /**&lt; SDP neg flags.     */
+    pjsip_transaction   *invite_tsx;                /**&lt; 1st invite tsx.    */
+    pjsip_tx_data       *invite_req;                /**&lt; Saved invite req   */
+    pjsip_tx_data       *last_answer;               /**&lt; Last INVITE resp.  */
+    pjsip_tx_data       *last_ack;                  /**&lt; Last ACK request   */
+    pj_int32_t           last_ack_cseq;             /**&lt; CSeq of last ACK   */
+    void                *mod_data[PJSIP_MAX_MODULE];/**&lt; Modules data.      */
+    struct pjsip_timer  *timer;                     /**&lt; Session Timers.    */
+    pj_bool_t            following_fork;            /**&lt; Internal, following
+                                                         forked media?      */
+    pj_atomic_t         *ref_cnt;                   /**&lt; Reference counter. */
+    pj_bool_t            updated_sdp_answer;        /**&lt; SDP answer just been
+                                                         updated?           */
+};
+</code></pre>
+<div style="break-before: page; page-break-before: always;"></div><h2 id="transaction"><a class="header" href="#transaction">transaction</a></h2>
+<h3 id="invite-session-data-to-be-attached-to-transaction"><a class="header" href="#invite-session-data-to-be-attached-to-transaction">Invite session data to be attached to transaction.</a></h3>
+<pre><code class="language-c">/* Invite session data to be attached to transaction. */
+struct tsx_inv_data
+{
+    pjsip_inv_session   *inv;       /* The invite session                   */
+    pj_bool_t            sdp_done;  /* SDP negotiation done for this tsx?   */
+    pj_bool_t            retrying;  /* Resend (e.g. due to 401/407)         */
+    pj_str_t             done_tag;  /* To tag in RX response with answer    */
+    pj_bool_t            done_early;/* Negotiation was done for early med?  */
+    pj_bool_t            done_early_rel;/* Early med was realiable?         */
+    pj_bool_t            has_sdp;   /* Message with SDP?                    */
+};
+
+</code></pre>
+<h3 id="pjsip_transaction"><a class="header" href="#pjsip_transaction">pjsip_transaction</a></h3>
+<pre><code class="language-c">/**
+ * This structure describes SIP transaction object. The transaction object
+ * is used to handle both UAS and UAC transaction.
+ */
+struct pjsip_transaction
+{
+    /*
+     * Administrivia
+     */
+    pj_pool_t                  *pool;           /**&lt; Pool owned by the tsx. */
+    pjsip_module               *tsx_user;       /**&lt; Transaction user.      */
+    pjsip_endpoint             *endpt;          /**&lt; Endpoint instance.     */
+    pj_bool_t                   terminating;    /**&lt; terminate() was called */
+    pj_grp_lock_t              *grp_lock;       /**&lt; Transaction grp lock.  */
+    pj_mutex_t                 *mutex_b;        /**&lt; Second mutex to avoid
+                                                     deadlock. It is used to
+                                                     protect timer.         */
+
+    /*
+     * Transaction identification.
+     */
+    char                        obj_name[PJ_MAX_OBJ_NAME];  /**&lt; Log info.  */
+    pjsip_role_e                role;           /**&lt; Role (UAS or UAC)      */
+    pjsip_method                method;         /**&lt; The method.            */
+    pj_int32_t                  cseq;           /**&lt; The CSeq               */
+    pj_str_t                    transaction_key;/**&lt; Hash table key.        */
+    pj_str_t                    transaction_key2;/**&lt; Hash table key (2)   
+                                                     for merged requests
+                                                     tsx lookup.            */
+    pj_uint32_t                 hashed_key;     /**&lt; Key's hashed value.    */
+    pj_uint32_t                 hashed_key2;    /**&lt; Key's hashed value (2).*/
+    pj_str_t                    branch;         /**&lt; The branch Id.         */
+
+    /*
+     * State and status.
+     */
+    int                         status_code;    /**&lt; Last status code seen. */
+    pj_str_t                    status_text;    /**&lt; Last reason phrase.    */
+    pjsip_tsx_state_e           state;          /**&lt; State.                 */
+    int                         handle_200resp; /**&lt; UAS 200/INVITE  retrsm.*/
+    int                         tracing;        /**&lt; Tracing enabled?       */
+
+    /** Handler according to current state. */
+    pj_status_t (*state_handler)(struct pjsip_transaction *, pjsip_event *);
+
+    /*
+     * Transport.
+     */
+    pjsip_transport            *transport;      /**&lt; Transport to use.      */
+    pj_bool_t                   is_reliable;    /**&lt; Transport is reliable. */
+    pj_sockaddr                 addr;           /**&lt; Destination address.   */
+    int                         addr_len;       /**&lt; Address length.        */
+    pjsip_response_addr         res_addr;       /**&lt; Response address.      */
+    unsigned                    transport_flag; /**&lt; Miscelaneous flag.     */
+    pj_status_t                 transport_err;  /**&lt; Internal error code.   */
+    pjsip_tpselector            tp_sel;         /**&lt; Transport selector.    */
+    pjsip_tx_data              *pending_tx;     /**&lt; Tdata which caused
+                                                     pending transport flag
+                                                     to be set on tsx.      */
+    pjsip_tp_state_listener_key *tp_st_key;     /**&lt; Transport state listener
+                                                     key.                   */
+
+    /*
+     * Messages and timer.
+     */
+    pjsip_tx_data              *last_tx;        /**&lt; Msg kept for retrans.  */
+    int                         retransmit_count;/**&lt; Retransmission count. */
+    pj_timer_entry              retransmit_timer;/**&lt; Retransmit timer.     */
+    pj_timer_entry              timeout_timer;  /**&lt; Timeout timer.         */
+
+    /** Module specific data. */
+    void                       *mod_data[PJSIP_MAX_MODULE];
+};
+</code></pre>
+<pre><code class="language-mermaid">graph TD;
+    A--&gt;B;
+    A--&gt;C;
+    B--&gt;D;
+    C--&gt;D;
+</code></pre>
+<div style="break-before: page; page-break-before: always;"></div><h2 id="transport"><a class="header" href="#transport">transport</a></h2>
+<pre><code class="language-c">/**
+ * This structure represent the &quot;public&quot; interface of a SIP transport.
+ * Applications normally extend this structure to include transport
+ * specific members.
+ */
+struct pjsip_transport
+{
+    char                    obj_name[PJ_MAX_OBJ_NAME];  /**&lt; Name. */
+
+    pj_pool_t              *pool;           /**&lt; Pool used by transport.    */
+    pj_atomic_t            *ref_cnt;        /**&lt; Reference counter.         */
+    pj_lock_t              *lock;           /**&lt; Lock object.               */
+    pj_grp_lock_t          *grp_lock;       /**&lt; Group lock for sync with
+                                                 ioqueue and timer.         */
+    pj_bool_t               tracing;        /**&lt; Tracing enabled?           */
+    pj_bool_t               is_shutdown;    /**&lt; Being shutdown?            */
+    pj_bool_t               is_destroying;  /**&lt; Destroy in progress?       */
+
+    /** Key for indexing this transport in hash table. */
+    pjsip_transport_key     key;
+
+    char                   *type_name;      /**&lt; Type name.                 */
+    unsigned                flag;           /**&lt; #pjsip_transport_flags_e   */
+    char                   *info;           /**&lt; Transport info/description.*/
+
+    int                     addr_len;       /**&lt; Length of addresses.       */
+    pj_sockaddr             local_addr;     /**&lt; Bound address.             */
+    pjsip_host_port         local_name;     /**&lt; Published name (eg. STUN). */
+    pjsip_host_port         remote_name;    /**&lt; Remote address name.       */
+    pjsip_transport_dir     dir;            /**&lt; Connection direction.      */
+    
+    pjsip_endpoint         *endpt;          /**&lt; Endpoint instance.         */
+    pjsip_tpmgr            *tpmgr;          /**&lt; Transport manager.         */
+    pjsip_tpfactory        *factory;        /**&lt; Factory instance. Note: it
+                                                 may be invalid/shutdown.   */
+    pj_timer_entry          idle_timer;     /**&lt; Timer when ref cnt is zero.*/
+
+    pj_timestamp            last_recv_ts;   /**&lt; Last time receiving data.  */
+    pj_size_t               last_recv_len;  /**&lt; Last received data length. */
+
+    void                   *data;           /**&lt; Internal transport data.   */
+    unsigned                initial_timeout;/**&lt; Initial timeout interval
+                                                 to be applied to incoming
+                                                 TCP/TLS transports when no
+                                                 valid data received after
+                                                 a successful connection.   */
+
+    /**
+     * Function to be called by transport manager to send SIP message.
+     *
+     * @param transport     The transport to send the message.
+     * @param packet        The buffer to send.
+     * @param length        The length of the buffer to send.
+     * @param op_key        Completion token, which will be supplied to
+     *                      caller when pending send operation completes.
+     * @param rem_addr      The remote destination address.
+     * @param addr_len      Size of remote address.
+     * @param callback      If supplied, the callback will be called
+     *                      once a pending transmission has completed. If
+     *                      the function completes immediately (i.e. return
+     *                      code is not PJ_EPENDING), the callback will not
+     *                      be called.
+     *
+     * @return              Should return PJ_SUCCESS only if data has been
+     *                      succesfully queued to operating system for 
+     *                      transmission. Otherwise it may return PJ_EPENDING
+     *                      if the underlying transport can not send the
+     *                      data immediately and will send it later, which in
+     *                      this case caller doesn't have to do anything 
+     *                      except wait the calback to be called, if it 
+     *                      supplies one.
+     *                      Other return values indicate the error code.
+     */
+    pj_status_t (*send_msg)(pjsip_transport *transport, 
+                            pjsip_tx_data *tdata,
+                            const pj_sockaddr_t *rem_addr,
+                            int addr_len,
+                            void *token,
+                            pjsip_transport_callback callback);
+
+    /**
+     * Instruct the transport to initiate graceful shutdown procedure.
+     * After all objects release their reference to this transport,
+     * the transport will be deleted.
+     *
+     * Note that application MUST use #pjsip_transport_shutdown() instead.
+     *
+     * @param transport     The transport.
+     *
+     * @return              PJ_SUCCESS on success.
+     */
+    pj_status_t (*do_shutdown)(pjsip_transport *transport);
+
+    /**
+     * Forcefully destroy this transport regardless whether there are
+     * objects that currently use this transport. This function should only
+     * be called by transport manager or other internal objects (such as the
+     * transport itself) who know what they're doing. Application should use
+     * #pjsip_transport_shutdown() instead.
+     *
+     * @param transport     The transport.
+     *
+     * @return              PJ_SUCCESS on success.
+     */
+    pj_status_t (*destroy)(pjsip_transport *transport);
+
+    /*
+     * Application may extend this structure..
+     */
+};
+</code></pre>
+<div style="break-before: page; page-break-before: always;"></div><h2 id="data-structure-for-sending-outgoing-message"><a class="header" href="#data-structure-for-sending-outgoing-message">Data structure for sending outgoing message</a></h2>
+<pre><code class="language-c">/**
+ * Data structure for sending outgoing message. Application normally creates
+ * this buffer by calling #pjsip_endpt_create_tdata.
+ *
+ * The lifetime of this buffer is controlled by the reference counter in this
+ * structure, which is manipulated by calling #pjsip_tx_data_add_ref and
+ * #pjsip_tx_data_dec_ref. When the reference counter has reached zero, then
+ * this buffer will be destroyed.
+ *
+ * A transaction object normally will add reference counter to this buffer
+ * when application calls #pjsip_tsx_send_msg, because it needs to keep the
+ * message for retransmission. The transaction will release the reference
+ * counter once its state has reached final state.
+ */
+struct pjsip_tx_data
+{
+    /** This is for transmission queue; it's managed by transports. */
+    PJ_DECL_LIST_MEMBER(struct pjsip_tx_data);
+
+    /** Memory pool for this buffer. */
+    pj_pool_t           *pool;
+
+    /** A name to identify this buffer. */
+    char                 obj_name[PJ_MAX_OBJ_NAME];
+
+    /** Short information describing this buffer and the message in it. 
+     *  Application should use #pjsip_tx_data_get_info() instead of
+     *  directly accessing this member.
+     */
+    char                *info;
+
+    /** For response message, this contains the reference to timestamp when 
+     *  the original request message was received. The value of this field
+     *  is set when application creates response message to a request by
+     *  calling #pjsip_endpt_create_response.
+     */
+    pj_time_val          rx_timestamp;
+
+    /** The transport manager for this buffer. */
+    pjsip_tpmgr         *mgr;
+
+    /** Ioqueue asynchronous operation key. */
+    pjsip_tx_data_op_key op_key;
+
+    /** Lock object. */
+    pj_lock_t           *lock;
+
+    /** The message in this buffer. */
+    pjsip_msg           *msg;
+
+    /** Strict route header saved by #pjsip_process_route_set(), to be
+     *  restored by #pjsip_restore_strict_route_set().
+     */
+    pjsip_route_hdr     *saved_strict_route;
+
+    /** Buffer to the printed text representation of the message. When the
+     *  content of this buffer is set, then the transport will send the content
+     *  of this buffer instead of re-printing the message structure. If the
+     *  message structure has changed, then application must invalidate this
+     *  buffer by calling #pjsip_tx_data_invalidate_msg.
+     */
+    pjsip_buffer         buf;
+
+    /** Reference counter. */
+    pj_atomic_t         *ref_cnt;
+
+    /** Being processed by transport? */
+    int                  is_pending;
+
+    /** Transport manager internal. */
+    void                *token;
+
+    /** Callback to be called when this tx_data has been transmitted.   */
+    void               (*cb)(void*, pjsip_tx_data*, pj_ssize_t);
+
+    /** Destination information, to be used to determine the network address
+     *  of the message. For a request, this information is  initialized when
+     *  the request is sent with #pjsip_endpt_send_request_stateless() and
+     *  network address is resolved. For CANCEL request, this information
+     *  will be copied from the original INVITE to make sure that the CANCEL
+     *  request goes to the same physical network address as the INVITE
+     *  request.
+     */
+    struct
+    {
+        /** Server name. 
+         */
+        pj_str_t                 name;
+
+        /** Server addresses resolved. 
+         */
+        pjsip_server_addresses   addr;
+
+        /** Current server address being tried. 
+         */
+        unsigned cur_addr;
+
+    } dest_info;
+
+    /** Transport information, only valid during on_tx_request() and 
+     *  on_tx_response() callback.
+     */
+    struct
+    {
+        pjsip_transport     *transport;     /**&lt; Transport being used.  */
+        pj_sockaddr          dst_addr;      /**&lt; Destination address.   */
+        int                  dst_addr_len;  /**&lt; Length of address.     */
+        char                 dst_name[PJ_INET6_ADDRSTRLEN]; /**&lt; Destination address.   */
+        int                  dst_port;      /**&lt; Destination port.      */
+    } tp_info;
+
+    /** 
+     * Transport selector, to specify which transport to be used. 
+     * The value here must be set with pjsip_tx_data_set_transport(),
+     * to allow reference counter to be set properly.
+     */
+    pjsip_tpselector        tp_sel;
+
+    /**
+     * Special flag to indicate that this transmit data is a request that has
+     * been updated with proper authentication response and is ready to be
+     * sent for retry.
+     */
+    pj_bool_t               auth_retry;
+
+    /**
+     * Arbitrary data attached by PJSIP modules.
+     */
+    void                    *mod_data[PJSIP_MAX_MODULE];
+
+    /**
+     * If via_addr is set, it will be used as the &quot;sent-by&quot; field of the
+     * Via header for outgoing requests as long as the request uses via_tp
+     * transport. Normally application should not use or access these fields.
+     */
+    pjsip_host_port          via_addr;      /**&lt; Via address.           */
+    const void              *via_tp;        /**&lt; Via transport.         */
+};
+</code></pre>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="pjsip-log"><a class="header" href="#pjsip-log">PJSIP log</a></h1>
+<p><strong>日志用法</strong></p>
+<p>使用之前需要初始化日志，但这一步是内部函数pj_init自己调用的，应用程序无需显示调用。</p>
+<pre><code class="language-cpp">/**
+ * Internal function to be called by pj_init()
+ */
+
+pj_status_t pj_log_init(void);
+*   PJ_LOG(3, (&quot;main.c&quot;, &quot;Starting hello...&quot;));
+
+*   PJ_LOG(3, (&quot;main.c&quot;, &quot;Hello world from process %d&quot;, pj_getpid()));
+</code></pre>
+<p>3表示日志级别，级别越高值越小，main.c表示日志发送者，即写日志的模块，类似于tag，后面就是格式化字符串。</p>
+<p><strong>日志API</strong></p>
+<pre><code class="language-cpp">#define PJ_LOG(level,arg)	do { \
+
+				    if (level &lt;= pj_log_get_level()) { \
+
+						pj_log_wrapper_##level(arg); \
+
+				    } \
+				    
+				} while (0)
+</code></pre>
+<p>日志一般使用上面的宏，该宏会判断输入等级是否高于设置的等级（等级越高值越小，所以是&lt;=），是则调用对应的等级函数。</p>
+<p>pj_log_wrapper_1到pj_log_wrapper_6最终都是调用最底层的函数pj_log。</p>
+<pre><code class="language-cpp">/**
+ * Write to log.
+ *
+ * @param sender    Source of the message.
+ * @param level	    Verbosity level.
+ * @param format    Format.
+ * @param marker    Marker.
+ */
+
+PJ_DECL(void) pj_log(const char *sender, int level, const char *format, va_list marker);
+</code></pre>
+<p>pj_log根据样式的配置组织字符串，最后调用log_writer写入不同的对象。</p>
+<p><strong>日志配置</strong></p>
+<p>日志的配置非常灵活，有哪些配置呢</p>
+<pre><code class="language-cpp">/**
+ * Log decoration flag, to be specified with #pj_log_set_decor().
+ */
+
+enum pj_log_decoration
+{
+
+    PJ_LOG_HAS_DAY_NAME   =    1, /**&lt; Include day name [default: no] 	      */
+
+    PJ_LOG_HAS_YEAR       =    2, /**&lt; Include year digit [no]		      */
+
+    PJ_LOG_HAS_MONTH	  =    4, /**&lt; Include month [no]		      */
+
+    PJ_LOG_HAS_DAY_OF_MON =    8, /**&lt; Include day of month [no]	      */
+
+    PJ_LOG_HAS_TIME	  =   16, /**&lt; Include time [yes]		      */
+
+    PJ_LOG_HAS_MICRO_SEC  =   32, /**&lt; Include microseconds [yes]             */
+
+    PJ_LOG_HAS_SENDER	  =   64, /**&lt; Include sender in the log [yes] 	      */
+
+    PJ_LOG_HAS_NEWLINE	  =  128, /**&lt; Terminate each call with newline [yes] */
+
+    PJ_LOG_HAS_CR	  =  256, /**&lt; Include carriage return [no] 	      */
+
+    PJ_LOG_HAS_SPACE	  =  512, /**&lt; Include two spaces before log [yes]    */
+
+    PJ_LOG_HAS_COLOR	  = 1024, /**&lt; Colorize logs [yes on win32]	      */
+
+    PJ_LOG_HAS_LEVEL_TEXT = 2048, /**&lt; Include level text string [no]	      */
+
+    PJ_LOG_HAS_THREAD_ID  = 4096, /**&lt; Include thread identification [no]     */
+
+    PJ_LOG_HAS_THREAD_SWC = 8192, /**&lt; Add mark when thread has switched [yes]*/
+
+    PJ_LOG_HAS_INDENT     =16384  /**&lt; Indentation. Say yes! [yes]            */
+
+};
+</code></pre>
+<p>从上面看，比较重要的有时间格式，发送者tag，和线程名字，可以通过pj_log_set_decor接口设置，比如。</p>
+<pre><code class="language-cpp">int param_log_decor = PJ_LOG_HAS_NEWLINE | PJ_LOG_HAS_TIME | PJ_LOG_HAS_MICRO_SEC;
+
+pj_log_set_decor(param_log_decor);
+</code></pre>
+<p>设置日志等级</p>
+<pre><code class="language-cpp">PJ_DECL(void) pj_log_set_level(int level);
+</code></pre>
+<p>设置颜色</p>
+<pre><code class="language-cpp">PJ_DECL(void) pj_log_set_color(int level, pj_color_t color);
+</code></pre>
+<p>设置缩进排版</p>
+<pre><code class="language-cpp">/**
+ * Add indentation to log message. Indentation will add PJ_LOG_INDENT_CHAR
+ * before the message, and is useful to show the depth of function calls.
+ *
+ * @param indent    The indentation to add or substract. Positive value
+ * 		    adds current indent, negative value subtracts current
+ * 		    indent.
+ */
+
+PJ_DECL(void) pj_log_add_indent(int indent);
+
+/**
+ * Push indentation to the right by default value (PJ_LOG_INDENT).
+ */
+
+PJ_DECL(void) pj_log_push_indent(void);
+
+/**
+ * Pop indentation (to the left) by default value (PJ_LOG_INDENT).
+ */
+
+PJ_DECL(void) pj_log_pop_indent(void);
+</code></pre>
+<p><strong>输出对象</strong></p>
+<p>pj_log最终调用log_writer写到输出对象，log_writer是一个函数回调指针</p>
+<pre><code class="language-cpp">/**
+ * Signature for function to be registered to the logging subsystem to
+ * write the actual log message to some output device.
+ *
+ * @param level	    Log level.
+ * @param data	    Log message, which will be NULL terminated.
+ * @param len	    Message length.
+ */
+
+typedef void pj_log_func(int level, const char *data, int len);
+
+static pj_log_func *log_writer = &amp;pj_log_write;
+</code></pre>
+<p>pj_log_write则在编译时指定编译为printk、printf等。对应log_write_printk.c、log_write_stdout.c，可以看出，如果我们想把日志保存的文件，自己实现一个pj_log_write函数，在函数里写到文件即可。</p>
 
                     </main>
 
