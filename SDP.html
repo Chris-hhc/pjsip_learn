@@ -88,7 +88,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="SIP.html"><strong aria-hidden="true">1.</strong> sip协议概述</a></li><li class="chapter-item expanded "><div><strong aria-hidden="true">2.</strong> 原理机制</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="State.html"><strong aria-hidden="true">2.1.</strong> 状态机</a></li><li class="chapter-item expanded "><div><strong aria-hidden="true">2.2.</strong> 流程图</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="html/make_call.html"><strong aria-hidden="true">2.2.1.</strong> make call流程图</a></li><li class="chapter-item expanded "><a href="html/pjsip_dlg_create_uac.html"><strong aria-hidden="true">2.2.2.</strong> Create an UAC dialog</a></li><li class="chapter-item expanded "><a href="html/on_make_call_med_tp_complete.html"><strong aria-hidden="true">2.2.3.</strong> Outgoing call callback when media transport creation is completed</a></li><li class="chapter-item expanded "><a href="html/tsx_on_state_null.html"><strong aria-hidden="true">2.2.4.</strong> tsx_on_state_null状态处理</a></li></ol></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">3.</strong> 常见数据结构与工具</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="pjsua_call.html"><strong aria-hidden="true">3.1.</strong> pjsua_call</a></li><li class="chapter-item expanded "><a href="pjsua_acc.html"><strong aria-hidden="true">3.2.</strong> pjsua_acc</a></li><li class="chapter-item expanded "><a href="pjsua_data.html"><strong aria-hidden="true">3.3.</strong> pjsua_data</a></li><li class="chapter-item expanded "><a href="SDP.html" class="active"><strong aria-hidden="true">3.4.</strong> SDP</a></li><li class="chapter-item expanded "><a href="Dialog.html"><strong aria-hidden="true">3.5.</strong> Dialog</a></li><li class="chapter-item expanded "><a href="Session.html"><strong aria-hidden="true">3.6.</strong> Session</a></li><li class="chapter-item expanded "><a href="transaction.html"><strong aria-hidden="true">3.7.</strong> transaction</a></li><li class="chapter-item expanded "><a href="transport.html"><strong aria-hidden="true">3.8.</strong> transport</a></li><li class="chapter-item expanded "><a href="sendData.html"><strong aria-hidden="true">3.9.</strong> 数据发送数据结构</a></li><li class="chapter-item expanded "><a href="PJSIP_log.html"><strong aria-hidden="true">3.10.</strong> pjsip log</a></li></ol></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded "><a href="SIP.html"><strong aria-hidden="true">1.</strong> sip协议概述</a></li><li class="chapter-item expanded "><a href="pjsip_doc.html"><strong aria-hidden="true">2.</strong> pjsip文档翻译</a></li><li class="chapter-item expanded "><div><strong aria-hidden="true">3.</strong> 原理机制</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="State.html"><strong aria-hidden="true">3.1.</strong> 状态机</a></li><li class="chapter-item expanded "><div><strong aria-hidden="true">3.2.</strong> 流程图</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="html/make_call.html"><strong aria-hidden="true">3.2.1.</strong> make call流程图</a></li><li class="chapter-item expanded "><a href="html/pjsip_dlg_create_uac.html"><strong aria-hidden="true">3.2.2.</strong> Create an UAC dialog</a></li><li class="chapter-item expanded "><a href="html/on_make_call_med_tp_complete.html"><strong aria-hidden="true">3.2.3.</strong> Outgoing call callback when media transport creation is completed</a></li><li class="chapter-item expanded "><a href="html/tsx_on_state_null.html"><strong aria-hidden="true">3.2.4.</strong> tsx_on_state_null状态处理</a></li></ol></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">4.</strong> 常见数据结构与工具</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="pjsua_call.html"><strong aria-hidden="true">4.1.</strong> pjsua_call</a></li><li class="chapter-item expanded "><a href="pjsua_acc.html"><strong aria-hidden="true">4.2.</strong> pjsua_acc</a></li><li class="chapter-item expanded "><a href="pjsua_data.html"><strong aria-hidden="true">4.3.</strong> pjsua_data</a></li><li class="chapter-item expanded "><a href="SDP.html" class="active"><strong aria-hidden="true">4.4.</strong> SDP</a></li><li class="chapter-item expanded "><a href="Dialog.html"><strong aria-hidden="true">4.5.</strong> Dialog</a></li><li class="chapter-item expanded "><a href="Session.html"><strong aria-hidden="true">4.6.</strong> Session</a></li><li class="chapter-item expanded "><a href="transaction.html"><strong aria-hidden="true">4.7.</strong> transaction</a></li><li class="chapter-item expanded "><a href="transport.html"><strong aria-hidden="true">4.8.</strong> transport</a></li><li class="chapter-item expanded "><a href="sendData.html"><strong aria-hidden="true">4.9.</strong> 数据发送数据结构</a></li><li class="chapter-item expanded "><a href="PJSIP_log.html"><strong aria-hidden="true">4.10.</strong> pjsip log</a></li></ol></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle">
                 <div class="sidebar-resize-indicator"></div>
@@ -188,8 +188,8 @@ struct pjmedia_sdp_session
         pj_str_t    user;           /**&lt; User                           */
         pj_uint_t   id;             /**&lt; Session ID                     */
         pj_uint_t   version;        /**&lt; Session version                */
-        pj_str_t    net_type;       /**&lt; Network type (&quot;IN&quot;)            */
-        pj_str_t    addr_type;      /**&lt; Address type (&quot;IP4&quot;, &quot;IP6&quot;)    */
+        pj_str_t    net_type;       /**&lt; Network type ("IN")            */
+        pj_str_t    addr_type;      /**&lt; Address type ("IP4", "IP6")    */
         pj_str_t    addr;           /**&lt; The address.                   */
     } origin;
 
@@ -229,18 +229,18 @@ struct pjmedia_sdp_attr
 <h3 id="pjmedia_sdp_media"><a class="header" href="#pjmedia_sdp_media">pjmedia_sdp_media</a></h3>
 <pre><code class="language-c">/**
  * This structure describes SDP media descriptor. A SDP media descriptor
- * starts with &quot;m=&quot; line and contains the media attributes and optional
+ * starts with "m=" line and contains the media attributes and optional
  * connection line.
  */
 struct pjmedia_sdp_media
 {
-    /** Media descriptor line (&quot;m=&quot; line) */
+    /** Media descriptor line ("m=" line) */
     struct
     {
-        pj_str_t    media;              /**&lt; Media type (&quot;audio&quot;, &quot;video&quot;)  */
+        pj_str_t    media;              /**&lt; Media type ("audio", "video")  */
         pj_uint16_t port;               /**&lt; Port number.                   */
         unsigned    port_count;         /**&lt; Port count, used only when &gt;2  */
-        pj_str_t    transport;          /**&lt; Transport (&quot;RTP/AVP&quot;)          */
+        pj_str_t    transport;          /**&lt; Transport ("RTP/AVP")          */
         unsigned    fmt_count;          /**&lt; Number of formats.             */
         pj_str_t    fmt[PJMEDIA_MAX_SDP_FMT];       /**&lt; Media formats.     */
     } desc;
@@ -255,12 +255,12 @@ struct pjmedia_sdp_media
 </code></pre>
 <h3 id="pjmedia_sdp_conn"><a class="header" href="#pjmedia_sdp_conn">pjmedia_sdp_conn</a></h3>
 <pre><code class="language-c">/**
- * This structure describes SDP connection info (&quot;c=&quot; line). 
+ * This structure describes SDP connection info ("c=" line). 
  */
 struct pjmedia_sdp_conn
 {
-    pj_str_t    net_type;       /**&lt; Network type (&quot;IN&quot;).               */
-    pj_str_t    addr_type;      /**&lt; Address type (&quot;IP4&quot;, &quot;IP6&quot;).       */
+    pj_str_t    net_type;       /**&lt; Network type ("IN").               */
+    pj_str_t    addr_type;      /**&lt; Address type ("IP4", "IP6").       */
     pj_str_t    addr;           /**&lt; The address.                       */
     pj_uint8_t  ttl;            /**&lt; Multicast address TTL              */
     pj_uint8_t  no_addr;        /**&lt; Multicast number of addresses      */
@@ -268,7 +268,7 @@ struct pjmedia_sdp_conn
 </code></pre>
 <h3 id="pjmedia_sdp_bandw"><a class="header" href="#pjmedia_sdp_bandw">pjmedia_sdp_bandw</a></h3>
 <pre><code class="language-c">/**
- * This structure describes SDP bandwidth info (&quot;b=&quot; line). 
+ * This structure describes SDP bandwidth info ("b=" line). 
  */
 typedef struct pjmedia_sdp_bandw
 {
