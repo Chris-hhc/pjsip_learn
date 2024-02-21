@@ -1,0 +1,920 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>media_endpoint - PJSIP_STUDY</title>
+
+
+        <!-- Custom HTML head -->
+        
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="favicon.svg">
+        <link rel="shortcut icon" href="favicon.png">
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        <link rel="stylesheet" href="css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+        <link rel="stylesheet" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+    </head>
+    <body class="sidebar-visible no-js">
+    <div id="body-container">
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('light')
+            html.classList.add(theme);
+            var body = document.querySelector('body');
+            body.classList.remove('no-js')
+            body.classList.add('js');
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var body = document.querySelector('body');
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            body.classList.remove('sidebar-visible');
+            body.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded "><a href="SIP.html"><strong aria-hidden="true">1.</strong> sip协议概述</a></li><li class="chapter-item expanded "><a href="pjsip_doc.html"><strong aria-hidden="true">2.</strong> pjsip文档翻译</a></li><li class="chapter-item expanded "><div><strong aria-hidden="true">3.</strong> make call流程</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="State.html"><strong aria-hidden="true">3.1.</strong> 状态机</a></li><li class="chapter-item expanded "><div><strong aria-hidden="true">3.2.</strong> 流程图</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="html/make_call.html"><strong aria-hidden="true">3.2.1.</strong> make call流程图</a></li><li class="chapter-item expanded "><a href="html/pjsip_dlg_create_uac.html"><strong aria-hidden="true">3.2.2.</strong> Create an UAC dialog</a></li><li class="chapter-item expanded "><a href="html/on_make_call_med_tp_complete.html"><strong aria-hidden="true">3.2.3.</strong> Outgoing call callback when media transport creation is completed</a></li><li class="chapter-item expanded "><a href="html/tsx_on_state_null.html"><strong aria-hidden="true">3.2.4.</strong> tsx_on_state_null状态处理</a></li></ol></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">4.</strong> pjmedia学习</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="发送数据全流程.html"><strong aria-hidden="true">4.1.</strong> 发送数据过程</a></li><li class="chapter-item expanded "><a href="数据全流程.html"><strong aria-hidden="true">4.2.</strong> 接收数据过程</a></li><li class="chapter-item expanded "><a href="全流程思考.html"><strong aria-hidden="true">4.3.</strong> 初始化过程</a></li><li class="chapter-item expanded "><div><strong aria-hidden="true">4.4.</strong> 相关数据结构</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="pjmedia.html" class="active"><strong aria-hidden="true">4.4.1.</strong> media_endpoint</a></li><li class="chapter-item expanded "><a href="ioqueue_epoll.html"><strong aria-hidden="true">4.4.2.</strong> ioqueue_epoll</a></li><li class="chapter-item expanded "><a href="epoll学习.html"><strong aria-hidden="true">4.4.3.</strong> epoll</a></li><li class="chapter-item expanded "><a href="pjmedia_transport.html"><strong aria-hidden="true">4.4.4.</strong> pjmedia_transport</a></li><li class="chapter-item expanded "><a href="Port.html"><strong aria-hidden="true">4.4.5.</strong> pjmedia_port</a></li><li class="chapter-item expanded "><a href="Stream.html"><strong aria-hidden="true">4.4.6.</strong> pjmedia_stream</a></li></ol></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">5.</strong> 常见数据结构与工具</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="pjsua_call.html"><strong aria-hidden="true">5.1.</strong> pjsua_call</a></li><li class="chapter-item expanded "><a href="pjsua_acc.html"><strong aria-hidden="true">5.2.</strong> pjsua_acc</a></li><li class="chapter-item expanded "><a href="pjsua_data.html"><strong aria-hidden="true">5.3.</strong> pjsua_data</a></li><li class="chapter-item expanded "><a href="SDP.html"><strong aria-hidden="true">5.4.</strong> SDP</a></li><li class="chapter-item expanded "><a href="Dialog.html"><strong aria-hidden="true">5.5.</strong> Dialog</a></li><li class="chapter-item expanded "><a href="Session.html"><strong aria-hidden="true">5.6.</strong> Session</a></li><li class="chapter-item expanded "><a href="transaction.html"><strong aria-hidden="true">5.7.</strong> transaction</a></li><li class="chapter-item expanded "><a href="transport.html"><strong aria-hidden="true">5.8.</strong> transport</a></li><li class="chapter-item expanded "><a href="sendData.html"><strong aria-hidden="true">5.9.</strong> 数据发送数据结构</a></li><li class="chapter-item expanded "><a href="PJSIP_log.html"><strong aria-hidden="true">5.10.</strong> pjsip log</a></li></ol></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <!-- Track and set sidebar scroll position -->
+        <script>
+            var sidebarScrollbox = document.querySelector('#sidebar .sidebar-scrollbox');
+            sidebarScrollbox.addEventListener('click', function(e) {
+                if (e.target.tagName === 'A') {
+                    sessionStorage.setItem('sidebar-scroll', sidebarScrollbox.scrollTop);
+                }
+            }, { passive: true });
+            var sidebarScrollTop = sessionStorage.getItem('sidebar-scroll');
+            sessionStorage.removeItem('sidebar-scroll');
+            if (sidebarScrollTop) {
+                // preserve sidebar scroll position when navigating via links within sidebar
+                sidebarScrollbox.scrollTop = sidebarScrollTop;
+            } else {
+                // scroll sidebar to current active section when navigating via "next/previous chapter" buttons
+                var activeSection = document.querySelector('#sidebar .active');
+                if (activeSection) {
+                    activeSection.scrollIntoView({ block: 'center' });
+                }
+            }
+        </script>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">PJSIP_STUDY</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h2 id="pjmedia总述"><a class="header" href="#pjmedia总述">pjmedia总述</a></h2>
+<p>转载：<a href="https://blog.csdn.net/hyq458941968/category_11380864.html">pjmedia_HYQ458941968的博客-CSDN博客</a></p>
+<p>从对象关系来看：</p>
+<p><strong>一次session，多个endpoint参与，彼此发送stream，每个stream两个channel分别收发。音频设备port对象采集播放声音，transport最终发送接收信号。</strong></p>
+<p>1、 pjmedia_endpt，代表一个媒体端点，端点可以理解为一个节点，可以是服务器或者客户端，一个设备一般只会有唯一一个端点，而且在初始化的时候创建。</p>
+<p>2、pjmedia_session，代表一次会话，一个会话可以只有两个，也可以有多个参与者会议。</p>
+<p>3、pjmedia_stream，代表一个流，在于一方进行通讯时，一般可以有音频流、视频流。</p>
+<p>4、pjmedia_channel，只有一个方向的媒体流，也就是说，对应音频流，要发送通道和接收通道两个channel。</p>
+<p>以上是范围从大到小的媒体对象，下面介绍其它对象。</p>
+<p>5、pjmedia_transport，传输对象，封装了所有从网络接收数据和发送数据到网络的操作，可以是UDP、SRTP、ICE等传输方式。</p>
+<p>6、pjmedia_snd_port，音频设备对象，最终的音频裸流都要在设备上播放，从麦克风采集，此对象封装所有设备操作。</p>
+<p>从数据流来看：</p>
+<p><img src="img/20190917203551691.png" alt="img" /></p>
+<p>左边为最底层，音频设备的播放和采集，通过回调接口，调用stream.c生产或消化数据，最后通过transport传输接口进行发送接收。当然，其中还夹杂着前后处理、编解码、抖动缓冲区等，后面的章节会对各个对象及相关的音频处理进行描述。</p>
+<p>最后来分析一下实例代码simpleua.c中对pjmedia的使用方法。</p>
+<h3 id="初始化"><a class="header" href="#初始化"><strong>初始化</strong></a></h3>
+<p>在main函数中，前半部分主要是对sip的初始化，对pjmedia的初始化大概从358行开始</p>
+<h4 id="1创建媒体端点endpoint"><a class="header" href="#1创建媒体端点endpoint">1、创建媒体端点endpoint</a></h4>
+<pre><code class="language-cpp">static pjmedia_endpt	    *g_med_endpt;   /* Media endpoint.		*/
+ 
+#if PJ_HAS_THREADS
+    status = pjmedia_endpt_create(&amp;cp.factory, NULL, 1, &amp;g_med_endpt);
+#else
+    status = pjmedia_endpt_create(&amp;cp.factory, 
+				  pjsip_endpt_get_ioqueue(g_endpt), 
+				  0, &amp;g_med_endpt);
+#endif
+</code></pre>
+<p>这里我们默认看有多线程的流程。</p>
+<h4 id="2创建udp网络接口transport"><a class="header" href="#2创建udp网络接口transport">2、创建udp网络接口transport</a></h4>
+<pre><code class="language-cpp">static pjmedia_transport    *g_med_transport[MAX_MEDIA_CNT];
+   
+    /* 
+     * Create media transport used to send/receive RTP/RTCP socket.
+     * One media transport is needed for each call. Application may
+     * opt to re-use the same media transport for subsequent calls.
+     */
+    for (i = 0; i &lt; PJ_ARRAY_SIZE(g_med_transport); ++i) {
+	status = pjmedia_transport_udp_create3(g_med_endpt, AF, NULL, NULL, 
+					       RTP_PORT + i*2, 0, 
+					       &amp;g_med_transport[i]);
+</code></pre>
+<p>可以看出，虽然初始化还没有建立媒体通讯，但是预先创建了若干传输对象。</p>
+<h4 id="3loop处理sip事件"><a class="header" href="#3loop处理sip事件">3、loop处理sip事件</a></h4>
+<pre><code class="language-cpp">/* Loop until one call is completed */
+for (;!g_complete;) {
+	pj_time_val timeout = {0, 10};
+	pjsip_endpt_handle_events(g_endpt, &amp;timeout);
+}
+</code></pre>
+<p>初始化的最后是一个循环等待处理sip对象的操作。</p>
+<h3 id="建立媒体通讯"><a class="header" href="#建立媒体通讯"><strong>建立媒体通讯</strong></a></h3>
+<p>当sip,sdp协商成功后，则要开始媒体通讯，发生在回调函数call_on_media_update</p>
+<h4 id="1创建并启动流对象stream"><a class="header" href="#1创建并启动流对象stream">1、创建并启动流对象stream</a></h4>
+<pre><code class="language-cpp">static pjmedia_stream       *g_med_stream;  /* Call's audio stream.	*/
+    
+    /* Create stream info based on the media audio SDP. */
+    status = pjmedia_stream_info_from_sdp(&amp;stream_info, inv-&gt;dlg-&gt;pool,
+					  g_med_endpt,
+					  local_sdp, remote_sdp, 0);
+    
+    /* Create new audio media stream, passing the stream info, and also the
+     * media socket that we created earlier.
+     */
+    status = pjmedia_stream_create(g_med_endpt, inv-&gt;dlg-&gt;pool, &amp;stream_info,
+				   g_med_transport[0], NULL, &amp;g_med_stream);
+ 
+    /* Start the audio stream */
+    status = pjmedia_stream_start(g_med_stream);
+</code></pre>
+<p>这个实例并没有创建session，而是直接创建流对象。先从sip协商的sdp中获取媒体信息pjmedia_stream_info_from_sdp，然后根据这些信息创建流对象pjmedia_stream_create，并紧接着启动流pjmedia_stream_start。这里只有音频流，视频流暂不纳入分析范围。</p>
+<h4 id="2启动网络传输transport"><a class="header" href="#2启动网络传输transport">2、启动网络传输transport</a></h4>
+<pre><code class="language-cpp">    /* Start the UDP media transport */
+    pjmedia_transport_media_start(g_med_transport[0], 0, 0, 0, 0);
+</code></pre>
+<p>前面讲到，初始化的时候预创建了若干传输对象，但是并没有启动，等到协商成功后，才启动网络传输。</p>
+<h4 id="3创建音频设备对象sound_device"><a class="header" href="#3创建音频设备对象sound_device">3、创建音频设备对象Sound_device</a></h4>
+<pre><code class="language-cpp">static pjmedia_snd_port	    *g_snd_port;    /* Sound device.		*/
+ 
+    /* Get the media port interface of the audio stream. 
+     * Media port interface is basicly a struct containing get_frame() and
+     * put_frame() function. With this media port interface, we can attach
+     * the port interface to conference bridge, or directly to a sound
+     * player/recorder device.
+     */
+    pjmedia_stream_get_port(g_med_stream, &amp;media_port);
+ 
+    /* Create sound port */
+    pjmedia_snd_port_create(inv-&gt;pool,
+                            PJMEDIA_AUD_DEFAULT_CAPTURE_DEV,
+                            PJMEDIA_AUD_DEFAULT_PLAYBACK_DEV,
+                            PJMEDIA_PIA_SRATE(&amp;media_port-&gt;info),/* clock rate	    */
+                            PJMEDIA_PIA_CCNT(&amp;media_port-&gt;info),/* channel count    */
+                            PJMEDIA_PIA_SPF(&amp;media_port-&gt;info), /* samples per frame*/
+                            PJMEDIA_PIA_BITS(&amp;media_port-&gt;info),/* bits per sample  */
+                            0,
+                            &amp;g_snd_port);
+ 
+    status = pjmedia_snd_port_connect(g_snd_port, media_port);
+</code></pre>
+<p>这里先从流对象取出媒体接口pjmedia_stream_get_port，其中的媒体接口包含了数据回调，这些后面分析数据流再重点讲，然后创建pjmedia_snd_port_create并启动pjmedia_snd_port_connect音频设备对象。</p>
+<h3 id="结束销毁"><a class="header" href="#结束销毁"><strong>结束销毁</strong></a></h3>
+<pre><code class="language-cpp">    /* Destroy audio ports. Destroy the audio port first
+     * before the stream since the audio port has threads
+     * that get/put frames to the stream.
+     */
+    if (g_snd_port)
+			pjmedia_snd_port_destroy(g_snd_port);
+ 
+ 
+    /* Destroy streams */
+    if (g_med_stream)
+      pjmedia_stream_destroy(g_med_stream);
+ 
+    /* Destroy media transports */
+    for (i = 0; i &lt; MAX_MEDIA_CNT; ++i) {
+      if (g_med_transport[i])
+          pjmedia_transport_close(g_med_transport[i]);
+    }
+
+        /* Deinit pjmedia endpoint */
+    if (g_med_endpt)
+      pjmedia_endpt_destroy(g_med_endpt);
+
+        /* Deinit pjsip endpoint */
+    if (g_endpt)
+      pjsip_endpt_destroy(g_endpt);
+
+        /* Release pool */
+    if (pool)
+      pj_pool_release(pool);
+</code></pre>
+<p>当主线程退出loop时，则销毁所有创建的对象。</p>
+<h2 id="pjmedia_endpt"><a class="header" href="#pjmedia_endpt">pjmedia_endpt</a></h2>
+<p>simpleua.c在进行媒体相关初始化时，首先创建媒体端点，看看媒体端点的数据结构和创建流程。</p>
+<pre><code class="language-cpp">#if PJ_HAS_THREADS
+    status = pjmedia_endpt_create(&amp;cp.factory, NULL, 1, &amp;g_med_endpt);
+#else
+    status = pjmedia_endpt_create(&amp;cp.factory, 
+				  pjsip_endpt_get_ioqueue(g_endpt), 
+				  0, &amp;g_med_endpt);
+#endif
+</code></pre>
+<h3 id="pjmedia_endpt结构体"><a class="header" href="#pjmedia_endpt结构体"><strong>pjmedia_endpt结构体</strong></a></h3>
+<pre><code class="language-cpp">/** Concrete declaration of media endpoint. */
+struct pjmedia_endpt
+{
+    /** Pool. */
+    pj_pool_t		 *pool;
+ 
+    /** Pool factory. */
+    pj_pool_factory	 *pf;
+ 
+    /** Codec manager. */
+    pjmedia_codec_mgr	  codec_mgr;
+ 
+    /** IOqueue instance. */
+    pj_ioqueue_t 	 *ioqueue;
+ 
+    /** Do we own the ioqueue? */
+    pj_bool_t		  own_ioqueue;
+ 
+    /** Number of threads. */
+    unsigned		  thread_cnt;
+ 
+    /** IOqueue polling thread, if any. */
+    pj_thread_t		 *thread[MAX_THREADS];
+ 
+    /** To signal polling thread to quit. */
+    pj_bool_t		  quit_flag;
+ 
+    /** Is telephone-event enable */
+    pj_bool_t		  has_telephone_event;
+ 
+    /** List of exit callback. */
+    exit_cb		  exit_cb_list;
+};
+</code></pre>
+<p>ioqueue：用于绑定socket，然后异步接收数据；</p>
+<p>thread[]：线程数组，存储工作线程。</p>
+<p>codec_mgr：codec的管理者</p>
+<p>exit_cb_list：退出时的回调链表</p>
+<p>quit_flag：置位则工作线程都退出</p>
+<h3 id="创建端点"><a class="header" href="#创建端点"><strong>创建端点</strong></a></h3>
+<pre><code class="language-cpp">/**
+ * Initialize and get the instance of media endpoint.
+ */
+PJ_DEF(pj_status_t) pjmedia_endpt_create2(pj_pool_factory *pf,
+					  pj_ioqueue_t *ioqueue,
+					  unsigned worker_cnt,
+					  pjmedia_endpt **p_endpt)
+{
+    pj_pool_t *pool;
+    pjmedia_endpt *endpt;
+    unsigned i;
+    pj_status_t status;
+ 
+ 
+    pool = pj_pool_create(pf, "med-ept", 512, 512, NULL);
+    if (!pool)
+			return PJ_ENOMEM;
+ 
+    endpt = PJ_POOL_ZALLOC_T(pool, struct pjmedia_endpt);
+    endpt-&gt;pool = pool;
+    endpt-&gt;pf = pf;
+    endpt-&gt;ioqueue = ioqueue;
+    endpt-&gt;thread_cnt = worker_cnt;
+    endpt-&gt;has_telephone_event = PJ_TRUE;
+ 
+ 
+    /* Init codec manager. */
+    status = pjmedia_codec_mgr_init(&amp;endpt-&gt;codec_mgr, endpt-&gt;pf);
+    if (status != PJ_SUCCESS)
+			goto on_error;
+ 
+    /* Initialize exit callback list. */
+    pj_list_init(&amp;endpt-&gt;exit_cb_list);
+ 
+    /* Create ioqueue if none is specified. */
+    if (endpt-&gt;ioqueue == NULL) {
+	
+    endpt-&gt;own_ioqueue = PJ_TRUE;
+
+    status = pj_ioqueue_create( endpt-&gt;pool, PJ_IOQUEUE_MAX_HANDLES,
+              &amp;endpt-&gt;ioqueue);
+    if (status != PJ_SUCCESS)
+        goto on_error;
+
+    }
+ 
+    /* Create worker threads if asked. */
+    for (i=0; i&lt;worker_cnt; ++i) {
+      status = pj_thread_create( endpt-&gt;pool, "media", &amp;worker_proc,
+               endpt, 0, 0, &amp;endpt-&gt;thread[i]);
+      if (status != PJ_SUCCESS)
+          goto on_error;
+    }
+ 
+ 
+    *p_endpt = endpt;
+    return PJ_SUCCESS;
+ 
+on_error:
+ 
+    /* Destroy threads */
+    for (i=0; i&lt;endpt-&gt;thread_cnt; ++i) {
+      if (endpt-&gt;thread[i]) {
+          pj_thread_destroy(endpt-&gt;thread[i]);
+      }
+    }
+ 
+    /* Destroy internal ioqueue */
+    if (endpt-&gt;ioqueue &amp;&amp; endpt-&gt;own_ioqueue)
+			pj_ioqueue_destroy(endpt-&gt;ioqueue);
+ 
+    pjmedia_codec_mgr_destroy(&amp;endpt-&gt;codec_mgr);
+    //pjmedia_aud_subsys_shutdown();
+    pj_pool_release(pool);
+    return status;
+}
+</code></pre>
+<p>1、创建内存池med-ept</p>
+<p>2、申请媒体端点结构体内存，并把外部的ioqueue地址存到结构体 endpt-&gt;ioqueue = ioqueue;</p>
+<p>3、初始化编码器manager pjmedia_codec_mgr_init(&amp;endpt-&gt;codec_mgr, endpt-&gt;pf)</p>
+<p>4、如果初入的ioqueue为空，则创建一个新的ioqueue</p>
+<p>5、创建工作线程组，线程函数是worker_proc</p>
+<p><strong>工作线程</strong></p>
+<pre><code class="language-cpp">/**
+ * Worker thread proc.
+ */
+static int PJ_THREAD_FUNC worker_proc(void *arg)
+{
+    pjmedia_endpt *endpt = (pjmedia_endpt*) arg;
+ 
+    while (!endpt-&gt;quit_flag) {
+        pj_time_val timeout = { 0, 500 };
+        pj_ioqueue_poll(endpt-&gt;ioqueue, &amp;timeout);
+    }
+ 
+    return 0;
+}
+</code></pre>
+<p>工作线程就是每500ms调用一次pj_ioqueue_pool。刚创建媒体端点时，ioqueue还没有注册socket，所以不会监控到数据。</p>
+<h2 id="pjmedia_transport"><a class="header" href="#pjmedia_transport">pjmedia_transport</a></h2>
+<p>媒体传输封装了网络收发细节，pjmedia_transport可以是udp、srtp、ice等，这里以udp为例。</p>
+<h3 id="结构体pjmedia_transport"><a class="header" href="#结构体pjmedia_transport"><strong>结构体pjmedia_transport</strong></a></h3>
+<pre><code class="language-cpp">/**
+ * This structure declares media transport. A media transport is called
+ * by the stream to transmit a packet, and will notify stream when
+ * incoming packet is arrived.
+ */
+struct pjmedia_transport
+{
+    /** Transport name (for logging purpose). */
+    char		     name[PJ_MAX_OBJ_NAME];
+ 
+    /** Transport type. */
+    pjmedia_transport_type   type;
+ 
+    /** Transport's "virtual" function table. */
+    pjmedia_transport_op    *op;
+ 
+    /** Application/user data */
+    void		    *user_data;
+};
+</code></pre>
+<p>type：传输类型，上面讲过，这里以udp为例。</p>
+<p>op：操作集，每种传输类型实现了同一组接口。</p>
+<p>user_data：应用层用户数据</p>
+<h3 id="pjmedia_transport_op"><a class="header" href="#pjmedia_transport_op">pjmedia_transport_op</a></h3>
+<p>操作集是核心，这里列举重要的一些函数。<a href="https://docs.pjsip.org/en/latest/api/generated/pjmedia/group/group__PJMEDIA__TRANSPORT.html#_CPPv420pjmedia_transport_op">pjmedia_transport_op</a></p>
+<pre><code class="language-cpp">/**
+ * This structure describes the operations for the stream transport.
+ */
+struct pjmedia_transport_op
+{
+ 
+    /**
+     * This function is called by the stream when the transport is about
+     * to be used by the stream for the first time, and it tells the transport
+     * about remote RTP address to send the packet and some callbacks to be 
+     * called for incoming packets. This function exists for backwards
+     * compatibility. Transports should implement attach2 instead.
+     *
+     * Application should call #pjmedia_transport_attach() instead of 
+     * calling this function directly.
+     */
+    pj_status_t (*attach)(pjmedia_transport *tp,
+			  void *user_data,
+			  const pj_sockaddr_t *rem_addr,
+			  const pj_sockaddr_t *rem_rtcp,
+			  unsigned addr_len,
+			  void (*rtp_cb)(void *user_data,
+					 void *pkt,
+					 pj_ssize_t size),
+			  void (*rtcp_cb)(void *user_data,
+					  void *pkt,
+					  pj_ssize_t size));
+ 
+    /**
+     * This function is called by the stream to send RTP packet using the 
+     * transport.
+     *
+     * Application should call #pjmedia_transport_send_rtp() instead of 
+     * calling this function directly.
+     */
+    pj_status_t (*send_rtp)(pjmedia_transport *tp,
+			    const void *pkt,
+			    pj_size_t size);
+ 
+    /**
+     * Prepare the transport for a new media session.
+     *
+     * Application should call #pjmedia_transport_media_create() instead of 
+     * calling this function directly.
+     */
+    pj_status_t (*media_create)(pjmedia_transport *tp,
+				pj_pool_t *sdp_pool,
+				unsigned options,
+				const pjmedia_sdp_session *remote_sdp,
+				unsigned media_index);
+ 
+    /**
+     * This function is called by application to start the transport
+     * based on local and remote SDP.
+     *
+     * Application should call #pjmedia_transport_media_start() instead of 
+     * calling this function directly.
+     */
+    pj_status_t (*media_start) (pjmedia_transport *tp,
+			        pj_pool_t *tmp_pool,
+			        const pjmedia_sdp_session *sdp_local,
+			        const pjmedia_sdp_session *sdp_remote,
+				unsigned media_index);
+ 
+    /**
+     * This function is called by application to stop the transport.
+     *
+     * Application should call #pjmedia_transport_media_stop() instead of 
+     * calling this function directly.
+     */
+    pj_status_t (*media_stop)  (pjmedia_transport *tp);
+ 
+ 
+    /**
+     * This function can be called to destroy this transport.
+     *
+     * Application should call #pjmedia_transport_close() instead of 
+     * calling this function directly.
+     */
+    pj_status_t (*destroy)(pjmedia_transport *tp);
+ 
+    /**
+     * This function is called by the stream when the transport is about
+     * to be used by the stream for the first time, and it tells the transport
+     * about remote RTP address to send the packet and some callbacks to be
+     * called for incoming packets.
+     *
+     * Application should call #pjmedia_transport_attach2() instead of
+     * calling this function directly.
+     */
+    pj_status_t (*attach2)(pjmedia_transport *tp,
+			   pjmedia_transport_attach_param *att_param);
+};
+</code></pre>
+<p>这里主要看attach2，这个函数传入rtp和rtcp的回调函数指针，当从网络收到数据时，会通过该回调通知。</p>
+<h3 id="创建udp媒体传输"><a class="header" href="#创建udp媒体传输"><strong>创建udp媒体传输</strong></a></h3>
+<p>在simpleua.c初始化时，创建完媒体端点pjmedia_endpt后，还会预先创建好udp媒体传输</p>
+<pre><code class="language-cpp">    /* 
+     * Create media transport used to send/receive RTP/RTCP socket.
+     * One media transport is needed for each call. Application may
+     * opt to re-use the same media transport for subsequent calls.
+     */
+    for (i = 0; i &lt; PJ_ARRAY_SIZE(g_med_transport); ++i) {
+      status = pjmedia_transport_udp_create3(g_med_endpt, AF, NULL, NULL, 
+                     RTP_PORT + i*2, 0, 
+                     &amp;g_med_transport[i]);
+</code></pre>
+<p>pjmedia_transport_udp_create最终调用pjmedia_transport_udp_create3，这个函数先创建rtp和rtcp两个socket，然后调用pjmedia_transport_udp_attach。</p>
+<h4 id="调用流"><a class="header" href="#调用流">调用流：</a></h4>
+<p>pjmedia_transport_udp_create3、pjmedia_transport_udp_attach、pj_ioqueue_register_sock2</p>
+<h3 id="pjmedia_transport_udp_create3"><a class="header" href="#pjmedia_transport_udp_create3">pjmedia_transport_udp_create3</a></h3>
+<pre><code class="language-cpp">/**
+ * Create UDP stream transport.
+ */
+PJ_DEF(pj_status_t) pjmedia_transport_udp_create3(pjmedia_endpt *endpt,
+						  int af,
+						  const char *name,
+						  const pj_str_t *addr,
+						  int port,
+						  unsigned options,
+						  pjmedia_transport **p_tp)
+{
+    pjmedia_sock_info si;
+    pj_status_t status;
+ 
+    
+    /* Sanity check */
+    PJ_ASSERT_RETURN(endpt &amp;&amp; port &amp;&amp; p_tp, PJ_EINVAL);
+ 
+ 
+    pj_bzero(&amp;si, sizeof(pjmedia_sock_info));
+    si.rtp_sock = si.rtcp_sock = PJ_INVALID_SOCKET;
+ 
+    /* Create RTP socket */
+    status = pj_sock_socket(af, pj_SOCK_DGRAM(), 0, &amp;si.rtp_sock);
+    if (status != PJ_SUCCESS)
+			goto on_error;
+ 
+    /* Bind RTP socket */
+    status = pj_sockaddr_init(af, &amp;si.rtp_addr_name, addr, (pj_uint16_t)port);
+    if (status != PJ_SUCCESS)
+			goto on_error;
+ 
+    status = pj_sock_bind(si.rtp_sock, &amp;si.rtp_addr_name, 
+			  pj_sockaddr_get_len(&amp;si.rtp_addr_name));
+    if (status != PJ_SUCCESS)
+			goto on_error;
+ 
+ 
+    /* Create RTCP socket */
+    status = pj_sock_socket(af, pj_SOCK_DGRAM(), 0, &amp;si.rtcp_sock);
+    if (status != PJ_SUCCESS)
+			goto on_error;
+ 
+    /* Bind RTCP socket */
+    status = pj_sockaddr_init(af, &amp;si.rtcp_addr_name, addr, 
+			      (pj_uint16_t)(port+1));
+    if (status != PJ_SUCCESS)
+			goto on_error;
+ 
+    status = pj_sock_bind(si.rtcp_sock, &amp;si.rtcp_addr_name,
+			  pj_sockaddr_get_len(&amp;si.rtcp_addr_name));
+    if (status != PJ_SUCCESS)
+			goto on_error;
+ 
+    
+    /* Create UDP transport by attaching socket info */
+    return pjmedia_transport_udp_attach( endpt, name, &amp;si, options, p_tp);
+ 
+ 
+on_error:
+    if (si.rtp_sock != PJ_INVALID_SOCKET)
+			pj_sock_close(si.rtp_sock);
+    if (si.rtcp_sock != PJ_INVALID_SOCKET)
+			pj_sock_close(si.rtcp_sock);
+    return status;
+}
+</code></pre>
+<p>Create &amp; Bind RTP &amp; RTCP socket、Create UDP transport by attaching socket info</p>
+<h3 id="transport_udp"><a class="header" href="#transport_udp">transport_udp</a></h3>
+<pre><code class="language-c">struct transport_udp
+{
+    pjmedia_transport   base;           /**&lt; Base transport.                */
+
+    pj_pool_t          *pool;           /**&lt; Memory pool                    */
+    unsigned            options;        /**&lt; Transport options.             */
+    unsigned            media_options;  /**&lt; Transport media options.       */
+    void               *user_data;      /**&lt; Only valid when attached       */
+    //pj_bool_t         attached;       /**&lt; Has attachment?                */
+    pj_bool_t           started;        /**&lt; Has started?                   */
+    pj_sockaddr         rem_rtp_addr;   /**&lt; Remote RTP address             */
+    pj_sockaddr         rem_rtcp_addr;  /**&lt; Remote RTCP address            */
+    int                 addr_len;       /**&lt; Length of addresses.           */
+    void  (*rtp_cb)(    void*,          /**&lt; To report incoming RTP.        */
+                        void*,
+                        pj_ssize_t);
+    void  (*rtp_cb2)(pjmedia_tp_cb_param*); /**&lt; To report incoming RTP.    */
+    void  (*rtcp_cb)(   void*,          /**&lt; To report incoming RTCP.       */
+                        void*,
+                        pj_ssize_t);
+
+    unsigned            tx_drop_pct;    /**&lt; Percent of tx pkts to drop.    */
+    unsigned            rx_drop_pct;    /**&lt; Percent of rx pkts to drop.    */
+    pj_ioqueue_t        *ioqueue;       /**&lt; Ioqueue instance.              */
+
+    pj_sock_t           rtp_sock;       /**&lt; RTP socket                     */
+    pj_sockaddr         rtp_addr_name;  /**&lt; Published RTP address.         */
+    pj_ioqueue_key_t   *rtp_key;        /**&lt; RTP socket key in ioqueue      */
+    pj_ioqueue_op_key_t rtp_read_op;    /**&lt; Pending read operation         */
+    unsigned            rtp_write_op_id;/**&lt; Next write_op to use           */
+    pending_write       rtp_pending_write[MAX_PENDING];  /**&lt; Pending write */
+    pj_sockaddr         rtp_src_addr;   /**&lt; Actual packet src addr.        */
+    int                 rtp_addrlen;    /**&lt; Address length.                */
+    char                rtp_pkt[RTP_LEN];/**&lt; Incoming RTP packet buffer    */
+
+    pj_bool_t           enable_rtcp_mux;/**&lt; Enable RTP &amp; RTCP multiplexing?*/
+    pj_bool_t           use_rtcp_mux;   /**&lt; Use RTP &amp; RTCP multiplexing?   */
+    pj_sock_t           rtcp_sock;      /**&lt; RTCP socket                    */
+    pj_sockaddr         rtcp_addr_name; /**&lt; Published RTCP address.        */
+    pj_sockaddr         rtcp_src_addr;  /**&lt; Actual source RTCP address.    */
+    unsigned            rtcp_src_cnt;   /**&lt; How many pkt from this addr.   */
+    int                 rtcp_addr_len;  /**&lt; Length of RTCP src address.    */
+    pj_ioqueue_key_t   *rtcp_key;       /**&lt; RTCP socket key in ioqueue     */
+    pj_ioqueue_op_key_t rtcp_read_op;   /**&lt; Pending read operation         */
+    pj_ioqueue_op_key_t rtcp_write_op;  /**&lt; Pending write operation        */
+    char                rtcp_pkt[RTCP_LEN];/**&lt; Incoming RTCP packet buffer */
+};
+
+</code></pre>
+<h3 id="pjmedia_transport_udp_attach"><a class="header" href="#pjmedia_transport_udp_attach">pjmedia_transport_udp_attach</a></h3>
+<p><a href="html/pjmedia_transport_udp_attach.html">pjmedia_transport_udp_attach</a></p>
+<pre><code class="language-c">/**
+ * Create UDP stream transport from existing socket info.
+ */
+PJ_DEF(pj_status_t) pjmedia_transport_udp_attach( pjmedia_endpt *endpt,
+                                                  const char *name,
+                                                  const pjmedia_sock_info *si,
+                                                  unsigned options,
+                                                  pjmedia_transport **p_tp)
+{
+    struct transport_udp *tp;
+    pj_pool_t *pool;
+    pj_ioqueue_t *ioqueue;
+    pj_ioqueue_callback rtp_cb, rtcp_cb;
+    pj_grp_lock_t *grp_lock;
+    pj_status_t status;
+
+
+    /* Sanity check */
+    PJ_ASSERT_RETURN(endpt &amp;&amp; si &amp;&amp; p_tp, PJ_EINVAL);
+
+    /* Get ioqueue instance */
+    ioqueue = pjmedia_endpt_get_ioqueue(endpt);
+
+    if (name==NULL)
+        name = "udp%p";
+
+    /* Create transport structure */
+    pool = pjmedia_endpt_create_pool(endpt, name, 512, 512);
+    if (!pool)
+        return PJ_ENOMEM;
+		
+    tp = PJ_POOL_ZALLOC_T(pool, struct transport_udp);
+    tp-&gt;pool = pool;
+    tp-&gt;options = options;
+    pj_memcpy(tp-&gt;base.name, pool-&gt;obj_name, PJ_MAX_OBJ_NAME);
+    tp-&gt;base.op = &amp;transport_udp_op;
+    tp-&gt;base.type = PJMEDIA_TRANSPORT_TYPE_UDP;
+
+    /* Copy socket infos */
+    tp-&gt;rtp_sock = si-&gt;rtp_sock;
+    tp-&gt;rtp_addr_name = si-&gt;rtp_addr_name;
+    tp-&gt;rtcp_sock = si-&gt;rtcp_sock;
+    tp-&gt;rtcp_addr_name = si-&gt;rtcp_addr_name;
+
+    /* If address is 0.0.0.0, use host's IP address */
+    if (!pj_sockaddr_has_addr(&amp;tp-&gt;rtp_addr_name)) {
+        pj_sockaddr hostip;
+
+        status = pj_gethostip(tp-&gt;rtp_addr_name.addr.sa_family, &amp;hostip);
+        if (status != PJ_SUCCESS)
+            goto on_error;
+
+        pj_memcpy(pj_sockaddr_get_addr(&amp;tp-&gt;rtp_addr_name), 
+                  pj_sockaddr_get_addr(&amp;hostip),
+                  pj_sockaddr_get_addr_len(&amp;hostip));
+    }
+
+    /* Same with RTCP */
+    if (!pj_sockaddr_has_addr(&amp;tp-&gt;rtcp_addr_name)) {
+        pj_memcpy(pj_sockaddr_get_addr(&amp;tp-&gt;rtcp_addr_name),
+                  pj_sockaddr_get_addr(&amp;tp-&gt;rtp_addr_name),
+                  pj_sockaddr_get_addr_len(&amp;tp-&gt;rtp_addr_name));
+    }
+
+    /* Create group lock */
+    status = pj_grp_lock_create(pool, NULL, &amp;grp_lock);
+    if (status != PJ_SUCCESS)
+        goto on_error;
+
+    pj_grp_lock_add_ref(grp_lock);
+    tp-&gt;base.grp_lock = grp_lock;
+
+    /* Setup RTP socket with the ioqueue */
+    pj_bzero(&amp;rtp_cb, sizeof(rtp_cb));
+    rtp_cb.on_read_complete = &amp;on_rx_rtp;
+    rtp_cb.on_write_complete = &amp;on_rtp_data_sent;
+
+    status = pj_ioqueue_register_sock2(pool, ioqueue, tp-&gt;rtp_sock, grp_lock,
+                                       tp, &amp;rtp_cb, &amp;tp-&gt;rtp_key);
+    if (status != PJ_SUCCESS)
+        goto on_error;
+    
+    /* Disallow concurrency so that detach() and destroy() are
+     * synchronized with the callback.
+     *
+     * Note that we still need this even after group lock is added to
+     * maintain the above behavior.
+     */
+    status = pj_ioqueue_set_concurrency(tp-&gt;rtp_key, PJ_FALSE);
+    if (status != PJ_SUCCESS)
+        goto on_error;
+        
+    /* Setup RTCP socket with ioqueue */
+    pj_bzero(&amp;rtcp_cb, sizeof(rtcp_cb));
+    rtcp_cb.on_read_complete = &amp;on_rx_rtcp;
+
+    status = pj_ioqueue_register_sock2(pool, ioqueue, tp-&gt;rtcp_sock, grp_lock,
+                                       tp, &amp;rtcp_cb, &amp;tp-&gt;rtcp_key);
+    if (status != PJ_SUCCESS)
+        goto on_error;
+
+    status = pj_ioqueue_set_concurrency(tp-&gt;rtcp_key, PJ_FALSE);
+    if (status != PJ_SUCCESS)
+        goto on_error;
+
+    tp-&gt;ioqueue = ioqueue;
+
+    /* Done */
+    *p_tp = &amp;tp-&gt;base;
+    return PJ_SUCCESS;
+
+
+on_error:
+    transport_destroy(&amp;tp-&gt;base);
+    return status;
+}
+
+
+</code></pre>
+<p>创建transport_udp PJ_POOL_ZALLOC_T，Copy socket infos 到transport_udp、 Setup RTP/RTCP socket with the ioqueue（设置两个回调函数on_rx_rtp、on_rtp_data_sent、on_rx_rtcp）。</p>
+<p>udp_attach先申请UDP媒体传输结构体transport_udp *tp的内存，注意，此结构体包含了媒体传输pjmedia_transport和一些回调，但是这些回调还没有设置。其中的操作集指向transport_udp_op。接着把socket注册到媒体端点中的io队列，io队列的读完成回调是on_rx_rtp。从这里可以知道，从网络读到数据时，会调用transport_udp.c中的on_rx_rtp，而在这个回调里，会再调用transport_udp中的回调rtp_cb和rtp_cb2，而这两个回调，创建的时候还没有设置，要等到调用操作集的attach才会设置。</p>
+<p>注意，这里有两个attach的地方，一个是创建的时候，调用pjmedia_transport_udp_attach，这个attach会把socket注册到ioqueue，同时ioqueue的读完成回调为transport_udp.c中的on_rx_rtp。</p>
+<h3 id="pj_ioqueue_register_sock2"><a class="header" href="#pj_ioqueue_register_sock2">pj_ioqueue_register_sock2</a></h3>
+<p>注册一个套接字到I/O队列框架。当一个套接字注册到IO队列时，它可以被修改为使用非阻塞IO。如果被修改了，就不能保证在套接字取消注册后会恢复这种修改。</p>
+<ul>
+<li><strong>pool</strong> – To allocate the resource for the specified handle, which must be valid until the handle/key is unregistered from I/O Queue.</li>
+<li><strong>ioque</strong> – The I/O Queue.</li>
+<li><strong>sock</strong> – The socket.</li>
+<li><strong>user_data</strong> – User data to be associated with the key, which can be retrieved later.</li>
+<li><strong>cb</strong> – Callback to be called when I/O opertion completes.</li>
+<li><strong>key</strong> – Pointer to receive the key to be associated with this socket. Subsequent I/O queue operation will need this key.</li>
+</ul>
+<p>第二个attach是操作集的attach，看看上面提到的操作集</p>
+<pre><code class="language-cpp">static pjmedia_transport_op transport_udp_op = 
+{
+    &amp;transport_get_info,
+    &amp;transport_attach,
+    &amp;transport_detach,
+    &amp;transport_send_rtp,
+    &amp;transport_send_rtcp,
+    &amp;transport_send_rtcp2,
+    &amp;transport_media_create,
+    &amp;transport_encode_sdp,
+    &amp;transport_media_start,
+    &amp;transport_media_stop,
+    &amp;transport_simulate_lost,
+    &amp;transport_destroy,
+    &amp;transport_attach2
+};
+</code></pre>
+<p>第二个attach是transport_attach/transport_attach2，这个attach会再传入rtp_cb和rtcp_cb，而这两个回调，会被on_rx_rtp调用，所以这里有两个回调。总结数据流方向，从网络收到数据，最后会进入attach传入的rtp_cb。但是这个rtp_cb什么时候设置，设置的是谁，这个是在 stream 中实现，下一篇再说。</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="全流程思考.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="ioqueue_epoll.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="全流程思考.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="ioqueue_epoll.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="elasticlunr.min.js"></script>
+        <script src="mark.min.js"></script>
+        <script src="searcher.js"></script>
+
+        <script src="clipboard.min.js"></script>
+        <script src="highlight.js"></script>
+        <script src="book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+    </div>
+    </body>
+</html>
