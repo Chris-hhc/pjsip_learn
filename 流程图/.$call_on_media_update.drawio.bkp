@@ -1,0 +1,100 @@
+<mxfile host="Electron" modified="2024-02-14T05:51:22.463Z" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/23.0.2 Chrome/120.0.6099.109 Electron/28.1.0 Safari/537.36" etag="Ly7Idlu30BpTmII1t5FQ" version="23.0.2" type="device">
+  <diagram name="第 1 页" id="Te05SOVxZVvWxjL7Acnl">
+    <mxGraphModel dx="2154" dy="680" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="PBEeVnjGXZDSfXU6BM3l-9" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="PBEeVnjGXZDSfXU6BM3l-1" target="PBEeVnjGXZDSfXU6BM3l-7">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="PBEeVnjGXZDSfXU6BM3l-14" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="PBEeVnjGXZDSfXU6BM3l-1" target="PBEeVnjGXZDSfXU6BM3l-13">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="PBEeVnjGXZDSfXU6BM3l-1" value="&lt;div style=&quot;background-color: rgb(255, 255, 255); font-family: Menlo, Monaco, &amp;quot;Courier New&amp;quot;, monospace; line-height: 18px;&quot;&gt;Get local and remote SDP&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="220" y="150" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="PBEeVnjGXZDSfXU6BM3l-5" value="&lt;div style=&quot;background-color: rgb(255, 255, 255); font-family: Menlo, Monaco, &amp;quot;Courier New&amp;quot;, monospace; line-height: 18px;&quot;&gt;call_on_media_update，是session的&lt;/div&gt;on_media_update回调函数，在sdp&amp;nbsp;Negotiation Function结束后（此时local&amp;amp;remote sdp已经存储），调用" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="-5" y="40" width="590" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="PBEeVnjGXZDSfXU6BM3l-10" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="PBEeVnjGXZDSfXU6BM3l-7" target="PBEeVnjGXZDSfXU6BM3l-8">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="PBEeVnjGXZDSfXU6BM3l-7" value="&lt;div style=&quot;background-color: rgb(255, 255, 255); font-family: Menlo, Monaco, &amp;quot;Courier New&amp;quot;, monospace; line-height: 18px;&quot;&gt;pjmedia_sdp_neg_get_active_local&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="430" y="150" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="PBEeVnjGXZDSfXU6BM3l-8" value="&lt;div style=&quot;background-color: rgb(255, 255, 255); font-family: Menlo, Monaco, &amp;quot;Courier New&amp;quot;, monospace; line-height: 18px;&quot;&gt;pjmedia_sdp_neg_get_active_remote&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="430" y="240" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="PBEeVnjGXZDSfXU6BM3l-11" value="&lt;div style=&quot;background-color: rgb(255, 255, 255); font-family: Menlo, Monaco, &amp;quot;Courier New&amp;quot;, monospace; line-height: 18px;&quot;&gt;&lt;b&gt;local_sdp&lt;/b&gt;&lt;/div&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="610" y="165" width="90" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="PBEeVnjGXZDSfXU6BM3l-12" value="&lt;div style=&quot;background-color: rgb(255, 255, 255); font-family: Menlo, Monaco, &amp;quot;Courier New&amp;quot;, monospace; line-height: 18px;&quot;&gt;&lt;b&gt;remote_sdp&lt;/b&gt;&lt;/div&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="610" y="255" width="100" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="PBEeVnjGXZDSfXU6BM3l-16" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="PBEeVnjGXZDSfXU6BM3l-13" target="PBEeVnjGXZDSfXU6BM3l-15">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="PBEeVnjGXZDSfXU6BM3l-13" value="&lt;div style=&quot;background-color: rgb(255, 255, 255); font-family: Menlo, Monaco, &amp;quot;Courier New&amp;quot;, monospace; line-height: 18px;&quot;&gt;Create stream info based on the media audio SDP&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="220" y="320" width="120" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="PBEeVnjGXZDSfXU6BM3l-15" value="&lt;div style=&quot;background-color: rgb(255, 255, 255); font-family: Menlo, Monaco, &amp;quot;Courier New&amp;quot;, monospace; line-height: 18px;&quot;&gt;pjmedia_stream_info_from_sdp&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="430" y="335" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="PBEeVnjGXZDSfXU6BM3l-17" value="&lt;div style=&quot;background-color: rgb(255, 255, 255); font-family: Menlo, Monaco, &amp;quot;Courier New&amp;quot;, monospace; line-height: 18px;&quot;&gt;&lt;b&gt;stream_info&lt;/b&gt;&lt;/div&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="610" y="348" width="100" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="PBEeVnjGXZDSfXU6BM3l-21" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" edge="1" parent="1" source="PBEeVnjGXZDSfXU6BM3l-18" target="PBEeVnjGXZDSfXU6BM3l-20">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="PBEeVnjGXZDSfXU6BM3l-25" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="PBEeVnjGXZDSfXU6BM3l-18" target="PBEeVnjGXZDSfXU6BM3l-19">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="PBEeVnjGXZDSfXU6BM3l-18" value="&lt;div style=&quot;background-color: rgb(255, 255, 255); font-family: Menlo, Monaco, &amp;quot;Courier New&amp;quot;, monospace; line-height: 18px;&quot;&gt;Validate arguments:&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="610" y="395" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="PBEeVnjGXZDSfXU6BM3l-24" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" edge="1" parent="1" source="PBEeVnjGXZDSfXU6BM3l-19" target="PBEeVnjGXZDSfXU6BM3l-22">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="PBEeVnjGXZDSfXU6BM3l-28" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="PBEeVnjGXZDSfXU6BM3l-19" target="PBEeVnjGXZDSfXU6BM3l-26">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="PBEeVnjGXZDSfXU6BM3l-19" value="&lt;div style=&quot;background-color: rgb(255, 255, 255); font-family: Menlo, Monaco, &amp;quot;Courier New&amp;quot;, monospace; line-height: 18px;&quot;&gt;Keep local remote SDP media 信息&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="610" y="490" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="PBEeVnjGXZDSfXU6BM3l-20" value="&lt;div style=&quot;background-color: rgb(255, 255, 255); font-family: Menlo, Monaco, &amp;quot;Courier New&amp;quot;, monospace; line-height: 18px;&quot;&gt;&lt;div&gt;    PJ_ASSERT_RETURN(&lt;span style=&quot;color: #808080;&quot;&gt;pool&lt;/span&gt; &amp;amp;&amp;amp; &lt;span style=&quot;color: #808080;&quot;&gt;si&lt;/span&gt; &amp;amp;&amp;amp; &lt;span style=&quot;color: #808080;&quot;&gt;local&lt;/span&gt; &amp;amp;&amp;amp; &lt;span style=&quot;color: #808080;&quot;&gt;remote&lt;/span&gt;, &lt;span style=&quot;color: #8a1bff;&quot;&gt;PJ_EINVAL&lt;/span&gt;);&lt;/div&gt;&lt;div&gt;    &lt;span style=&quot;color: #8a1bff;&quot;&gt;PJ_ASSERT_RETURN&lt;/span&gt;(&lt;span style=&quot;color: #808080;&quot;&gt;stream_idx&lt;/span&gt; &amp;lt; &lt;span style=&quot;color: #808080;&quot;&gt;local&lt;/span&gt;-&amp;gt;media_count, &lt;span style=&quot;color: #8a1bff;&quot;&gt;PJ_EINVAL&lt;/span&gt;);&lt;/div&gt;&lt;div&gt;    &lt;span style=&quot;color: #8a1bff;&quot;&gt;PJ_ASSERT_RETURN&lt;/span&gt;(&lt;span style=&quot;color: #808080;&quot;&gt;stream_idx&lt;/span&gt; &amp;lt; &lt;span style=&quot;color: #808080;&quot;&gt;remote&lt;/span&gt;-&amp;gt;media_count, &lt;span style=&quot;color: #8a1bff;&quot;&gt;PJ_EINVAL&lt;/span&gt;);&lt;/div&gt;&lt;/div&gt;" style="text;strokeColor=none;align=center;fillColor=none;html=1;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="770" y="280" width="530" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="PBEeVnjGXZDSfXU6BM3l-22" value="&lt;div style=&quot;background-color: rgb(255, 255, 255); font-family: Menlo, Monaco, &amp;quot;Courier New&amp;quot;, monospace; line-height: 18px;&quot;&gt;&lt;div&gt;local_m = &lt;span style=&quot;color: #808080;&quot;&gt;local&lt;/span&gt;-&amp;gt;media[&lt;span style=&quot;color: #808080;&quot;&gt;stream_idx&lt;/span&gt;];&lt;/div&gt;&lt;div&gt;    &lt;span style=&quot;color: #1f377f;&quot;&gt;rem_m&lt;/span&gt; = &lt;span style=&quot;color: #808080;&quot;&gt;remote&lt;/span&gt;-&amp;gt;media[&lt;span style=&quot;color: #808080;&quot;&gt;stream_idx&lt;/span&gt;];&lt;/div&gt;&lt;br&gt;&lt;div&gt;    &lt;span style=&quot;color: #1f377f;&quot;&gt;local_conn&lt;/span&gt; = &lt;span style=&quot;color: #1f377f;&quot;&gt;local_m&lt;/span&gt;-&amp;gt;conn ? &lt;span style=&quot;color: #1f377f;&quot;&gt;local_m&lt;/span&gt;-&amp;gt;conn : &lt;span style=&quot;color: #808080;&quot;&gt;local&lt;/span&gt;-&amp;gt;conn;&lt;/div&gt;&lt;div&gt;    &lt;span style=&quot;color: #8f08c4;&quot;&gt;if&lt;/span&gt; (&lt;span style=&quot;color: #1f377f;&quot;&gt;local_conn&lt;/span&gt; == &lt;span style=&quot;color: #8a1bff;&quot;&gt;NULL&lt;/span&gt;)&lt;/div&gt;&lt;div&gt;        &lt;span style=&quot;color: #8f08c4;&quot;&gt;return&lt;/span&gt; &lt;span style=&quot;color: #8a1bff;&quot;&gt;PJMEDIA_SDP_EMISSINGCONN&lt;/span&gt;;&lt;/div&gt;&lt;br&gt;&lt;div&gt;    &lt;span style=&quot;color: #1f377f;&quot;&gt;rem_conn&lt;/span&gt; = &lt;span style=&quot;color: #1f377f;&quot;&gt;rem_m&lt;/span&gt;-&amp;gt;conn ? &lt;span style=&quot;color: #1f377f;&quot;&gt;rem_m&lt;/span&gt;-&amp;gt;conn : &lt;span style=&quot;color: #808080;&quot;&gt;remote&lt;/span&gt;-&amp;gt;conn;&lt;/div&gt;&lt;div&gt;    &lt;span style=&quot;color: #8f08c4;&quot;&gt;if&lt;/span&gt; (&lt;span style=&quot;color: #1f377f;&quot;&gt;rem_conn&lt;/span&gt; == &lt;span style=&quot;color: #8a1bff;&quot;&gt;NULL&lt;/span&gt;)&lt;/div&gt;&lt;div&gt;        &lt;span style=&quot;color: #8f08c4;&quot;&gt;return&lt;/span&gt; &lt;span style=&quot;color: #8a1bff;&quot;&gt;PJMEDIA_SDP_EMISSINGCONN&lt;/span&gt;;&lt;/div&gt;&lt;/div&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="827" y="507.5" width="430" height="25" as="geometry" />
+        </mxCell>
+        <mxCell id="PBEeVnjGXZDSfXU6BM3l-29" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="PBEeVnjGXZDSfXU6BM3l-26" target="PBEeVnjGXZDSfXU6BM3l-27">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="PBEeVnjGXZDSfXU6BM3l-26" value="&lt;div style=&quot;background-color: rgb(255, 255, 255); font-family: Menlo, Monaco, &amp;quot;Courier New&amp;quot;, monospace; line-height: 18px;&quot;&gt;Media type must be audio &lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="610" y="620" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="PBEeVnjGXZDSfXU6BM3l-31" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="PBEeVnjGXZDSfXU6BM3l-27" target="PBEeVnjGXZDSfXU6BM3l-30">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="PBEeVnjGXZDSfXU6BM3l-33" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="PBEeVnjGXZDSfXU6BM3l-27" target="PBEeVnjGXZDSfXU6BM3l-32">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="PBEeVnjGXZDSfXU6BM3l-27" value="&lt;div style=&quot;background-color: rgb(255, 255, 255); font-family: Menlo, Monaco, &amp;quot;Courier New&amp;quot;, monospace; line-height: 18px;&quot;&gt;Get codec manager.&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="610" y="710" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="PBEeVnjGXZDSfXU6BM3l-30" value="&lt;div style=&quot;background-color: rgb(255, 255, 255); font-family: Menlo, Monaco, &amp;quot;Courier New&amp;quot;, monospace; line-height: 18px;&quot;&gt;pjmedia_endpt_get_codec_mgr&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="790" y="710" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="PBEeVnjGXZDSfXU6BM3l-36" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="PBEeVnjGXZDSfXU6BM3l-32" target="PBEeVnjGXZDSfXU6BM3l-35">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="PBEeVnjGXZDSfXU6BM3l-32" value="初始化：pjmedia_stream_info si" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="610" y="810" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="PBEeVnjGXZDSfXU6BM3l-35" value="&lt;ul&gt;&lt;li&gt;&lt;font style=&quot;font-size: 18px;&quot;&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;media type ：si-&amp;gt;type&lt;/span&gt;&lt;br&gt;&lt;/font&gt;&lt;/li&gt;&lt;li&gt;&lt;font size=&quot;3&quot;&gt;media transport protocol: si-&amp;gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); font-family: Menlo, Monaco, &amp;quot;Courier New&amp;quot;, monospace;&quot;&gt;proto&lt;/span&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;&amp;nbsp;2需要检测local与remotesdp一致&lt;/span&gt;&lt;br&gt;&lt;/font&gt;&lt;/li&gt;&lt;li&gt;&lt;font size=&quot;3&quot;&gt;Check address family of local info，IPV4\IPV6到local_af&lt;/font&gt;&lt;/li&gt;&lt;li&gt;&lt;font size=&quot;3&quot;&gt;Set remote address：pj_sockaddr_init，si-&amp;gt;local_addr&lt;br&gt;&lt;/font&gt;&lt;/li&gt;&lt;li&gt;&lt;font size=&quot;3&quot;&gt;deal with&amp;nbsp;ICE&lt;/font&gt;&lt;/li&gt;&lt;li&gt;&lt;font size=&quot;3&quot;&gt;Media direction方向：si-&amp;gt;dir&amp;nbsp; &amp;nbsp; &amp;nbsp; pjmedia_sdp_media_find_attr：在媒体描述符中找到指定属性名称的第一个出现。可以选择指定格式。&lt;br&gt;&lt;/font&gt;&lt;/li&gt;&lt;li&gt;&lt;font size=&quot;3&quot;&gt;If &quot;rtcp&quot; attribute is present in the SDP, set the RTCP address from that attribute. Otherwise, calculate from RTP address.&amp;nbsp;&amp;nbsp;si-&amp;gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); font-family: Menlo, Monaco, &amp;quot;Courier New&amp;quot;, monospace;&quot;&gt;rem_rtcp&amp;nbsp;&amp;nbsp;&lt;/span&gt;pjmedia_sdp_attr_find2，pj_sockaddr_init&lt;/font&gt;&lt;/li&gt;&lt;li&gt;&lt;font size=&quot;3&quot;&gt;Get codec info and param&amp;nbsp; ：get_audio_codec_info_param&lt;/font&gt;&lt;/li&gt;&lt;li&gt;&lt;font size=&quot;3&quot;&gt;Set default jitter buffer parameter.&amp;nbsp;si-&amp;gt;jb_init = si-&amp;gt;jb_max = si-&amp;gt;jb_min_pre = si-&amp;gt;jb_max_pre&amp;nbsp;&amp;nbsp;si-&amp;gt;jb_discard_algo&lt;/font&gt;&lt;br&gt;&lt;/li&gt;&lt;li&gt;&lt;font size=&quot;3&quot;&gt;Get local RTCP-FB info，pjmedia_rtcp_fb_decode_sdp2： si-&amp;gt;rx_pt，si-&amp;gt;tx_pt&lt;br&gt;&lt;/font&gt;&lt;/li&gt;&lt;/ul&gt;" style="text;strokeColor=none;fillColor=none;html=1;whiteSpace=wrap;verticalAlign=middle;overflow=hidden;" vertex="1" parent="1">
+          <mxGeometry x="860" y="779" width="680" height="390" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

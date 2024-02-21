@@ -2798,7 +2798,7 @@ on_tsx_state_changed：每当dialog中的任何transaction更改了其状态时�
 
 on_rx_offer：当invite session收到来自对等方的新提议时，将调用此回调。应用程序通过调用pjsip_inv_set_sdp_answer（）设置本地应答。此功能不会发送外发消息。它只是保留SDP协商过程的答案，并将包含在后续发送的响应或请求中。此回调是可选的。如果未指定，默认行为是与会话的初始功能协商远程提供。
 
-on_media_update：此回调在SDP提供/应答会话完成后调用。status参数指定pjmedia_sdp_neg_negotiate（）返回的offer/answer的状态。这个回调是可选的（从框架的角度来看），但是所有有用的应用程序通常都需要实现这个回调。
+on_media_update：此回调在SDP协商完后调用。status参数指定pjmedia_sdp_neg_negotiate（）返回的offer/answer的状态。这个回调是可选的（从框架的角度来看），但是所有有用的应用程序通常都需要实现这个回调。
 
 ### 12.2.4 Session Creation and Termination
 

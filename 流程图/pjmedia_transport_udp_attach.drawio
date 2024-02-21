@@ -1,0 +1,67 @@
+<mxfile host="Electron" modified="2024-02-13T12:42:34.360Z" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/23.0.2 Chrome/120.0.6099.109 Electron/28.1.0 Safari/537.36" etag="RSSqe8lFgH4w6A56ez17" version="23.0.2" type="device">
+  <diagram name="第 1 页" id="KnyaDmFDWirtH542dEpB">
+    <mxGraphModel dx="1592" dy="816" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="3oVqOyWAWgPTFfL3xAz7-7" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="3oVqOyWAWgPTFfL3xAz7-2" target="3oVqOyWAWgPTFfL3xAz7-3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="3oVqOyWAWgPTFfL3xAz7-16" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="3oVqOyWAWgPTFfL3xAz7-2" target="3oVqOyWAWgPTFfL3xAz7-11">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="3oVqOyWAWgPTFfL3xAz7-2" value="Get ioqueue instance" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="140" y="100" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="3oVqOyWAWgPTFfL3xAz7-8" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" edge="1" parent="1" source="3oVqOyWAWgPTFfL3xAz7-3" target="3oVqOyWAWgPTFfL3xAz7-4">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="3oVqOyWAWgPTFfL3xAz7-15" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="3oVqOyWAWgPTFfL3xAz7-3" target="3oVqOyWAWgPTFfL3xAz7-12">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="3oVqOyWAWgPTFfL3xAz7-3" value="Create transport structure" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="140" y="200" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="3oVqOyWAWgPTFfL3xAz7-9" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="3oVqOyWAWgPTFfL3xAz7-4" target="3oVqOyWAWgPTFfL3xAz7-5">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="3oVqOyWAWgPTFfL3xAz7-4" value="Copy socket info" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="140" y="300" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="3oVqOyWAWgPTFfL3xAz7-10" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" edge="1" parent="1" source="3oVqOyWAWgPTFfL3xAz7-5" target="3oVqOyWAWgPTFfL3xAz7-6">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="3oVqOyWAWgPTFfL3xAz7-5" value="Create group lock" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="140" y="400" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="3oVqOyWAWgPTFfL3xAz7-14" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="3oVqOyWAWgPTFfL3xAz7-6" target="3oVqOyWAWgPTFfL3xAz7-13">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="3oVqOyWAWgPTFfL3xAz7-20" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="3oVqOyWAWgPTFfL3xAz7-6" target="3oVqOyWAWgPTFfL3xAz7-17">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="3oVqOyWAWgPTFfL3xAz7-6" value="Setup RTP socket with the ioqueue" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="140" y="500" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="3oVqOyWAWgPTFfL3xAz7-11" value="pjmedia_endpt_get_ioqueue" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="320" y="100" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="3oVqOyWAWgPTFfL3xAz7-12" value="pjmedia_endpt_create_pool" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="320" y="200" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="3oVqOyWAWgPTFfL3xAz7-13" value="&lt;div&gt;rtp_cb.on_read_complete = &amp;amp;on_rx_rtp;&lt;/div&gt;&lt;div&gt;&amp;nbsp; &amp;nbsp; rtp_cb.on_write_complete = &amp;amp;on_rtp_data_sent;&lt;/div&gt;&lt;div&gt;&lt;div&gt;status = pj_ioqueue_register_sock2(pool, ioqueue, tp-&amp;gt;rtp_sock, grp_lock,&lt;span style=&quot;background-color: initial;&quot;&gt;tp, &amp;amp;rtp_cb, &amp;amp;tp-&amp;gt;rtp_key);&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="320" y="465" width="680" height="130" as="geometry" />
+        </mxCell>
+        <mxCell id="3oVqOyWAWgPTFfL3xAz7-17" value="Setup RTCP socket with ioqueue" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="140" y="610" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="3oVqOyWAWgPTFfL3xAz7-18" value="&lt;div&gt;&amp;nbsp; &amp;nbsp; pj_bzero(&amp;amp;rtcp_cb, sizeof(rtcp_cb));&lt;/div&gt;&lt;div&gt;&amp;nbsp; &amp;nbsp; rtcp_cb.on_read_complete = &amp;amp;on_rx_rtcp;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&amp;nbsp; &amp;nbsp; status = pj_ioqueue_register_sock2(pool, ioqueue, tp-&amp;gt;rtcp_sock, grp_lock,&amp;nbsp;&lt;span style=&quot;background-color: initial;&quot;&gt;tp, &amp;amp;rtcp_cb, &amp;amp;tp-&amp;gt;rtcp_key);&lt;/span&gt;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="320" y="640" width="680" height="150" as="geometry" />
+        </mxCell>
+        <mxCell id="3oVqOyWAWgPTFfL3xAz7-19" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="3oVqOyWAWgPTFfL3xAz7-17" target="3oVqOyWAWgPTFfL3xAz7-18">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
