@@ -1,0 +1,373 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>epoll - PJSIP_STUDY</title>
+
+
+        <!-- Custom HTML head -->
+        
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="favicon.svg">
+        <link rel="shortcut icon" href="favicon.png">
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        <link rel="stylesheet" href="css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+        <link rel="stylesheet" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+    </head>
+    <body class="sidebar-visible no-js">
+    <div id="body-container">
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('light')
+            html.classList.add(theme);
+            var body = document.querySelector('body');
+            body.classList.remove('no-js')
+            body.classList.add('js');
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var body = document.querySelector('body');
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            body.classList.remove('sidebar-visible');
+            body.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded "><a href="SIP.html"><strong aria-hidden="true">1.</strong> sip协议概述</a></li><li class="chapter-item expanded "><a href="pjsip_doc.html"><strong aria-hidden="true">2.</strong> pjsip文档翻译</a></li><li class="chapter-item expanded "><div><strong aria-hidden="true">3.</strong> make call流程</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="State.html"><strong aria-hidden="true">3.1.</strong> 状态机</a></li><li class="chapter-item expanded "><div><strong aria-hidden="true">3.2.</strong> 流程图</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="html/make_call.html"><strong aria-hidden="true">3.2.1.</strong> make call流程图</a></li><li class="chapter-item expanded "><a href="html/pjsip_dlg_create_uac.html"><strong aria-hidden="true">3.2.2.</strong> Create an UAC dialog</a></li><li class="chapter-item expanded "><a href="html/on_make_call_med_tp_complete.html"><strong aria-hidden="true">3.2.3.</strong> Outgoing call callback when media transport creation is completed</a></li><li class="chapter-item expanded "><a href="html/tsx_on_state_null.html"><strong aria-hidden="true">3.2.4.</strong> tsx_on_state_null状态处理</a></li></ol></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">4.</strong> pjmedia学习</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="发送数据全流程.html"><strong aria-hidden="true">4.1.</strong> 发送数据过程</a></li><li class="chapter-item expanded "><a href="数据全流程.html"><strong aria-hidden="true">4.2.</strong> 接收数据过程</a></li><li class="chapter-item expanded "><a href="全流程思考.html"><strong aria-hidden="true">4.3.</strong> 初始化过程</a></li><li class="chapter-item expanded "><div><strong aria-hidden="true">4.4.</strong> 相关数据结构</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="ioqueue_epoll.html"><strong aria-hidden="true">4.4.1.</strong> ioqueue_epoll</a></li><li class="chapter-item expanded "><a href="epoll学习.html" class="active"><strong aria-hidden="true">4.4.2.</strong> epoll</a></li><li class="chapter-item expanded "><a href="pjmedia_transport.html"><strong aria-hidden="true">4.4.3.</strong> pjmedia_transport</a></li><li class="chapter-item expanded "><a href="Port.html"><strong aria-hidden="true">4.4.4.</strong> pjmedia_port</a></li><li class="chapter-item expanded "><a href="Stream.html"><strong aria-hidden="true">4.4.5.</strong> pjmedia_stream</a></li></ol></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">5.</strong> 常见数据结构与工具</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="pjsua_call.html"><strong aria-hidden="true">5.1.</strong> pjsua_call</a></li><li class="chapter-item expanded "><a href="pjsua_acc.html"><strong aria-hidden="true">5.2.</strong> pjsua_acc</a></li><li class="chapter-item expanded "><a href="pjsua_data.html"><strong aria-hidden="true">5.3.</strong> pjsua_data</a></li><li class="chapter-item expanded "><a href="SDP.html"><strong aria-hidden="true">5.4.</strong> SDP</a></li><li class="chapter-item expanded "><a href="Dialog.html"><strong aria-hidden="true">5.5.</strong> Dialog</a></li><li class="chapter-item expanded "><a href="Session.html"><strong aria-hidden="true">5.6.</strong> Session</a></li><li class="chapter-item expanded "><a href="transaction.html"><strong aria-hidden="true">5.7.</strong> transaction</a></li><li class="chapter-item expanded "><a href="transport.html"><strong aria-hidden="true">5.8.</strong> transport</a></li><li class="chapter-item expanded "><a href="sendData.html"><strong aria-hidden="true">5.9.</strong> 数据发送数据结构</a></li><li class="chapter-item expanded "><a href="PJSIP_log.html"><strong aria-hidden="true">5.10.</strong> pjsip log</a></li></ol></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <!-- Track and set sidebar scroll position -->
+        <script>
+            var sidebarScrollbox = document.querySelector('#sidebar .sidebar-scrollbox');
+            sidebarScrollbox.addEventListener('click', function(e) {
+                if (e.target.tagName === 'A') {
+                    sessionStorage.setItem('sidebar-scroll', sidebarScrollbox.scrollTop);
+                }
+            }, { passive: true });
+            var sidebarScrollTop = sessionStorage.getItem('sidebar-scroll');
+            sessionStorage.removeItem('sidebar-scroll');
+            if (sidebarScrollTop) {
+                // preserve sidebar scroll position when navigating via links within sidebar
+                sidebarScrollbox.scrollTop = sidebarScrollTop;
+            } else {
+                // scroll sidebar to current active section when navigating via "next/previous chapter" buttons
+                var activeSection = document.querySelector('#sidebar .active');
+                if (activeSection) {
+                    activeSection.scrollIntoView({ block: 'center' });
+                }
+            }
+        </script>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">PJSIP_STUDY</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h2 id="epoll学习"><a class="header" href="#epoll学习">epoll学习</a></h2>
+<ol>
+<li><a href="https://so.csdn.net/so/search?q=struct&amp;spm=1001.2101.3001.7020">struct</a> epoll_event</li>
+</ol>
+<p>结构体epoll_event被用于注册所感兴趣的事件和回传所发生待处理的事件，定义如下：</p>
+<p>typedef <a href="https://so.csdn.net/so/search?q=union&amp;spm=1001.2101.3001.7020">union</a> epoll_data {
+void *ptr;
+int fd;
+__uint32_t u32;
+__uint64_t u64;
+} epoll_data_t;//保存触发事件的某个文件描述符相关的数据</p>
+<p>struct epoll_event {
+__uint32_t events;   /* <a href="https://so.csdn.net/so/search?q=epoll&amp;spm=1001.2101.3001.7020">epoll</a> event <em>/
+epoll_data_t data;   /</em> User data variable */
+};</p>
+<p>其中events表示感兴趣的事件和被触发的事件，可能的取值为：
+EPOLLIN：表示对应的文件描述符可以读；
+EPOLLOUT：表示对应的文件描述符可以写；
+EPOLLPRI：表示对应的文件描述符有紧急的数可读；</p>
+<p>EPOLLERR：表示对应的文件描述符发生错误；
+EPOLLHUP：表示对应的文件描述符被挂断；
+EPOLLET：  ET的epoll工作模式；</p>
+<p>所涉及到的函数有：</p>
+<p>1、epoll_create函数
+函数声明：int epoll_create(int size)</p>
+<p>功能：该函数生成一个epoll专用的文件描述符，其中的参数是指定生成描述符的最大范围；</p>
+<p>2、epoll_ctl函数
+函数声明：int epoll_ctl(int epfd, int op, int fd, struct epoll_event *event)   在epfd上注册一个fd-events, 监听event-&gt;events的事件类型</p>
+<p>功能：用于控制某个文件描述符上的事件，可以注册事件，修改事件，删除事件。</p>
+<p>@epfd：由epoll_create生成的epoll专用的文件描述符；</p>
+<p>@op：要进行的操作，EPOLL_CTL_ADD注册、EPOLL_CTL_MOD修改、EPOLL_CTL_DEL删除；</p>
+<p>@fd：关联的文件描述符；</p>
+<p>@event：指向epoll_event的指针；</p>
+<p>成功：0；失败：-1</p>
+<p>3、epoll_wait函数
+函数声明:int epoll_wait(int epfd,struct epoll_event * events,int maxevents,int timeout)</p>
+<p>功能：该函数用于轮询I/O事件的发生；</p>
+<p>@epfd：由epoll_create生成的epoll专用的文件描述符；</p>
+<p>@epoll_event：用于回传代处理事件的数组；</p>
+<p>@maxevents：每次能处理的事件数；</p>
+<p>@timeout：等待I/O事件发生的超时值；</p>
+<p>成功：返回发生的事件数；失败：-1</p>
+<p><code>epoll_ctl</code> 是用于控制 epoll 实例的系统调用之一，它用于向 epoll 实例注册或删除事件，并指定相应的文件描述符和事件类型。</p>
+<p><code>epoll_ctl</code> 的原型如下：</p>
+<pre><code>cCopy code
+int epoll_ctl(int epfd, int op, int fd, struct epoll_event *event);
+</code></pre>
+<p>其中参数的含义如下：</p>
+<ul>
+<li>
+<p><code>epfd</code>：epoll 实例的文件描述符，通过 <code>epoll_create</code> 创建得到。</p>
+</li>
+<li>
+<pre><code>op
+</code></pre>
+<p>：操作类型，可以是以下几种值之一：</p>
+<ul>
+<li><code>EPOLL_CTL_ADD</code>：添加一个新的文件描述符到 epoll 实例中。</li>
+<li><code>EPOLL_CTL_MOD</code>：修改一个已注册的文件描述符的事件类型。</li>
+<li><code>EPOLL_CTL_DEL</code>：从 epoll 实例中删除一个文件描述符。</li>
+</ul>
+</li>
+<li>
+<p><code>fd</code>：要添加、修改或删除的文件描述符。</p>
+</li>
+<li>
+<p><code>event</code>：一个指向 <code>struct epoll_event</code> 结构体的指针，用于描述要注册的事件类型和相关的数据。</p>
+</li>
+</ul>
+<p><code>struct epoll_event</code> 结构体定义如下：</p>
+<pre><code>cCopy code
+
+
+解释struct epoll_event {
+    uint32_t events;  // 事件类型，可以是 EPOLLIN、EPOLLOUT、EPOLLERR 等
+    epoll_data_t data; // 事件关联的数据，通常是一个联合体
+};
+</code></pre>
+<p><code>epoll_ctl</code> 的主要作用是管理 epoll 实例中的文件描述符和事件，可以添加、修改或删除特定的文件描述符以及相应的事件类型。通过这个系统调用，可以实现高效的 I/O 多路复用机制，使得应用程序能够监视多个文件描述符上的事件，并在事件发生时做出相应的处理。</p>
+<pre><code class="language-c">#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;unistd.h&gt;
+#include &lt;sys/epoll.h&gt;
+
+#define MAX_EVENTS 10
+
+int main() {
+    int epoll_fd, nfds, i;
+    struct epoll_event event, events[MAX_EVENTS];
+
+    // 创建 epoll 实例
+    epoll_fd = epoll_create1(0);
+    if (epoll_fd == -1) {
+        perror("epoll_create1");
+        exit(EXIT_FAILURE);
+    }
+
+    // 打开一个文件描述符（这里以标准输入描述符为例）
+    int stdin_fd = STDIN_FILENO;
+
+    // 配置要监听的事件
+    event.events = EPOLLIN; // 监听读事件
+    event.data.fd = stdin_fd; // 将标准输入描述符与事件关联
+
+    // 将事件添加到 epoll 实例中
+    if (epoll_ctl(epoll_fd, EPOLL_CTL_ADD, stdin_fd, &amp;event) == -1) {
+        perror("epoll_ctl: EPOLL_CTL_ADD");
+        close(epoll_fd);
+        exit(EXIT_FAILURE);
+    }
+
+    // 等待事件发生
+    while (1) {
+        nfds = epoll_wait(epoll_fd, events, MAX_EVENTS, -1);
+        if (nfds == -1) {
+            perror("epoll_wait");
+            close(epoll_fd);
+            exit(EXIT_FAILURE);
+        }
+
+        // 处理所有发生的事件
+        for (i = 0; i &lt; nfds; ++i) {
+            if (events[i].events &amp; EPOLLIN) {
+                printf("Event on file descriptor %d: EPOLLIN\n", events[i].data.fd);
+
+                // 从标准输入读取数据并进行处理
+                char buffer[1024];
+                ssize_t bytes_read = read(events[i].data.fd, buffer, sizeof(buffer));
+                if (bytes_read == -1) {
+                    perror("read");
+                    close(epoll_fd);
+                    exit(EXIT_FAILURE);
+                }
+                // 处理读取的数据
+                // ...
+            }
+        }
+    }
+
+    // 关闭 epoll 实例
+    close(epoll_fd);
+
+    return 0;
+}
+
+</code></pre>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="ioqueue_epoll.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="pjmedia_transport.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="ioqueue_epoll.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="pjmedia_transport.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="elasticlunr.min.js"></script>
+        <script src="mark.min.js"></script>
+        <script src="searcher.js"></script>
+
+        <script src="clipboard.min.js"></script>
+        <script src="highlight.js"></script>
+        <script src="book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+    </div>
+    </body>
+</html>

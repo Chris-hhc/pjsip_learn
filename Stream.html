@@ -1,0 +1,602 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>pjmedia_stream - PJSIP_STUDY</title>
+
+
+        <!-- Custom HTML head -->
+        
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="favicon.svg">
+        <link rel="shortcut icon" href="favicon.png">
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        <link rel="stylesheet" href="css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+        <link rel="stylesheet" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+    </head>
+    <body class="sidebar-visible no-js">
+    <div id="body-container">
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('light')
+            html.classList.add(theme);
+            var body = document.querySelector('body');
+            body.classList.remove('no-js')
+            body.classList.add('js');
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var body = document.querySelector('body');
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            body.classList.remove('sidebar-visible');
+            body.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded "><a href="SIP.html"><strong aria-hidden="true">1.</strong> sip协议概述</a></li><li class="chapter-item expanded "><a href="pjsip_doc.html"><strong aria-hidden="true">2.</strong> pjsip文档翻译</a></li><li class="chapter-item expanded "><div><strong aria-hidden="true">3.</strong> make call流程</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="State.html"><strong aria-hidden="true">3.1.</strong> 状态机</a></li><li class="chapter-item expanded "><div><strong aria-hidden="true">3.2.</strong> 流程图</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="html/make_call.html"><strong aria-hidden="true">3.2.1.</strong> make call流程图</a></li><li class="chapter-item expanded "><a href="html/pjsip_dlg_create_uac.html"><strong aria-hidden="true">3.2.2.</strong> Create an UAC dialog</a></li><li class="chapter-item expanded "><a href="html/on_make_call_med_tp_complete.html"><strong aria-hidden="true">3.2.3.</strong> Outgoing call callback when media transport creation is completed</a></li><li class="chapter-item expanded "><a href="html/tsx_on_state_null.html"><strong aria-hidden="true">3.2.4.</strong> tsx_on_state_null状态处理</a></li></ol></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">4.</strong> pjmedia学习</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="发送数据全流程.html"><strong aria-hidden="true">4.1.</strong> 发送数据过程</a></li><li class="chapter-item expanded "><a href="数据全流程.html"><strong aria-hidden="true">4.2.</strong> 接收数据过程</a></li><li class="chapter-item expanded "><a href="全流程思考.html"><strong aria-hidden="true">4.3.</strong> 初始化过程</a></li><li class="chapter-item expanded "><div><strong aria-hidden="true">4.4.</strong> 相关数据结构</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="ioqueue_epoll.html"><strong aria-hidden="true">4.4.1.</strong> ioqueue_epoll</a></li><li class="chapter-item expanded "><a href="epoll学习.html"><strong aria-hidden="true">4.4.2.</strong> epoll</a></li><li class="chapter-item expanded "><a href="pjmedia_transport.html"><strong aria-hidden="true">4.4.3.</strong> pjmedia_transport</a></li><li class="chapter-item expanded "><a href="Port.html"><strong aria-hidden="true">4.4.4.</strong> pjmedia_port</a></li><li class="chapter-item expanded "><a href="Stream.html" class="active"><strong aria-hidden="true">4.4.5.</strong> pjmedia_stream</a></li></ol></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">5.</strong> 常见数据结构与工具</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="pjsua_call.html"><strong aria-hidden="true">5.1.</strong> pjsua_call</a></li><li class="chapter-item expanded "><a href="pjsua_acc.html"><strong aria-hidden="true">5.2.</strong> pjsua_acc</a></li><li class="chapter-item expanded "><a href="pjsua_data.html"><strong aria-hidden="true">5.3.</strong> pjsua_data</a></li><li class="chapter-item expanded "><a href="SDP.html"><strong aria-hidden="true">5.4.</strong> SDP</a></li><li class="chapter-item expanded "><a href="Dialog.html"><strong aria-hidden="true">5.5.</strong> Dialog</a></li><li class="chapter-item expanded "><a href="Session.html"><strong aria-hidden="true">5.6.</strong> Session</a></li><li class="chapter-item expanded "><a href="transaction.html"><strong aria-hidden="true">5.7.</strong> transaction</a></li><li class="chapter-item expanded "><a href="transport.html"><strong aria-hidden="true">5.8.</strong> transport</a></li><li class="chapter-item expanded "><a href="sendData.html"><strong aria-hidden="true">5.9.</strong> 数据发送数据结构</a></li><li class="chapter-item expanded "><a href="PJSIP_log.html"><strong aria-hidden="true">5.10.</strong> pjsip log</a></li></ol></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <!-- Track and set sidebar scroll position -->
+        <script>
+            var sidebarScrollbox = document.querySelector('#sidebar .sidebar-scrollbox');
+            sidebarScrollbox.addEventListener('click', function(e) {
+                if (e.target.tagName === 'A') {
+                    sessionStorage.setItem('sidebar-scroll', sidebarScrollbox.scrollTop);
+                }
+            }, { passive: true });
+            var sidebarScrollTop = sessionStorage.getItem('sidebar-scroll');
+            sessionStorage.removeItem('sidebar-scroll');
+            if (sidebarScrollTop) {
+                // preserve sidebar scroll position when navigating via links within sidebar
+                sidebarScrollbox.scrollTop = sidebarScrollTop;
+            } else {
+                // scroll sidebar to current active section when navigating via "next/previous chapter" buttons
+                var activeSection = document.querySelector('#sidebar .active');
+                if (activeSection) {
+                    activeSection.scrollIntoView({ block: 'center' });
+                }
+            }
+        </script>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">PJSIP_STUDY</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h2 id="stream"><a class="header" href="#stream">Stream</a></h2>
+<h3 id="pjmedia_stream_info"><a class="header" href="#pjmedia_stream_info">pjmedia_stream_info</a></h3>
+<p>对应sdp中的 m=字段 （媒体名称和传输地址）</p>
+<pre><code class="language-makefile">m=audio 9 UDP/TLS/RTP/SAVPF 111 103 104 9 0 8 106 105 13 126
+//m=audio说明本会话包含音频，9代表音频使用端口9来传输，但是在webrtc中一现在一般不使用，如果设置为0，代表不
+//传输音频,UDP/TLS/RTP/SAVPF是表示用户来传输音频支持的协议，udp，tls,rtp代表使用udp来传输rtp包，并使用tls加密
+//SAVPF代表使用srtcp的反馈机制来控制通信过程,后台111 103 104 9 0 8 106 105 13 126表示本会话音频支持的编码，后台几行会有详细补充说明
+</code></pre>
+<pre><code class="language-c">/**
+ * This structure describes media stream information. Each media stream
+ * corresponds to one "m=" line in SDP session descriptor, and it has
+ * its own RTP/RTCP socket pair.
+ */
+typedef struct pjmedia_stream_info
+{
+    pjmedia_type        type;       /**&lt; Media type (audio, video)          */
+    pjmedia_tp_proto    proto;      /**&lt; Transport protocol (RTP/AVP, etc.) */
+    pjmedia_dir         dir;        /**&lt; Media direction.                   */
+    pj_sockaddr         local_addr; /**&lt; Local RTP address                  */
+    pj_sockaddr         rem_addr;   /**&lt; Remote RTP address                 */
+    pj_sockaddr         rem_rtcp;   /**&lt; Optional remote RTCP address. If
+                                         sin_family is zero, the RTP address
+                                         will be calculated from RTP.       */
+    pj_bool_t           rtcp_mux;   /**&lt; Use RTP and RTCP multiplexing.     */
+#if defined(PJMEDIA_HAS_RTCP_XR) &amp;&amp; (PJMEDIA_HAS_RTCP_XR != 0)
+    pj_bool_t           rtcp_xr_enabled;
+                                    /**&lt; Specify whether RTCP XR is enabled.*/
+    pj_uint32_t         rtcp_xr_interval; /**&lt; RTCP XR interval.            */
+    pj_sockaddr         rtcp_xr_dest;/**&lt;Additional remote RTCP XR address.
+                                         This is useful for third-party (e.g:
+                                         network monitor) to monitor the 
+                                         stream. If sin_family is zero, 
+                                         this will be ignored.              */
+#endif
+    pjmedia_rtcp_fb_info loc_rtcp_fb; /**&lt; Local RTCP-FB info.              */
+    pjmedia_rtcp_fb_info rem_rtcp_fb; /**&lt; Remote RTCP-FB info.             */
+    pjmedia_codec_info  fmt;        /**&lt; Incoming codec format info.        */
+    pjmedia_codec_param *param;     /**&lt; Optional codec param.              */
+    unsigned            tx_pt;      /**&lt; Outgoing codec paylaod type.       */
+    unsigned            rx_pt;      /**&lt; Incoming codec paylaod type.       */
+    unsigned            tx_maxptime;/**&lt; Outgoing codec max ptime.          */
+    int                 tx_event_pt;/**&lt; Outgoing pt for telephone-events.  */
+    int                 rx_event_pt;/**&lt; Incoming pt for telephone-events.  */
+    pj_uint32_t         ssrc;       /**&lt; RTP SSRC.                          */
+    pj_str_t            cname;      /**&lt; RTCP CNAME.                        */
+    pj_bool_t           has_rem_ssrc;/**&lt;Has remote RTP SSRC?               */
+    pj_uint32_t         rem_ssrc;   /**&lt; Remote RTP SSRC.                   */
+    pj_str_t            rem_cname;  /**&lt; Remote RTCP CNAME.                 */
+    pj_uint32_t         rtp_ts;     /**&lt; Initial RTP timestamp.             */
+    pj_uint16_t         rtp_seq;    /**&lt; Initial RTP sequence number.       */
+    pj_uint8_t          rtp_seq_ts_set;
+                                    /**&lt; Bitmask flags if initial RTP sequence 
+                                         and/or timestamp for sender are set.
+                                         bit 0/LSB : sequence flag 
+                                         bit 1     : timestamp flag         */
+    int                 jb_init;    /**&lt; Jitter buffer init delay in msec.  
+                                         (-1 for default).                  */
+    int                 jb_min_pre; /**&lt; Jitter buffer minimum prefetch
+                                         delay in msec (-1 for default).    */
+    int                 jb_max_pre; /**&lt; Jitter buffer maximum prefetch
+                                         delay in msec (-1 for default).    */
+    int                 jb_max;     /**&lt; Jitter buffer max delay in msec.   */
+    pjmedia_jb_discard_algo jb_discard_algo;
+                                    /**&lt; Jitter buffer discard algorithm.   */
+
+#if defined(PJMEDIA_STREAM_ENABLE_KA) &amp;&amp; PJMEDIA_STREAM_ENABLE_KA!=0
+    pj_bool_t           use_ka;     /**&lt; Stream keep-alive and NAT hole punch
+                                         (see #PJMEDIA_STREAM_ENABLE_KA)
+                                         is enabled?                        */
+    pjmedia_stream_ka_config ka_cfg;
+                                    /**&lt; Stream send kep-alive settings.    */
+#endif
+    pj_bool_t           rtcp_sdes_bye_disabled; 
+                                    /**&lt; Disable automatic sending of RTCP
+                                         SDES and BYE.                      */
+} pjmedia_stream_info;
+</code></pre>
+<h3 id="pjmedia_stream"><a class="header" href="#pjmedia_stream">pjmedia_stream</a></h3>
+<pre><code class="language-c">/**
+ * This structure describes media stream.
+ * A media stream is bidirectional media transmission between two endpoints.
+ * It consists of two channels, i.e. encoding and decoding channels.
+ * A media stream corresponds to a single "m=" line in a SDP session
+ * description.
+ */
+struct pjmedia_stream
+{
+    pjmedia_endpt           *endpt;         /**&lt; Media endpoint.            */
+    pjmedia_codec_mgr       *codec_mgr;     /**&lt; Codec manager instance.    */
+    pjmedia_stream_info      si;            /**&lt; Creation parameter.        */
+    pjmedia_port             port;          /**&lt; Port interface.            */
+    pjmedia_channel         *enc;           /**&lt; Encoding channel.          */
+    pjmedia_channel         *dec;           /**&lt; Decoding channel.          */
+
+    pj_pool_t               *own_pool;      /**&lt; Only created if not given  */
+
+ 
+    pjmedia_dir              dir;           /**&lt; Stream direction.          */
+    void                    *user_data;     /**&lt; User data.                 */
+    pj_str_t                 cname;         /**&lt; SDES CNAME                 */
+
+    pjmedia_transport       *transport;     /**&lt; Stream transport.          */
+
+    pjmedia_codec           *codec;         /**&lt; Codec instance being used. */
+    pjmedia_codec_param      codec_param;   /**&lt; Codec param.               */
+    pj_int16_t              *enc_buf;       /**&lt; Encoding buffer, when enc's
+                                                 ptime is different than dec.
+                                                 Otherwise it's NULL.       */
+
+    unsigned                 enc_samples_per_pkt;
+    unsigned                 enc_buf_size;  /**&lt; Encoding buffer size, in
+                                                 samples.                   */
+    unsigned                 enc_buf_pos;   /**&lt; First position in buf.     */
+    unsigned                 enc_buf_count; /**&lt; Number of samples in the
+                                                 encoding buffer.           */
+
+    pj_int16_t              *dec_buf;       /**&lt; Decoding buffer.           */
+    unsigned                 dec_buf_size;  /**&lt; Decoding buffer size, in
+                                                 samples.                   */
+    unsigned                 dec_buf_pos;   /**&lt; First position in buf.     */
+    unsigned                 dec_buf_count; /**&lt; Number of samples in the
+                                                 decoding buffer.           */
+
+    pj_uint16_t              dec_ptime;     /**&lt; Decoder frame ptime in ms. */
+    pj_uint8_t               dec_ptime_denum;/**&lt; Decoder ptime denum.      */
+    pj_bool_t                detect_ptime_change;
+                                            /**&lt; Detect decode ptime change */
+
+    unsigned                 plc_cnt;       /**&lt; # of consecutive PLC frames*/
+    unsigned                 max_plc_cnt;   /**&lt; Max # of PLC frames        */
+
+    unsigned                 vad_enabled;   /**&lt; VAD enabled in param.      */
+    unsigned                 frame_size;    /**&lt; Size of encoded base frame.*/
+    pj_bool_t                is_streaming;  /**&lt; Currently streaming?. This
+                                                 is used to put RTP marker
+                                                 bit.                       */
+    pj_uint32_t              ts_vad_disabled;/**&lt; TS when VAD was disabled. */
+    pj_uint32_t              tx_duration;   /**&lt; TX duration in timestamp.  */
+
+    pj_mutex_t              *jb_mutex;
+    pjmedia_jbuf            *jb;            /**&lt; Jitter buffer.             */
+    char                     jb_last_frm;   /**&lt; Last frame type from jb    */
+    unsigned                 jb_last_frm_cnt;/**&lt; Last JB frame type counter*/
+    unsigned                 soft_start_cnt;/**&lt; Stream soft start counter */
+
+    pjmedia_rtcp_session     rtcp;          /**&lt; RTCP for incoming RTP.     */
+
+    pj_uint32_t              rtcp_last_tx;  /**&lt; RTCP tx time in timestamp  */
+    pj_uint32_t              rtcp_interval; /**&lt; Interval, in timestamp.    */
+    pj_bool_t                initial_rr;    /**&lt; Initial RTCP RR sent       */
+    pj_bool_t                rtcp_sdes_bye_disabled;/**&lt; Send RTCP SDES/BYE?*/
+    void                    *out_rtcp_pkt;  /**&lt; Outgoing RTCP packet.      */
+    unsigned                 out_rtcp_pkt_size;
+                                            /**&lt; Outgoing RTCP packet size. */
+    pj_int16_t              *zero_frame;    /**&lt; Zero frame buffer.         */
+
+    /* RFC 2833 DTMF transmission queue: */
+    unsigned                 dtmf_duration; /**&lt; DTMF duration(in timestamp)*/
+    int                      tx_event_pt;   /**&lt; Outgoing pt for dtmf.      */
+    int                      tx_dtmf_count; /**&lt; # of digits in tx dtmf buf.*/
+    struct dtmf              tx_dtmf_buf[32];/**&lt; Outgoing dtmf queue.      */
+
+    /* Incoming DTMF: */
+    int                      rx_event_pt;   /**&lt; Incoming pt for dtmf.      */
+    int                      last_dtmf;     /**&lt; Current digit, or -1.      */
+    pj_uint32_t              last_dtmf_dur; /**&lt; Start ts for cur digit.    */
+    pj_bool_t                last_dtmf_ended;
+    unsigned                 rx_dtmf_count; /**&lt; # of digits in dtmf rx buf.*/
+    char                     rx_dtmf_buf[32];/**&lt; Incoming DTMF buffer.     */
+
+    /* DTMF callback */
+    void                    (*dtmf_cb)(pjmedia_stream*, void*, int);
+    void                     *dtmf_cb_user_data;
+
+    void                    (*dtmf_event_cb)(pjmedia_stream*, void*,
+                                             const pjmedia_stream_dtmf_event*);
+    void                     *dtmf_event_cb_user_data;
+
+#if defined(PJMEDIA_HANDLE_G722_MPEG_BUG) &amp;&amp; (PJMEDIA_HANDLE_G722_MPEG_BUG!=0)
+    /* Enable support to handle codecs with inconsistent clock rate
+     * between clock rate in SDP/RTP &amp; the clock rate that is actually used.
+     * This happens for example with G.722 and MPEG audio codecs.
+     */
+    pj_bool_t                has_g722_mpeg_bug;
+                                            /**&lt; Flag to specify whether
+                                                 normalization process
+                                                 is needed                  */
+    unsigned                 rtp_tx_ts_len_per_pkt;
+                                            /**&lt; Normalized ts length per packet
+                                                 transmitted according to
+                                                 'erroneous' definition     */
+    unsigned                 rtp_rx_ts_len_per_frame;
+                                            /**&lt; Normalized ts length per frame
+                                                 received according to
+                                                 'erroneous' definition     */
+    unsigned                 rtp_rx_last_cnt;/**&lt; Nb of frames in last pkt  */
+    unsigned                 rtp_rx_check_cnt;
+                                            /**&lt; Counter of remote timestamp
+                                                 checking */
+#endif
+
+
+    pj_sockaddr              rem_rtp_addr;     /**&lt; Remote RTP address      */
+    unsigned                 rem_rtp_flag;     /**&lt; Indicator flag about
+                                                    packet from this addr.
+                                                    0=no pkt, 1=good ssrc,
+                                                    2=bad ssrc pkts         */
+    unsigned                 rtp_src_cnt;      /**&lt; How many pkt from
+                                                    this addr.              */
+    pj_uint32_t              rtp_rx_last_ts;        /**&lt; Last received RTP
+                                                         timestamp          */
+    pj_uint32_t              rtp_tx_err_cnt;        /**&lt; The number of RTP
+                                                         send() error       */
+    pj_uint32_t              rtcp_tx_err_cnt;       /**&lt; The number of RTCP
+                                                         send() error       */
+
+    /* RTCP Feedback */
+    pj_bool_t                send_rtcp_fb_nack;     /**&lt; Send NACK?         */
+    pjmedia_rtcp_fb_nack     rtcp_fb_nack;          /**&lt; TX NACK state.     */
+    int                      rtcp_fb_nack_cap_idx;  /**&lt; RX NACK cap idx.   */
+
+
+};
+
+</code></pre>
+<h2 id="初始化pjmedia_stream_create"><a class="header" href="#初始化pjmedia_stream_create">初始化pjmedia_stream_create</a></h2>
+<pre><code class="language-c">PJ_DEF(pj_status_t) pjmedia_stream_create( pjmedia_endpt *endpt,
+                                           pj_pool_t *pool,
+                                           const pjmedia_stream_info *info,
+                                           pjmedia_transport *tp,
+                                           void *user_data,
+                                           pjmedia_stream **p_stream)
+</code></pre>
+<p>创建stream对象stream = PJ_POOL_ZALLOC_T(pool, pjmedia_stream);</p>
+<p>好的，以下是所有变量以及它们的类型和描述的表格：</p>
+<div class="table-wrapper"><table><thead><tr><th>变量</th><th>类型</th><th>描述</th><th style="text-align: left">初始化</th></tr></thead><tbody>
+<tr><td><code>endpt</code></td><td><code>pjmedia_endpt*</code></td><td>媒体端点。</td><td style="text-align: left">endpt 函数参数</td></tr>
+<tr><td><code>codec_mgr</code></td><td><code>pjmedia_codec_mgr*</code></td><td>编解码器管理器实例。</td><td style="text-align: left">pjmedia_endpt_get_codec_mgr(endpt);</td></tr>
+<tr><td><code>si</code></td><td><code>pjmedia_stream_info</code></td><td>流的创建参数。</td><td style="text-align: left">create参数info</td></tr>
+<tr><td><code>port</code></td><td><code>pjmedia_port</code></td><td>端口接口。</td><td style="text-align: left">port.info初始化pjmedia_port_info_init ，stream-&gt;port.info.fmt</td></tr>
+<tr><td><code>enc</code></td><td><code>pjmedia_channel*</code></td><td>编码通道。</td><td style="text-align: left">f</td></tr>
+<tr><td><code>dec</code></td><td><code>pjmedia_channel*</code></td><td>解码通道。</td><td style="text-align: left"></td></tr>
+<tr><td><code>own_pool</code></td><td><code>pj_pool_t*</code></td><td>只有在未给定时才会创建。</td><td style="text-align: left"></td></tr>
+<tr><td><code>dir</code></td><td><code>pjmedia_dir</code></td><td>流的方向。</td><td style="text-align: left">info-&gt;dir</td></tr>
+<tr><td><code>user_data</code></td><td><code>void*</code></td><td>用户数据。</td><td style="text-align: left">user_data参数</td></tr>
+<tr><td><code>cname</code></td><td><code>pj_str_t</code></td><td>SDES CNAME。</td><td style="text-align: left"></td></tr>
+<tr><td><code>transport</code></td><td><code>pjmedia_transport*</code></td><td>流传输。</td><td style="text-align: left"></td></tr>
+<tr><td><code>codec</code></td><td><code>pjmedia_codec*</code></td><td>正在使用的编解码器实例。</td><td style="text-align: left">pjmedia_codec_mgr_alloc_codec( stream-&gt;codec_mgr, &amp;info-&gt;fmt, &amp;stream-&gt;codec);</td></tr>
+<tr><td><code>codec_param</code></td><td><code>pjmedia_codec_param</code></td><td>编解码器参数。</td><td style="text-align: left">stream-&gt;codec_param = *stream-&gt;si.param;或pjmedia_codec_mgr_get_default_param(stream-&gt;codec_mgr,&amp;info&gt;fmt,&amp;stream&gt;codec_param);</td></tr>
+<tr><td><code>enc_buf</code></td><td><code>pj_int16_t*</code></td><td>编码缓冲区，当编码的 ptime 与解码的不同时有效。</td><td style="text-align: left"></td></tr>
+<tr><td><code>enc_samples_per_pkt</code></td><td><code>unsigned</code></td><td>每个包的编码样本数。</td><td style="text-align: left"></td></tr>
+<tr><td><code>enc_buf_size</code></td><td><code>unsigned</code></td><td>编码缓冲区大小，以样本为单位。</td><td style="text-align: left"></td></tr>
+<tr><td><code>enc_buf_pos</code></td><td><code>unsigned</code></td><td>缓冲区中的第一个位置。</td><td style="text-align: left"></td></tr>
+<tr><td><code>enc_buf_count</code></td><td><code>unsigned</code></td><td>编码缓冲区中的样本数。</td><td style="text-align: left"></td></tr>
+<tr><td><code>dec_buf</code></td><td><code>pj_int16_t*</code></td><td>解码缓冲区。</td><td style="text-align: left"></td></tr>
+<tr><td><code>dec_buf_size</code></td><td><code>unsigned</code></td><td>解码缓冲区大小，以样本为单位。</td><td style="text-align: left"></td></tr>
+<tr><td><code>dec_buf_pos</code></td><td><code>unsigned</code></td><td>缓冲区中的第一个位置。</td><td style="text-align: left"></td></tr>
+<tr><td><code>dec_buf_count</code></td><td><code>unsigned</code></td><td>解码缓冲区中的样本数。</td><td style="text-align: left"></td></tr>
+<tr><td><code>dec_ptime</code></td><td><code>pj_uint16_t</code></td><td>解码器帧的时间，以毫秒为单位。</td><td style="text-align: left"></td></tr>
+<tr><td><code>dec_ptime_denum</code></td><td><code>pj_uint8_t</code></td><td>解码器帧的时间分母。</td><td style="text-align: left"></td></tr>
+<tr><td><code>detect_ptime_change</code></td><td><code>pj_bool_t</code></td><td>检测解码 ptime 的变化。</td><td style="text-align: left"></td></tr>
+<tr><td><code>plc_cnt</code></td><td><code>unsigned</code></td><td>连续 PLC 帧的数量。</td><td style="text-align: left"></td></tr>
+<tr><td><code>max_plc_cnt</code></td><td><code>unsigned</code></td><td>最大的 PLC 帧数量。</td><td style="text-align: left"></td></tr>
+<tr><td><code>vad_enabled</code></td><td><code>unsigned</code></td><td>参数中是否启用了 VAD。</td><td style="text-align: left"></td></tr>
+<tr><td><code>frame_size</code></td><td><code>unsigned</code></td><td>编码基本帧的大小。</td><td style="text-align: left"></td></tr>
+<tr><td><code>is_streaming</code></td><td><code>pj_bool_t</code></td><td>当前是否正在流式传输？</td><td style="text-align: left"></td></tr>
+<tr><td><code>ts_vad_disabled</code></td><td><code>pj_uint32_t</code></td><td>禁用 VAD 时的时间戳。</td><td style="text-align: left"></td></tr>
+<tr><td><code>tx_duration</code></td><td><code>pj_uint32_t</code></td><td>时间戳中的 TX 时长。</td><td style="text-align: left"></td></tr>
+<tr><td><code>jb_mutex</code></td><td><code>pj_mutex_t*</code></td><td>抖动缓冲区互斥锁。</td><td style="text-align: left">status = pj_mutex_create_simple(pool, NULL, &amp;stream-&gt;jb_mutex);</td></tr>
+<tr><td><code>jb</code></td><td><code>pjmedia_jbuf*</code></td><td>抖动缓冲区。</td><td style="text-align: left"></td></tr>
+<tr><td><code>jb_last_frm</code></td><td><code>char</code></td><td>最后一帧的类型。</td><td style="text-align: left"></td></tr>
+<tr><td><code>jb_last_frm_cnt</code></td><td><code>unsigned</code></td><td>上一个 JB 帧类型的计数器。</td><td style="text-align: left"></td></tr>
+<tr><td><code>soft_start_cnt</code></td><td><code>unsigned</code></td><td>流软启动计数器。</td><td style="text-align: left"></td></tr>
+<tr><td><code>rtcp</code></td><td><code>pjmedia_rtcp_session</code></td><td>传入 RTP 的 RTCP。</td><td style="text-align: left"></td></tr>
+<tr><td><code>rtcp_last_tx</code></td><td><code>pj_uint32_t</code></td><td>RTCP 的上次发送时间戳。</td><td style="text-align: left"></td></tr>
+<tr><td><code>rtcp_interval</code></td><td><code>pj_uint32_t</code></td><td>间隔时间戳。</td><td style="text-align: left"></td></tr>
+<tr><td><code>initial_rr</code></td><td><code>pj_bool_t</code></td><td>是否已发送初始的 RTCP RR。</td><td style="text-align: left"></td></tr>
+<tr><td><code>rtcp_sdes_bye_disabled</code></td><td><code>pj_bool_t</code></td><td>是否发送 RTCP SDES/BYE？</td><td style="text-align: left"></td></tr>
+<tr><td><code>out_rtcp_pkt</code></td><td><code>void*</code></td><td>出站 RTCP 数据包。</td><td style="text-align: left"></td></tr>
+<tr><td><code>out_rtcp_pkt_size</code></td><td><code>unsigned</code></td><td>出站 RTCP 数据包大小。</td><td style="text-align: left"></td></tr>
+<tr><td><code>zero_frame</code></td><td><code>pj_int16_t*</code></td><td>零帧缓冲区。</td><td style="text-align: left"></td></tr>
+<tr><td><code>dtmf_duration</code></td><td><code>unsigned</code></td><td>DTMF 时长（时间戳）。</td><td style="text-align: left"></td></tr>
+<tr><td><code>tx_event_pt</code></td><td><code>int</code></td><td>DTMF 的传输事件 PT。</td><td style="text-align: left"></td></tr>
+<tr><td><code>tx_dtmf_count</code></td><td><code>int</code></td><td>发送 DTMF 缓冲区中的数字数量。</td><td style="text-align: left"></td></tr>
+<tr><td><code>tx_dtmf_buf</code></td><td><code>struct dtmf[32]</code></td><td>发送 DTMF 队列。</td><td style="text-align: left"></td></tr>
+<tr><td><code>rx_event_pt</code></td><td><code>int</code></td><td>接收 DTMF 的事件 PT。</td><td style="text-align: left"></td></tr>
+<tr><td><code>last_dtmf</code></td><td><code>int</code></td><td>当前数字，或 -1。</td><td style="text-align: left"></td></tr>
+<tr><td><code>last_dtmf_dur</code></td><td><code>pj_uint32_t</code></td><td>当前数字的开始时间戳。</td><td style="text-align: left"></td></tr>
+<tr><td><code>last_dtmf_ended</code></td><td><code>pj_bool_t</code></td><td>上一个 DTMF 是否结束。</td><td style="text-align: left"></td></tr>
+<tr><td><code>rx_dtmf_count</code></td><td><code>unsigned</code></td><td>接收 DTMF 缓冲区中的数字数量。</td><td style="text-align: left"></td></tr>
+<tr><td><code>rx_dtmf_buf</code></td><td><code>char[32]</code></td><td>接收 DTMF 缓冲区。</td><td style="text-align: left"></td></tr>
+<tr><td><code>dtmf_cb</code></td><td><code>void (*)(pjmedia_stream*, void*, int)</code></td><td>DTMF 回调函数。</td><td style="text-align: left"></td></tr>
+<tr><td><code>dtmf_cb_user_data</code></td><td><code>void*</code></td><td>DTMF 回调函数的用户数据。</td><td style="text-align: left"></td></tr>
+<tr><td><code>dtmf_event_cb</code></td><td><code>void (*)(pjmedia_stream*, void*, const pjmedia_stream_dtmf_event*)</code></td><td>DTMF 事件回调函数。</td><td style="text-align: left"></td></tr>
+<tr><td><code>dtmf_event_cb_user_data</code></td><td><code>void*</code></td><td>DTMF 事件回调函数的用户数据。</td><td style="text-align: left"></td></tr>
+<tr><td><code>has_g722_mpeg_bug</code></td><td><code>pj_bool_t</code></td><td>是否存在 G722 MPEG Bug。</td><td style="text-align: left"></td></tr>
+<tr><td><code>rtp_tx_ts_len_per_pkt</code></td><td><code>unsigned</code></td><td>每个发送包的标准化 TS 长度。</td><td style="text-align: left"></td></tr>
+<tr><td><code>rtp_rx_ts_len_per_frame</code></td><td><code>unsigned</code></td><td>每个接收帧的标准化 TS 长度。</td><td style="text-align: left"></td></tr>
+<tr><td><code>rtp_rx_last_cnt</code></td><td><code>unsigned</code></td><td>上一个包中的帧数。</td><td style="text-align: left"></td></tr>
+<tr><td><code>rtp_rx_check_cnt</code></td><td><code>unsigned</code></td><td>远程时间戳检查计数器。</td><td style="text-align: left"></td></tr>
+<tr><td><code>rtcp_xr_last_tx</code></td><td><code>pj_uint32_t</code></td><td>上次发送 RTCP XR 的时间戳。</td><td style="text-align: left"></td></tr>
+<tr><td><code>rtcp_xr_interval</code></td><td><code>pj_uint32_t</code></td><td>RTCP XR 的间隔时间戳。</td><td style="text-align: left"></td></tr>
+<tr><td><code>rtcp_xr_dest</code></td><td><code>pj_sockaddr</code></td><td>附加的远程 RTCP XR 目标。</td><td style="text-align: left"></td></tr>
+<tr><td><code>rtcp_xr_dest_len</code></td><td><code>unsigned</code></td><td>RTCP XR 目标地址的长度。</td><td style="text-align: left"></td></tr>
+<tr><td><code>use_ka</code></td><td><code>pj_bool_t</code></td><td>是否启用了流的保活机制。</td><td style="text-align: left"></td></tr>
+<tr><td><code>ka_interval</code></td><td><code>unsigned</code></td><td>发送保活的间隔。</td><td style="text-align: left"></td></tr>
+<tr><td><code>last_frm_ts_sent</code></td><td><code>pj_time_val</code></td><td>上次发送包的时间。</td><td style="text-align: left"></td></tr>
+<tr><td><code>start_ka_count</code></td><td><code>unsigned</code></td><td>创建后要发送的保活数量。</td><td style="text-align: left"></td></tr>
+<tr><td><code>start_ka_interval</code></td><td><code>unsigned</code></td><td>流创建后的保活发送间隔。</td><td style="text-align: left"></td></tr>
+<tr><td><code>rem_rtp_addr</code></td><td><code>pj_sockaddr</code></td><td>远程 RTP 地址。</td><td style="text-align: left"></td></tr>
+<tr><td><code>rem_rtp_flag</code></td><td><code>unsigned</code></td><td>来自该地址的数据包指示标志。</td><td style="text-align: left"></td></tr>
+<tr><td><code>rtp_src_cnt</code></td><td><code>unsigned</code></td><td>来自该地址的数据包数量。</td><td style="text-align: left"></td></tr>
+<tr><td><code>trace_jb_fd</code></td><td><code>pj_oshandle_t</code></td><td>抖动跟踪文件句柄。</td><td style="text-align: left"></td></tr>
+<tr><td><code>trace_jb_buf</code></td><td><code>char*</code></td><td>抖动跟踪缓冲区。</td><td style="text-align: left"></td></tr>
+<tr><td><code>rtp_rx_last_ts</code></td><td><code>pj_uint32_t</code></td><td>上次接收的 RTP 时间戳。</td><td style="text-align: left"></td></tr>
+<tr><td><code>rtp_tx_err_cnt</code></td><td><code>pj_uint32_t</code></td><td>RTP 发送错误计数。</td><td style="text-align: left"></td></tr>
+<tr><td><code>rtcp_tx_err_cnt</code></td><td><code>pj_uint32_t</code></td><td>RTCP 发送错误计数。</td><td style="text-align: left"></td></tr>
+<tr><td><code>send_rtcp_fb_nack</code></td><td><code>pj_bool_t</code></td><td>是否发送 RTCP 反馈 NACK？</td><td style="text-align: left"></td></tr>
+<tr><td><code>rtcp_fb_nack</code></td><td><code>pjmedia_rtcp_fb_nack</code></td><td>TX NACK 状态。</td><td style="text-align: left"></td></tr>
+<tr><td><code>rtcp_fb_nack_cap_idx</code></td><td><code>int</code></td><td>RX NACK 能力索引。</td><td style="text-align: left"></td></tr>
+</tbody></table>
+</div>
+<pre><code class="language-c">    stream-&gt;endpt = endpt;
+    stream-&gt;codec_mgr = pjmedia_endpt_get_codec_mgr(endpt);
+    stream-&gt;dir = info-&gt;dir;
+    stream-&gt;user_data = user_data;
+    stream-&gt;rtcp_interval = (PJMEDIA_RTCP_INTERVAL-500 + (pj_rand()%1000)) *
+                            info-&gt;fmt.clock_rate / 1000;
+    stream-&gt;rtcp_sdes_bye_disabled = info-&gt;rtcp_sdes_bye_disabled;
+
+    stream-&gt;tx_event_pt = info-&gt;tx_event_pt ? info-&gt;tx_event_pt : -1;
+    stream-&gt;rx_event_pt = info-&gt;rx_event_pt ? info-&gt;rx_event_pt : -1;
+    stream-&gt;last_dtmf = -1;
+    stream-&gt;jb_last_frm = PJMEDIA_JB_NORMAL_FRAME;
+    stream-&gt;rtcp_fb_nack.pid = -1;
+    stream-&gt;soft_start_cnt = PJMEDIA_STREAM_SOFT_START;
+		stream-&gt;cname = info-&gt;cname;
+</code></pre>
+<p>Create mutex to protect jitter buffer:</p>
+<p>codec： <strong>Create and initialize codec</strong>: pjmedia_codec_mgr_alloc_codec   <strong>Get codec param:</strong> pjmedia_codec_mgr_get_default_param <strong>Init the codec</strong> pjmedia_codec_init(stream-&gt;codec, pool); <strong>Open the codec.</strong></p>
+<p>pjmedia_codec_open(stream-&gt;codec, &amp;stream-&gt;codec_param);</p>
+<pre><code class="language-c">    stream-&gt;dec_ptime = stream-&gt;codec_param.info.frm_ptime;
+    stream-&gt;dec_ptime_denum = PJ_MAX(stream-&gt;codec_param.info.frm_ptime_denum,
+                                     1);
+    afd-&gt;bits_per_sample = 16;
+    afd-&gt;frame_time_usec = stream-&gt;codec_param.info.frm_ptime *
+                           stream-&gt;codec_param.setting.frm_per_pkt * 1000 /
+                           stream-&gt;codec_param.info.frm_ptime_denum;
+    stream-&gt;port.info.fmt.id = stream-&gt;codec_param.info.fmt_id;
+</code></pre>
+<p>重要stream对应port的回调</p>
+<p>stream-&gt;port.put_frame = &amp;put_frame;</p>
+<p>stream-&gt;port.get_frame = &amp;get_frame;</p>
+<p>/* Init jitter buffer parameters: */</p>
+<p>/* Create jitter buffer */</p>
+<pre><code>status = pjmedia_jbuf_create(pool, &amp;stream-&gt;port.info.name,
+                                 stream-&gt;frame_size,
+                                 stream-&gt;codec_param.info.frm_ptime,
+                                 jb_max, &amp;stream-&gt;jb);
+</code></pre>
+<p>Create decoder channel</p>
+<p>Create encoder channel</p>
+<pre><code class="language-c">status = create_channel( pool, stream, PJMEDIA_DIR_ENCODING,
+                             info-&gt;tx_pt, info, &amp;stream-&gt;enc);
+</code></pre>
+<p>Init RTCP session:</p>
+<p>Only attach transport when stream is ready.在attach之前初始化att_param 看两个回调</p>
+<pre><code class="language-c">    att_param.rtp_cb2 = &amp;on_rx_rtp;
+    att_param.rtcp_cb = &amp;on_rx_rtcp;
+</code></pre>
+<pre><code class="language-c">    stream-&gt;transport = tp;
+    status = pjmedia_transport_attach2(tp, &amp;att_param);
+    if (status != PJ_SUCCESS)
+        goto err_cleanup;
+</code></pre>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="Port.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="pjsua_call.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="Port.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="pjsua_call.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="elasticlunr.min.js"></script>
+        <script src="mark.min.js"></script>
+        <script src="searcher.js"></script>
+
+        <script src="clipboard.min.js"></script>
+        <script src="highlight.js"></script>
+        <script src="book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+    </div>
+    </body>
+</html>
