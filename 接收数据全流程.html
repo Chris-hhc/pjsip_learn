@@ -1,0 +1,809 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>接收数据过程 - PJSIP_STUDY</title>
+
+
+        <!-- Custom HTML head -->
+        
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="favicon.svg">
+        <link rel="shortcut icon" href="favicon.png">
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        <link rel="stylesheet" href="css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+        <link rel="stylesheet" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+    </head>
+    <body class="sidebar-visible no-js">
+    <div id="body-container">
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('light')
+            html.classList.add(theme);
+            var body = document.querySelector('body');
+            body.classList.remove('no-js')
+            body.classList.add('js');
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var body = document.querySelector('body');
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            body.classList.remove('sidebar-visible');
+            body.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded "><a href="SIP.html"><strong aria-hidden="true">1.</strong> sip协议概述</a></li><li class="chapter-item expanded "><a href="pjsip_doc.html"><strong aria-hidden="true">2.</strong> pjsip文档翻译</a></li><li class="chapter-item expanded "><div><strong aria-hidden="true">3.</strong> make call流程</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="State.html"><strong aria-hidden="true">3.1.</strong> 状态机</a></li><li class="chapter-item expanded "><div><strong aria-hidden="true">3.2.</strong> 流程图</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="html/make_call.html"><strong aria-hidden="true">3.2.1.</strong> make call流程图</a></li><li class="chapter-item expanded "><a href="html/pjsip_dlg_create_uac.html"><strong aria-hidden="true">3.2.2.</strong> Create an UAC dialog</a></li><li class="chapter-item expanded "><a href="html/on_make_call_med_tp_complete.html"><strong aria-hidden="true">3.2.3.</strong> Outgoing call callback when media transport creation is completed</a></li><li class="chapter-item expanded "><a href="html/tsx_on_state_null.html"><strong aria-hidden="true">3.2.4.</strong> tsx_on_state_null状态处理</a></li></ol></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">4.</strong> pjmedia学习</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="发送数据全流程.html"><strong aria-hidden="true">4.1.</strong> 发送数据过程</a></li><li class="chapter-item expanded "><a href="接收数据全流程.html" class="active"><strong aria-hidden="true">4.2.</strong> 接收数据过程</a></li><li class="chapter-item expanded "><a href="全流程思考.html"><strong aria-hidden="true">4.3.</strong> 初始化过程</a></li><li class="chapter-item expanded "><div><strong aria-hidden="true">4.4.</strong> 相关数据结构</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="pjmedia.html"><strong aria-hidden="true">4.4.1.</strong> media_endpoint</a></li><li class="chapter-item expanded "><a href="ioqueue_epoll.html"><strong aria-hidden="true">4.4.2.</strong> ioqueue_epoll</a></li><li class="chapter-item expanded "><a href="epoll学习.html"><strong aria-hidden="true">4.4.3.</strong> epoll</a></li><li class="chapter-item expanded "><a href="pjmedia_transport.html"><strong aria-hidden="true">4.4.4.</strong> pjmedia_transport</a></li><li class="chapter-item expanded "><a href="Port.html"><strong aria-hidden="true">4.4.5.</strong> pjmedia_port</a></li><li class="chapter-item expanded "><a href="Stream.html"><strong aria-hidden="true">4.4.6.</strong> pjmedia_stream</a></li></ol></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">5.</strong> 常见数据结构与工具</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="pjsua_call.html"><strong aria-hidden="true">5.1.</strong> pjsua_call</a></li><li class="chapter-item expanded "><a href="pjsua_acc.html"><strong aria-hidden="true">5.2.</strong> pjsua_acc</a></li><li class="chapter-item expanded "><a href="pjsua_data.html"><strong aria-hidden="true">5.3.</strong> pjsua_data</a></li><li class="chapter-item expanded "><a href="SDP.html"><strong aria-hidden="true">5.4.</strong> SDP</a></li><li class="chapter-item expanded "><a href="Dialog.html"><strong aria-hidden="true">5.5.</strong> Dialog</a></li><li class="chapter-item expanded "><a href="Session.html"><strong aria-hidden="true">5.6.</strong> Session</a></li><li class="chapter-item expanded "><a href="transaction.html"><strong aria-hidden="true">5.7.</strong> transaction</a></li><li class="chapter-item expanded "><a href="transport.html"><strong aria-hidden="true">5.8.</strong> transport</a></li><li class="chapter-item expanded "><a href="sendData.html"><strong aria-hidden="true">5.9.</strong> 数据发送数据结构</a></li><li class="chapter-item expanded "><a href="PJSIP_log.html"><strong aria-hidden="true">5.10.</strong> pjsip log</a></li></ol></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <!-- Track and set sidebar scroll position -->
+        <script>
+            var sidebarScrollbox = document.querySelector('#sidebar .sidebar-scrollbox');
+            sidebarScrollbox.addEventListener('click', function(e) {
+                if (e.target.tagName === 'A') {
+                    sessionStorage.setItem('sidebar-scroll', sidebarScrollbox.scrollTop);
+                }
+            }, { passive: true });
+            var sidebarScrollTop = sessionStorage.getItem('sidebar-scroll');
+            sessionStorage.removeItem('sidebar-scroll');
+            if (sidebarScrollTop) {
+                // preserve sidebar scroll position when navigating via links within sidebar
+                sidebarScrollbox.scrollTop = sidebarScrollTop;
+            } else {
+                // scroll sidebar to current active section when navigating via "next/previous chapter" buttons
+                var activeSection = document.querySelector('#sidebar .active');
+                if (activeSection) {
+                    activeSection.scrollIntoView({ block: 'center' });
+                }
+            }
+        </script>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">PJSIP_STUDY</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="接收数据全流程"><a class="header" href="#接收数据全流程">接收数据全流程</a></h1>
+<h2 id="1接受的线程在声音设备端直接向声卡写入数据"><a class="header" href="#1接受的线程在声音设备端直接向声卡写入数据">1、接受的线程（在声音设备端直接向声卡写入数据）</a></h2>
+<p>先看发送的线程 pb_thread_func，这里我们以alsa_dev为例</p>
+<pre><code class="language-c">static int pb_thread_func (void *arg)
+{
+    struct alsa_stream* stream = (struct alsa_stream*) arg;
+    snd_pcm_t* pcm             = stream-&gt;pb_pcm;
+    int size                   = stream-&gt;pb_buf_size;
+    snd_pcm_uframes_t nframes  = stream-&gt;pb_frames;
+    void* user_data            = stream-&gt;user_data;
+    char* buf                  = stream-&gt;pb_buf;
+    pj_timestamp tstamp;
+    int result;
+
+    pj_bzero (buf, size);
+    tstamp.u64 = 0;
+
+    TRACE_((THIS_FILE, "pb_thread_func(%u): Started",
+            (unsigned)syscall(SYS_gettid)));
+
+    snd_pcm_prepare (pcm);
+
+    while (!stream-&gt;quit) {
+        pjmedia_frame frame;
+
+        frame.type = PJMEDIA_FRAME_TYPE_AUDIO;
+        frame.buf = buf;
+        frame.size = size;
+        frame.timestamp.u64 = tstamp.u64;
+        frame.bit_info = 0;
+
+        result = stream-&gt;pb_cb (user_data, &amp;frame);
+        if (result != PJ_SUCCESS || stream-&gt;quit)
+            break;
+
+        if (frame.type != PJMEDIA_FRAME_TYPE_AUDIO)
+            pj_bzero (buf, size);
+
+        result = snd_pcm_writei (pcm, buf, nframes);
+        if (result == -EPIPE) {
+            PJ_LOG (4,(THIS_FILE, "pb_thread_func: underrun!"));
+            snd_pcm_prepare (pcm);
+        } else if (result &lt; 0) {
+            PJ_LOG (4,(THIS_FILE, "pb_thread_func: error writing data!"));
+        }
+
+        tstamp.u64 += nframes;
+    }
+
+    snd_pcm_drop(pcm);
+    TRACE_((THIS_FILE, "pb_thread_func: Stopped"));
+    return PJ_SUCCESS;
+}
+</code></pre>
+<p>该线程的主体部分在不停的while循环，我们来看一次循环的内容：</p>
+<p>调用 <code>stream-&gt;pb_cb (user_data, &amp;frame);</code>  其中user_data 依然是我们创建的<code>snd_port</code>，frame存放最终接收的一个frame即Frame to store samples.，需要先对frame的类型等信息进行设置。</p>
+<p>调用<code> snd_pcm_writei (pcm, buf, nframes);</code> 将数据写入声卡</p>
+<h2 id="2play_cb-音频流端"><a class="header" href="#2play_cb-音频流端">2、play_cb （音频流端）</a></h2>
+<p>pjmedia/src/pjmedia/sound_port.c</p>
+<pre><code class="language-c">/*
+ * The callback called by sound player when it needs more samples to be
+ * played.
+ */
+static pj_status_t play_cb(void *user_data, pjmedia_frame *frame)
+{
+    pjmedia_snd_port *snd_port = (pjmedia_snd_port*) user_data;
+    pjmedia_port *port;
+    const unsigned required_size = (unsigned)frame-&gt;size;
+    pj_status_t status;
+
+    pjmedia_clock_src_update(&amp;snd_port-&gt;play_clocksrc, &amp;frame-&gt;timestamp);
+
+    port = snd_port-&gt;port;
+    if (port == NULL)
+        goto no_frame;
+
+    status = pjmedia_port_get_frame(port, frame);
+    if (status != PJ_SUCCESS)
+        goto no_frame;
+
+    if (frame-&gt;type != PJMEDIA_FRAME_TYPE_AUDIO)
+        goto no_frame;
+
+    /* Must supply the required samples */
+    pj_assert(frame-&gt;size == required_size);
+
+    if (snd_port-&gt;ec_state) {
+        if (snd_port-&gt;ec_suspended) {
+            snd_port-&gt;ec_suspended = PJ_FALSE;
+            //pjmedia_echo_state_reset(snd_port-&gt;ec_state);
+            PJ_LOG(4,(THIS_FILE, "EC activated"));
+        }
+        snd_port-&gt;ec_suspend_count = 0;
+        pjmedia_echo_playback(snd_port-&gt;ec_state, (pj_int16_t*)frame-&gt;buf);
+    }
+
+    /* Invoke preview callback */
+    if (snd_port-&gt;on_play_frame)
+        (*snd_port-&gt;on_play_frame)(snd_port-&gt;user_data, frame);
+
+    return PJ_SUCCESS;
+
+no_frame:
+    frame-&gt;type = PJMEDIA_FRAME_TYPE_AUDIO;
+    frame-&gt;size = required_size;
+    pj_bzero(frame-&gt;buf, frame-&gt;size);
+
+    if (snd_port-&gt;ec_state &amp;&amp; !snd_port-&gt;ec_suspended) {
+        ++snd_port-&gt;ec_suspend_count;
+        if (snd_port-&gt;ec_suspend_count &gt; snd_port-&gt;ec_suspend_limit) {
+            snd_port-&gt;ec_suspended = PJ_TRUE;
+            PJ_LOG(4,(THIS_FILE, "EC suspended because of inactivity"));
+        }
+        if (snd_port-&gt;ec_state) {
+            /* To maintain correct delay in EC */
+            pjmedia_echo_playback(snd_port-&gt;ec_state, (pj_int16_t*)frame-&gt;buf);
+        }
+    }
+
+    /* Invoke preview callback */
+    if (snd_port-&gt;on_play_frame)
+        (*snd_port-&gt;on_play_frame)(snd_port-&gt;user_data, frame);
+
+    return PJ_SUCCESS;
+}
+
+</code></pre>
+<p>首先看<code>snd_port-&gt;on_play_frame</code>这个是可选项，这里没有使用</p>
+<p>其次就是最重要的调用pjmedia_port_get_frame，看一下这里的port参数，<code>port = snd_port-&gt;port;</code>  是pjmedia_snd_port类型snd_port中的pjmedia_port类型属性，snd_port-&gt;port是在<code>pjmedia_snd_port_connect</code>中初始化的先看一下pjmedia_snd_port_connect</p>
+<pre><code class="language-c">/*
+ * Connect a port.
+ */
+PJ_DEF(pj_status_t) pjmedia_snd_port_connect( pjmedia_snd_port *snd_port,
+                                              pjmedia_port *port)
+{
+    pjmedia_audio_format_detail *afd;
+
+    PJ_ASSERT_RETURN(snd_port &amp;&amp; port, PJ_EINVAL);
+
+    afd = pjmedia_format_get_audio_format_detail(&amp;port-&gt;info.fmt, PJ_TRUE);
+
+    /* Check that port has the same configuration as the sound device
+     * port.
+     */
+    if (afd-&gt;clock_rate != snd_port-&gt;clock_rate)
+        return PJMEDIA_ENCCLOCKRATE;
+
+    if (PJMEDIA_AFD_SPF(afd) != snd_port-&gt;samples_per_frame)
+        return PJMEDIA_ENCSAMPLESPFRAME;
+
+    if (afd-&gt;channel_count != snd_port-&gt;channel_count)
+        return PJMEDIA_ENCCHANNEL;
+
+    if (afd-&gt;bits_per_sample != snd_port-&gt;bits_per_sample)
+        return PJMEDIA_ENCBITS;
+
+    /* Port is okay. */
+    snd_port-&gt;port = port;
+    return PJ_SUCCESS;
+}
+</code></pre>
+<p>注意这里的参数<code>pjmedia_port *port</code>来自pjmedia_stream stream的port，这个port还有一点特殊即port-&gt;port_data.pdata; 其实是指向stream，即stream中有port，port也有办法指向stream，这在put_frame中会遇到。</p>
+<p>&lt;::&gt;再回来看pjmedia_port_put_frame该函数其实是port-&gt;put_frame callback的封装，会直接调用port-&gt;put_frame，这个回调函数的初始化在<code>pjmedia_stream_create</code> 完成将port-&gt;put_frame 初始化为 stream-&gt;get_frame = &amp;get_frame;，所以接下来我们看put_frame</p>
+<pre><code class="language-c">/**
+ * Get a frame from the port (and subsequent downstream ports).
+ */
+PJ_DEF(pj_status_t) pjmedia_port_get_frame( pjmedia_port *port,
+                                            pjmedia_frame *frame )
+{
+    PJ_ASSERT_RETURN(port &amp;&amp; frame, PJ_EINVAL);
+
+    if (port-&gt;get_frame)
+        return port-&gt;get_frame(port, frame);
+    else {
+        frame-&gt;type = PJMEDIA_FRAME_TYPE_NONE;
+        return PJ_EINVALIDOP;
+    }
+}
+</code></pre>
+<h2 id="3get_frame-port端"><a class="header" href="#3get_frame-port端">3、get_frame （port端）</a></h2>
+<p>pjmedia/src/pjmedia/stream.c</p>
+<ol>
+<li>
+<p>首先，函数从 <code>port</code> 中获取与当前流相关联的 <code>stream</code> 和 <code>channel</code>。</p>
+<pre><code class="language-c">    pjmedia_stream *stream = (pjmedia_stream*) port-&gt;port_data.pdata;
+    pjmedia_channel *channel = stream-&gt;dec;
+</code></pre>
+</li>
+<li>
+<p>然后，函数检查通道是否处于暂停状态，如果是，则设置帧类型为 <code>PJMEDIA_FRAME_TYPE_NONE</code>，表示没有帧可用，并返回 <code>PJ_SUCCESS</code>。</p>
+<pre><code class="language-c">    /* Return no frame is channel is paused */
+    if (channel-&gt;paused) {
+        frame-&gt;type = PJMEDIA_FRAME_TYPE_NONE;
+        return PJ_SUCCESS;
+    }
+</code></pre>
+</li>
+<li>
+<p>接着，函数检查是否处于软启动计数状态。如果是，它首先检查软启动计数是否为 <code>PJMEDIA_STREAM_SOFT_START</code>，如果是，则重置抖动缓冲区。然后递减软启动计数，并返回 <code>PJ_SUCCESS</code>。</p>
+<pre><code class="language-c">    if (stream-&gt;soft_start_cnt) {
+        if (stream-&gt;soft_start_cnt == PJMEDIA_STREAM_SOFT_START) {
+            PJ_LOG(4,(stream-&gt;port.info.name.ptr,
+                      "Resetting jitter buffer in stream playback start"));
+            pj_mutex_lock( stream-&gt;jb_mutex );
+            pjmedia_jbuf_reset(stream-&gt;jb);
+            pj_mutex_unlock( stream-&gt;jb_mutex );
+        }
+        --stream-&gt;soft_start_cnt;
+        frame-&gt;type = PJMEDIA_FRAME_TYPE_NONE;
+        return PJ_SUCCESS;
+    }
+</code></pre>
+</li>
+<li>
+<p>接下来，函数从抖动缓冲区中获取帧并解码，直到获得足够的帧以满足编解码器的 ptime 要求。</p>
+<ul>
+<li>
+<p>函数首先锁定抖动缓冲区的互斥锁。</p>
+<pre><code class="language-c">pj_mutex_lock( stream-&gt;jb_mutex );
+</code></pre>
+</li>
+<li>
+<p>接着，函数计算所需的样本数，并根据解码器的 ptime 要求计算每帧的样本数。</p>
+<pre><code class="language-c">    samples_required = PJMEDIA_PIA_SPF(&amp;stream-&gt;port.info);
+    samples_per_frame = stream-&gt;dec_ptime *
+                        stream-&gt;codec_param.info.clock_rate *
+                        stream-&gt;codec_param.info.channel_cnt /
+                        stream-&gt;dec_ptime_denum /
+                        1000;
+    p_out_samp = (pj_int16_t*) frame-&gt;buf;
+</code></pre>
+</li>
+<li>
+<p>然后，函数循环获取帧，直到获得足够的样本数。在每次循环中，它会尝试从抖动缓冲区获取帧pjmedia_jbuf_get_frame2放在channel-&gt;out_pkt，并根据获取的帧类型进行不同的处理。</p>
+<pre><code class="language-c">    for (samples_count=0; samples_count &lt; samples_required;) {
+        char frame_type;
+        pj_size_t frame_size = channel-&gt;out_pkt_size;
+        pj_uint32_t bit_info;
+
+        if (stream-&gt;dec_buf &amp;&amp; stream-&gt;dec_buf_pos &lt; stream-&gt;dec_buf_count) {
+            unsigned nsamples_req = samples_required - samples_count;
+            unsigned nsamples_avail = stream-&gt;dec_buf_count -
+                                      stream-&gt;dec_buf_pos;
+            unsigned nsamples_copy = PJ_MIN(nsamples_req, nsamples_avail);
+
+            pjmedia_copy_samples(p_out_samp + samples_count,
+                                 stream-&gt;dec_buf + stream-&gt;dec_buf_pos,
+                                 nsamples_copy);
+            samples_count += nsamples_copy;
+            stream-&gt;dec_buf_pos += nsamples_copy;
+            continue;
+        }
+
+        /* Get frame from jitter buffer. */
+        pjmedia_jbuf_get_frame2(stream-&gt;jb, channel-&gt;out_pkt, &amp;frame_size,
+                                &amp;frame_type, &amp;bit_info);
+</code></pre>
+<ul>
+<li>
+<p>如果帧类型为 <code>PJMEDIA_JB_MISSING_FRAME</code>，表示丢失帧，则尝试激活 PLC 进行丢帧处理。如果 PLC 激活成功，则填充丢失的样本，并增加 PLC 计数。</p>
+</li>
+<li>
+<p>如果帧类型为 <code>PJMEDIA_JB_ZERO_EMPTY_FRAME</code>，表示抖动缓冲区为空。函数会尝试激活 PLC 进行丢帧处理，然后填充零样本，以平滑淡出。</p>
+</li>
+<li>
+<p>如果帧类型为 <code>PJMEDIA_JB_ZERO_PREFETCH_FRAME</code>，表示抖动缓冲区正在预取数据。函数会尝试激活 PLC 进行丢帧处理，然后填充零样本。</p>
+</li>
+<li>
+<p>如果帧类型为 <code>PJMEDIA_JB_NORMAL_FRAME</code>，表示获得了正常的帧。函数会解码帧pjmedia_codec_decode 得到frame_out并将其放入播放缓冲区即传入的参数frame中。</p>
+<pre><code class="language-c">  /* Got "NORMAL" frame from jitter buffer */
+  pjmedia_frame frame_in, frame_out;
+  pj_bool_t use_dec_buf = PJ_FALSE;
+
+  stream-&gt;plc_cnt = 0;
+
+  /* Decode */
+  frame_in.buf = channel-&gt;out_pkt;
+  frame_in.size = frame_size;
+  frame_in.bit_info = bit_info;
+  frame_in.type = PJMEDIA_FRAME_TYPE_AUDIO;  /* ignored */
+
+  frame_out.buf = p_out_samp + samples_count;
+  frame_out.size = frame-&gt;size - samples_count*BYTES_PER_SAMPLE;
+  if (stream-&gt;dec_buf &amp;&amp;
+      bit_info * sizeof(pj_int16_t) &gt; frame_out.size)
+  {
+      stream-&gt;dec_buf_pos = 0;
+      stream-&gt;dec_buf_count = bit_info;
+
+      use_dec_buf = PJ_TRUE;
+      frame_out.buf = stream-&gt;dec_buf;
+      frame_out.size = stream-&gt;dec_buf_size;
+  }
+
+  status = pjmedia_codec_decode( stream-&gt;codec, &amp;frame_in,
+                                 (unsigned)frame_out.size,
+                                 &amp;frame_out);
+  if (status != 0) {
+      LOGERR_((port-&gt;info.name.ptr, status,
+               "codec decode() error"));
+
+      if (use_dec_buf) {
+          pjmedia_zero_samples(stream-&gt;dec_buf,
+                               stream-&gt;dec_buf_count);
+      } else {
+          pjmedia_zero_samples(p_out_samp + samples_count,
+                               samples_per_frame);
+      }
+  } else if (use_dec_buf) {
+      stream-&gt;dec_buf_count = (unsigned)frame_out.size /
+                              sizeof(pj_int16_t);
+  }
+
+  if (stream-&gt;jb_last_frm != frame_type) {
+      /* Report changing frame type event */
+      PJ_LOG(5,(stream-&gt;port.info.name.ptr,
+                "Jitter buffer starts returning normal frames "
+                "(after %d empty/lost)",
+                stream-&gt;jb_last_frm_cnt));
+
+      stream-&gt;jb_last_frm = frame_type;
+      stream-&gt;jb_last_frm_cnt = 1;
+  } else {
+      stream-&gt;jb_last_frm_cnt++;
+  }
+  if (!use_dec_buf)
+      samples_count += samples_per_frame;
+
+</code></pre>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>最后，函数解锁抖动缓冲区的互斥锁，并根据获取的样本数设置帧类型和大小，并返回 <code>PJ_SUCCESS</code>。</p>
+</li>
+</ol>
+<h3 id="1pjmedia_jbuf_get_frame3"><a class="header" href="#1pjmedia_jbuf_get_frame3">（1）pjmedia_jbuf_get_frame3</a></h3>
+<pre><code class="language-c">/*
+ * Get frame from jitter buffer.
+ */
+PJ_DEF(void) pjmedia_jbuf_get_frame3(pjmedia_jbuf *jb,
+                                     void *frame,
+                                     pj_size_t *size,
+                                     char *p_frame_type,
+                                     pj_uint32_t *bit_info,
+                                     pj_uint32_t *ts,
+                                     int *seq)
+{
+    if (jb-&gt;jb_prefetching) {
+
+        /* Can't return frame because jitter buffer is filling up
+         * minimum prefetch.
+         */
+
+        //pj_bzero(frame, jb-&gt;jb_frame_size);
+        *p_frame_type = PJMEDIA_JB_ZERO_PREFETCH_FRAME;
+        if (size)
+            *size = 0;
+
+        TRACE__((jb-&gt;jb_name.ptr, "GET prefetch_cnt=%d/%d",
+                 jb_framelist_eff_size(&amp;jb-&gt;jb_framelist), jb-&gt;jb_prefetch));
+
+        jb-&gt;jb_empty++;
+
+    } else {
+
+        pjmedia_jb_frame_type ftype = PJMEDIA_JB_NORMAL_FRAME;
+        pj_bool_t res;
+
+        /* Try to retrieve a frame from frame list */
+        res = jb_framelist_get(&amp;jb-&gt;jb_framelist, frame, size, &amp;ftype,
+                               bit_info, ts, seq);
+        if (res) {
+            /* We've successfully retrieved a frame from the frame list, but
+             * the frame could be a blank frame!
+             */
+            if (ftype == PJMEDIA_JB_NORMAL_FRAME) {
+                *p_frame_type = PJMEDIA_JB_NORMAL_FRAME;
+            } else {
+                *p_frame_type = PJMEDIA_JB_MISSING_FRAME;
+                jb-&gt;jb_lost++;
+            }
+
+            /* Store delay history at the first GET */
+            if (jb-&gt;jb_last_op == JB_OP_PUT) {
+                unsigned cur_size;
+
+                /* We've just retrieved one frame, so add one to cur_size */
+                cur_size = jb_framelist_eff_size(&amp;jb-&gt;jb_framelist) + 1;
+                pj_math_stat_update(&amp;jb-&gt;jb_delay,
+                                    cur_size * jb-&gt;jb_frame_ptime /
+                                    jb-&gt;jb_frame_ptime_denum);
+            }
+        } else {
+            /* Jitter buffer is empty */
+            if (jb-&gt;jb_prefetch)
+                jb-&gt;jb_prefetching = PJ_TRUE;
+
+            //pj_bzero(frame, jb-&gt;jb_frame_size);
+            *p_frame_type = PJMEDIA_JB_ZERO_EMPTY_FRAME;
+            if (size)
+                *size = 0;
+
+            jb-&gt;jb_empty++;
+        }
+    }
+
+    jb-&gt;jb_level++;
+    jbuf_update(jb, JB_OP_GET);
+}
+
+</code></pre>
+<ol>
+<li>首先，函数检查抖动缓冲区是否正在预取数据。如果是，则表示抖动缓冲区正在填充，此时无法返回帧，因此将帧类型设置为 <code>PJMEDIA_JB_ZERO_PREFETCH_FRAME</code>，并将帧大小设置为 0。</li>
+<li>如果抖动缓冲区不在预取状态，则尝试从帧列表中获取帧。如果成功获取到帧，则将帧类型设置为 <code>PJMEDIA_JB_NORMAL_FRAME</code>，表示正常帧。如果获取到的是空白帧，则将帧类型设置为 <code>PJMEDIA_JB_MISSING_FRAME</code>，并增加抖动缓冲区丢失帧的计数。</li>
+<li>如果无法从帧列表中获取帧，表示抖动缓冲区为空。如果抖动缓冲区允许预取，则将预取状态设置为 <code>PJ_TRUE</code>。然后，将帧类型设置为 <code>PJMEDIA_JB_ZERO_EMPTY_FRAME</code>，并将帧大小设置为 0。</li>
+<li>最后，函数更新抖动缓冲区的级别，并调用 <code>jbuf_update</code> 函数更新抖动缓冲区的操作。</li>
+</ol>
+<h2 id="4ioqueue_epoll参与"><a class="header" href="#4ioqueue_epoll参与">4、ioqueue_epoll参与</a></h2>
+<p>这里不一定是上述追踪的rtp包</p>
+<p>当pj_ioqueue_poll工作线程 调用os_epoll_wait 发现监测的读触发，调用ioqueue_dispatch_read_event写操作，在ioqueue_dispatch_read_event中先看key read_list上有没有pending_read,有的话，从read_list取出，根据read_list的read_op确定读入大小，pj_sock_recvfrom接受数据的函数，将数据读入到read_op中，最后调用on_read_complete，回调函数已在pj_ioqueue_register_sock2时设置过，传入read_op为 on_rx_rtp</p>
+<pre><code class="language-c">(*h-&gt;cb.on_read_complete)(h, 
+                                      (pj_ioqueue_op_key_t*)read_op,
+                                      bytes_read);
+</code></pre>
+<h3 id="1on_rx_rtp-读取操作"><a class="header" href="#1on_rx_rtp-读取操作">（1）on_rx_rtp 读取操作</a></h3>
+<p>on_rx_rtp是被下面调用</p>
+<pre><code class="language-c">(*h-&gt;cb.on_read_complete)(h, 
+                                      (pj_ioqueue_op_key_t*)read_op,
+                                      bytes_read);
+</code></pre>
+<p>这里有一个很有意思的问题，就是read_op 在on_rx_rtp中竟然没有使用，下面来分析一下原因</p>
+<pre><code>udp = (struct transport_udp*) pj_ioqueue_get_user_data(key);
+
+</code></pre>
+<p>我们的read_op是从readlist中取出的，readlist对于读操作添加是依靠pj_ioqueue_recvfrom函数，在data is not immediately available时将read_op加入readlist</p>
+<pre><code class="language-c">read_op-&gt;op = PJ_IOQUEUE_OP_RECV_FROM;
+read_op-&gt;buf = buffer;
+read_op-&gt;size = *length;
+read_op-&gt;flags = flags;
+read_op-&gt;rmt_addr = addr;
+read_op-&gt;rmt_addrlen = addrlen;
+
+pj_ioqueue_lock_key(key);
+/* Check again. Handle may have been closed after the previous check
+ * in multithreaded app. If we add bad handle to the set it will
+ * corrupt the ioqueue set. See #913
+ */
+if (IS_CLOSING(key)) {
+    pj_ioqueue_unlock_key(key);
+    return PJ_ECANCELLED;
+}
+pj_list_insert_before(&amp;key-&gt;read_list, read_op);
+ioqueue_add_to_set(key-&gt;ioqueue, key, READABLE_EVENT);
+</code></pre>
+<p>这里read_op-&gt;buf = buffer;的buffer，来自udp-&gt;rtp_pkt,相当于直接写入了rtp_pkt,所以不用read_op了。</p>
+<p>on_rx_rtp是一个while循环，条件如下status来自pj_ioqueue_recvfrom的结果</p>
+<pre><code class="language-c">status != PJ_EPENDING &amp;&amp; status != PJ_ECANCELLED &amp;&amp;
+             udp-&gt;started
+</code></pre>
+<h4 id="a-call_rtp_cb"><a class="header" href="#a-call_rtp_cb">a. call_rtp_cb</a></h4>
+<p>在while循环里，先执行call_rtp_cb，设置pjmedia_tp_cb_param param;，调用(*cb2)(&amp;param);cb2由transport_attach2-》tp_attach设置为stream.c ::on_rx_rtp。注意param.pkt = udp-&gt;rtp_pkt;，这里rtp_pkt其实就是ioqueue_dispatch_read_event中read_op-&gt;buf中读到的数据rtp包</p>
+<pre><code class="language-c">/* Call RTP cb. */
+static void call_rtp_cb(struct transport_udp *udp, pj_ssize_t bytes_read, 
+                        pj_bool_t *rem_switch)
+{
+    void (*cb)(void*,void*,pj_ssize_t);
+    void (*cb2)(pjmedia_tp_cb_param*);
+    void *user_data;
+
+    cb = udp-&gt;rtp_cb;
+    cb2 = udp-&gt;rtp_cb2;
+    user_data = udp-&gt;user_data;
+
+    if (cb2) {
+        pjmedia_tp_cb_param param;
+
+        param.user_data = user_data;
+        param.pkt = udp-&gt;rtp_pkt;
+        param.size = bytes_read;
+        param.src_addr = &amp;udp-&gt;rtp_src_addr;
+        param.rem_switch = PJ_FALSE;
+        (*cb2)(&amp;param);
+        if (rem_switch)
+            *rem_switch = param.rem_switch;
+    } else if (cb) {
+        (*cb)(user_data, udp-&gt;rtp_pkt, bytes_read);
+    }
+}
+</code></pre>
+<p>param.user_data = user_data;  注意这个user_data，是pjmedia_stream *stream</p>
+<h4 id="b-pj_ioqueue_recvfrom"><a class="header" href="#b-pj_ioqueue_recvfrom">b. pj_ioqueue_recvfrom</a></h4>
+<pre><code class="language-c">/*
+ * pj_ioqueue_recvfrom()
+ *
+ * Start asynchronous recvfrom() from the socket.
+ */
+PJ_DEF(pj_status_t) pj_ioqueue_recvfrom( pj_ioqueue_key_t *key,
+                                         pj_ioqueue_op_key_t *op_key,
+                                         void *buffer,
+                                         pj_ssize_t *length,
+                                         unsigned flags,
+                                         pj_sockaddr_t *addr,
+                                         int *addrlen)
+{
+    struct read_operation *read_op;
+
+    PJ_ASSERT_RETURN(key &amp;&amp; op_key &amp;&amp; buffer &amp;&amp; length, PJ_EINVAL);
+    PJ_CHECK_STACK();
+
+    /* Check if key is closing. */
+    if (IS_CLOSING(key))
+        return PJ_ECANCELLED;
+
+    read_op = (struct read_operation*)op_key;
+    PJ_ASSERT_RETURN(read_op-&gt;op == PJ_IOQUEUE_OP_NONE, PJ_EPENDING);
+    read_op-&gt;op = PJ_IOQUEUE_OP_NONE;
+
+    /* Try to see if there's data immediately available. 
+     */
+    if ((flags &amp; PJ_IOQUEUE_ALWAYS_ASYNC) == 0) {
+        pj_status_t status;
+        pj_ssize_t size;
+
+        size = *length;
+        status = pj_sock_recvfrom(key-&gt;fd, buffer, &amp;size, flags,
+                                  addr, addrlen);
+        if (status == PJ_SUCCESS) {
+            /* Yes! Data is available! */
+            *length = size;
+            return PJ_SUCCESS;
+        } else {
+            /* If error is not EWOULDBLOCK (or EAGAIN on Linux), report
+             * the error to caller.
+             */
+            if (status != PJ_STATUS_FROM_OS(PJ_BLOCKING_ERROR_VAL))
+                return status;
+        }
+    }
+
+    flags &amp;= ~(PJ_IOQUEUE_ALWAYS_ASYNC);
+
+    /*
+     * No data is immediately available.
+     * Must schedule asynchronous operation to the ioqueue.
+     */
+    read_op-&gt;op = PJ_IOQUEUE_OP_RECV_FROM;
+    read_op-&gt;buf = buffer;
+    read_op-&gt;size = *length;
+    read_op-&gt;flags = flags;
+    read_op-&gt;rmt_addr = addr;
+    read_op-&gt;rmt_addrlen = addrlen;
+
+    pj_ioqueue_lock_key(key);
+    /* Check again. Handle may have been closed after the previous check
+     * in multithreaded app. If we add bad handle to the set it will
+     * corrupt the ioqueue set. See #913
+     */
+    if (IS_CLOSING(key)) {
+        pj_ioqueue_unlock_key(key);
+        return PJ_ECANCELLED;
+    }
+    pj_list_insert_before(&amp;key-&gt;read_list, read_op);
+    ioqueue_add_to_set(key-&gt;ioqueue, key, READABLE_EVENT);
+    pj_ioqueue_unlock_key(key);
+
+    return PJ_EPENDING;
+}
+
+</code></pre>
+<p>接下来是调用pj_ioqueue_recvfrom，至于为什么明明ioqueue_dispatch_read_event已经读取了数据，此时还在读取数据，是因为可能有新的rtp包到达，pj_ioqueue_recvfrom查看有没有到达的包，如果有就调用pj_sock_recvfrom继续读读到udp-&gt;rtp_pkt，如果没有加到readlist中，返回PJ_EPENDING，结束on_rx_rtp中的while循环。</p>
+<h3 id="2on_rx_rtpcb2"><a class="header" href="#2on_rx_rtpcb2">（2）on_rx_rtp::cb2</a></h3>
+<p>Stream.c中的回调 tp_attach中设置该回调</p>
+<p>该函数处理接收到的rtp包, 解析成payload和head</p>
+<p>Put "good" packet to jitter buffer，需要先把payload解析成frame，再把frame放入jitter buffer</p>
+<h2 id="附相互指向关系"><a class="header" href="#附相互指向关系">附：相互指向关系</a></h2>
+<p>stream.user_data-》snd_port，</p>
+<p>snd_port.port-》port</p>
+<p>port-&gt;port_data.pdata-》stream</p>
+<p>stream-&gt;transport-》pjmedia_transport</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="发送数据全流程.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="全流程思考.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="发送数据全流程.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="全流程思考.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="elasticlunr.min.js"></script>
+        <script src="mark.min.js"></script>
+        <script src="searcher.js"></script>
+
+        <script src="clipboard.min.js"></script>
+        <script src="highlight.js"></script>
+        <script src="book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+    </div>
+    </body>
+</html>
